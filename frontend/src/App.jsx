@@ -1,15 +1,23 @@
-import { useState } from 'react'
+import React from "react"
+import { BrowserRouter as Router } from "react-router-dom"
+import AppRoutes from "./components/appRoutes"
+import Headerbar from "./components/header"
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <div className="w-screen h-screen flex justify-center items-center bg-green-500">
-      <h1 className="text-3xl font-bold underline center">
-        Hello world!
-      </h1>
-    </div>
+      <Router>
+        <div className="flex flex-col box-border w-screen min-h-screen">
+        <div>
+          <Headerbar />
+        </div>
+        <div>
+          <AppRoutes />
+        </div>
+        //Footer
+        </div>
+      </Router>
     </>
   )
 }

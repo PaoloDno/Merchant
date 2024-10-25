@@ -7,10 +7,10 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        tiny: '0.625rem',  // 10px
-        '20px': '1.25rem',  // 20px
-        '35px': '2.1875rem', // 35px
-        '75px': '4.6875rem', // 75px
+        style4: ['0.625rem', '0.875rem'],  // 10px font-size with 14px line-height
+        style3: ['1.25rem', '1.75rem'],      // 20px font-size with 28px line-height
+        style2: ['2.1875rem', '2.75rem'],    // 35px font-size with 44px line-height
+        style1: ['4.6875rem', '5.5rem'],     // 75px font-size with 88px line-height
       },
       textColor: {
         skin: {

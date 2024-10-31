@@ -46,5 +46,5 @@ This project is a fully functional e-commerce application built to showcase my s
 
 ### Installation
 - clone the repo
-  git clone https://github.com/PaoloDno/Merchant.git
-  cd Merchant
+- git clone https://github.com/PaoloDno/Merchant.git
+- cd Merchant

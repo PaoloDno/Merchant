@@ -1,25 +1,27 @@
-import React from "react"
-import { BrowserRouter as Router } from "react-router-dom"
-import AppRoutes from "./components/appRoutes"
-import Headerbar from "./components/header"
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./components/appRoutes";
+import Headerbar from "./components/header";
+import Footer from "./components/footer";
 
 function App() {
-
   return (
-    <>
-      <Router>
-        <div className="flex flex-col box-border w-screen min-h-screen">
-        <div>
+    <Router>
+      <div className="flex flex-col min-h-screen w-full">
+        <header className="w-full">
           <Headerbar />
-        </div>
-        <div>
+        </header>
+        
+        <main className="flex-grow">
           <AppRoutes />
-        </div>
-        //Footer
-        </div>
-      </Router>
-    </>
-  )
+        </main>
+        
+        <footer className="w-full">
+          <Footer />
+        </footer>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;

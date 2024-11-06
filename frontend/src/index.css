@@ -1,59 +1,100 @@
 @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@600&family=Londrina+Shadow&display=swap');
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   /* Base (Default) Theme */
   :root {
-      --color-text-primary: #bc6c25;
-      --color-text-secondary: #dda15e;
-  
-      --color-text-button: #faedcd;
-  
-      --color-fill-primary: #fefae0;
-      --color-fill-secondary: #fdf0d5;
-  
-      --color-fill-high: #e7c6ff;
-  
-      --color-button-primary: #283618;
-      --color-button-secondary: #606c38;
-    }
-  
-    /* Dark Theme */
-    .dark {
-      --color-text-primary: #ffffff; /* White text */
-      --color-text-secondary: #e0e0e0; /* Light gray for secondary text */
-      
-      --color-text-button: #000000; /* Black for button text */
-  
-      --color-fill-primary: #1a1a1a; /* Dark background */
-      --color-fill-secondary: #2b2b2b; /* Slightly lighter dark background */
-  
-      --color-fill-high: #797474; /* Highlighted area background */
-  
-      --color-button-primary: #f5f5f5; /* Light button background */
-      --color-button-secondary: #cccccc; /* Lighter gray button background */
-    }
-  
-    /* Monochrome Theme (Soft Skin Palette) */
-    .monochrome {
-      --color-text-primary: #a07c6a; /* Soft skin-like text */
-      --color-text-secondary: #c6a89e; /* Lighter variation for secondary text */
-  
-      --color-text-button: #e8d1c7; /* Soft monochrome button text */
-  
-      --color-fill-primary: #f1e2db; /* Soft skin-like background */
-      --color-fill-secondary: #e3d5c9; /* Slightly darker background */
-  
-      --color-fill-high: #534130; /* Highlighted area background */
-  
-      --color-button-primary: #d9a598; /* Monochrome button background */
-      --color-button-secondary: #b68e82; /* Darker button background */
-    }
+    --color-text-primary: 175, 105, 43; 
+    --color-text-secondary: 221, 161, 94; 
+    --color-text-button: 250, 237, 205; 
+    
+    --color-fill-primary: 214, 189, 157; 
+    --color-fill-secondary: 63, 47, 16; 
+    
+    --color-fill-high: 208, 233, 140; 
+    
+    --color-button-primary: 29, 11, 9;
+    --color-button-secondary: 95, 74, 35;
   }
   
+  /* Dark Theme */
+  .dark {
+    --color-text-primary: 255, 255, 255;      /* #ffffff */
+    --color-text-secondary: 224, 224, 224;    /* #e0e0e0 */
+    
+    --color-text-button: 0, 0, 0;             /* #000000 */
+    
+    --color-fill-primary: 26, 26, 26;         /* #1a1a1a */
+    --color-fill-secondary: 43, 43, 43;       /* #2b2b2b */
+    
+    --color-fill-high: 121, 116, 116;         /* #797474 */
+    
+    --color-button-primary: 245, 245, 245;    /* #f5f5f5 */
+    --color-button-secondary: 204, 204, 204;  /* #cccccc */
+  }
+  
+  /* Monochrome Theme (Soft Skin Palette) */
+  .monochrome {
+    --color-text-primary: 160, 124, 106;      /* #a07c6a */
+    --color-text-secondary: 198, 168, 158;    /* #c6a89e */
+    
+    --color-text-button: 232, 209, 199;       /* #e8d1c7 */
+    
+    --color-fill-primary: 241, 226, 219;      /* #f1e2db */
+    --color-fill-secondary: 227, 213, 201;    /* #e3d5c9 */
+    
+    --color-fill-high: 83, 65, 48;            /* #534130 */
+    
+    --color-button-primary: 217, 165, 152;    /* #d9a598 */
+    --color-button-secondary: 182, 142, 130;  /* #b68e82 */
+  }
+
+  .color-trial{
+    --color-text-primary: rgb(175, 105, 43); 
+    --color-text-secondary: rgb(221, 161, 94); 
+    --color-text-button: rgb(250, 237, 205); 
+    
+    --color-fill-primary: rgb(214, 189, 157); 
+    --color-fill-secondary: rgb(63, 47, 16); 
+    
+    --color-fill-high: rgb(208, 233, 140); 
+    
+    --color-button-primary: rgb(29, 11, 9); 
+  }
+  
+  /* Dark Theme */
+  .dark-trial {
+    --color-text-primary: rgb(255, 255, 255); /* #ffffff */
+    --color-text-secondary: rgb(224, 224, 224); /* #e0e0e0 */
+    
+    --color-text-button: rgb(0, 0, 0); /* #000000 */
+    
+    --color-fill-primary: rgb(26, 26, 26); /* #1a1a1a */
+    --color-fill-secondary: rgb(43, 43, 43); /* #2b2b2b */
+    
+    --color-fill-high: rgb(121, 116, 116); /* #797474 */
+    
+    --color-button-primary: rgb(245, 245, 245); /* #f5f5f5 */
+    --color-button-secondary: rgb(204, 204, 204); /* #cccccc */
+  }
+  
+  /* Monochrome Theme (Soft Skin Palette) */
+  .monochrome-trial {
+    --color-text-primary: rgb(160, 124, 106); /* #a07c6a */
+    --color-text-secondary: rgb(198, 168, 158); /* #c6a89e */
+    
+    --color-text-button: rgb(232, 209, 199); /* #e8d1c7 */
+    
+    --color-fill-primary: rgb(241, 226, 219); /* #f1e2db */
+    --color-fill-secondary: rgb(227, 213, 201); /* #e3d5c9 */
+    
+    --color-fill-high: rgb(83, 65, 48); /* #534130 */
+    
+    --color-button-primary: rgb(217, 165, 152); /* #d9a598 */
+    --color-button-secondary: rgb(182, 142, 130); /* #b68e82 */
+  }
+}

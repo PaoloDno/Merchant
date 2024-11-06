@@ -3,7 +3,10 @@ import React from "react"
 const HomePage = () => {
   return (
     <div>
-      AAAAAAAAAAAAAAAAAAA
+      <span className="min-h-screen min-w-full flex items-center justify-center bg-skin-primary">
+        Hero Section
+      </span>
+      
     </div>
   )
 };

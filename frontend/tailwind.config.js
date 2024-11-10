@@ -55,6 +55,30 @@ export default {
         Afacad: ['Afacad Flux', 'sans-serif'],    // Afacad font
         Londrina: ['Londrina Shadow', 'sans-serif'], // Londrina font
       },
+      keyframes: {
+        expandWidth: {
+          '0%': { width: '0%' },
+          '25%': { width: '90%' },
+          '50%': { width: '95%' },
+          '75%': { width: '98%' },
+          '100%': { width: '100%' },
+        },
+        expandSpin: {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '40%': { transform: 'rotate(180deg) scale(1.1)' },
+          '100%': { transform: 'rotate(360deg) scale(0.9)' },
+        },
+        opacityAnimation: {
+          '0%': {opacity: '20%'},
+          '60%': {opacity: '80%'},
+          '100%': {opacity: '100%'},
+        }
+      },
+      animation: {
+        expandWidth: 'expandWidth 0.75s cubic-bezier(0.2, 0.5, 0.8, 1) forwards',
+        expandSpin: 'expandSpin 1.5s ease-in-out 1 forwards',
+        opacityAnimation: 'opacityAnimation 2s ease-in-out forwards'
+      }
     },
   },
   plugins: [],

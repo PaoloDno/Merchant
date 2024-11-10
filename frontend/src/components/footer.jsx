@@ -13,13 +13,13 @@ const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between w-full mb-10">
         
         {/* Company Info */}
-        <div className="w-full md:w-1/3 flex flex-col mb-6">
+        <div className="w-full md:w-1/3 flex flex-col mb-6 ml-2">
           <h2 className="text-style2">Merchant</h2>
           <p className="text-skin-secondary text-style3">Demo e-commerce store</p>
         </div>
         
         {/* Quick Links */}
-        <div className="w-full md:w-1/3 mb-6">
+        <div className="w-full md:w-1/3 mb-6 ml-2">
           <h3 className="text-style2">Quick Links</h3>
           <ul className="space-y-2">
             {navButtons.map((link) => (
@@ -31,7 +31,7 @@ const Footer = () => {
         </div>
         
         {/* Profile Links */}
-        <div className="w-full md:w-1/3 mb-6"> 
+        <div className="w-full md:w-1/3 mb-6 ml-2"> 
           <h3 className="text-style2">Profile Links</h3>
           <div className="flex flex-col text-style3 space-y-1">
             <span>Click here to</span>

@@ -7,12 +7,12 @@ import Footer from "./components/footer";
 function App() {
   return (
     <Router>
-      <div className="flex container flex-col min-h-screen w-full max-w-full overflow-hidden">
+      <div className="flex flex-col min-h-screen min-w-screen justify-center overflow-hidden">
         <header className="w-full">
           <Headerbar />
         </header>
         
-        <main className="flex-grow">
+        <main className="flex-grow w-full bg-green-300 flex items-center justify-center">
           <AppRoutes />
         </main>
         

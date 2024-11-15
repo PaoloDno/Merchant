@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { VscSearch, VscAccount } from "react-icons/vsc";
-import { FiShoppingCart } from "react-icons/fi";
+import { VscSearch } from "react-icons/vsc";
 
 const SearchBarPopUp = ({ isOpened }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -8,10 +7,19 @@ const SearchBarPopUp = ({ isOpened }) => {
 
   return (
     <div
-      className={`animate-expandWidth transform-origin-left flex flex-col items-end justify-between w-full h-[80vh] bg-skin-button-primary text-skin-primary py-2 px-4 rounded-b-lg mb-4`}
+      className={`animate-opacityAnimation transform-origin-left flex flex-col items-end
+       justify-between w-full h-[70vh] bg-skin-button-primary box-border
+       text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4`}
     >
+      <div className="flex flex-col w-full">
+      <h2 className="text-style4 md:text-style3 font-semibold mb-4 w-full flex items-center space-x-2">
+        <VscSearch className="text-style3" />
+        <span>Search Bar</span>
+      </h2>
       {/* Search Bar Section */}
       <div className="bg-skin-button-secondary rounded-lg p-6 w-full ">
+        
+
         <div className="flex items-center space-x-3 mb-4">
           <input
             type="text"
@@ -57,28 +65,7 @@ const SearchBarPopUp = ({ isOpened }) => {
           )}
         </div>
       </div>
-
-      {/* Other Menu */}
-      <div
-        className={`flex space-x-6 items-center text-gray-400 mt-6 transition-all duration-500 ease-in-out ${
-          isOpened ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        <button
-          className="flex items-center space-x-2 hover:text-white"
-          aria-label="Account menu"
-        >
-          <VscAccount size={24} />
-          <span>Account</span>
-        </button>
-        <button
-          className="flex items-center space-x-2 hover:text-white"
-          aria-label="Shopping cart"
-        >
-          <FiShoppingCart size={24} />
-          <span>Cart</span>
-        </button>
-      </div>
+    </div> 
     </div>
   );
 };

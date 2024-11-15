@@ -11,7 +11,6 @@ import SignUpPage from "../pages/SignUpPage";
 import UserProfilePage from "../pages/UserProfile";
 import AboutPage from "../pages/AboutPage";
 
-
 const AppRoutes = () =>{
 
   return (

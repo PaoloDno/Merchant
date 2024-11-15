@@ -42,18 +42,18 @@ const CartPopUp = ({ isOpened }) => {
 
   return (
     <div
-      className={`animate-expandWidth transform-origin-left flex flex-col items-end
-       justify-between w-full h-[80vh] bg-skin-button-primary 
-       text-skin-primary py-2 px-4 rounded-b-lg mb-4`}
+      className={`animate-opacityAnimation transform-origin-left flex flex-col items-end
+       justify-between w-full h-[70vh] bg-skin-button-primary box-border
+       text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4`}
     >
-      <h2 className="text-style2 font-semibold mb-4 w-full flex items-center space-x-2">
-        <FiShoppingCart size={24} />
+      <h2 className="text-style4 md:text-style3 font-semibold mb-4 w-full flex items-center space-x-2">
+        <FiShoppingCart className="text-style3" />
         <span>Shopping Cart</span>
       </h2>
 
       {/* Cart Details - Toggle between detailed view and numeric summary */}
       <div
-        className={`flex flex-col w-full space-y-4 overflow-y-auto overflow-x-hidden p-4 h-[60vh] 
+        className={`flex flex-col w-full space-y-4 overflow-y-auto overflow-x-hidden p-4 h-[60vh]
          border-t border-b border-skin-primary py-4 ${cartDet ? "bg-white text-black animate-opacityAnimation" : "bg-skin-primary text-skin-high"}`}
       >
         {cartDet ? (
@@ -124,27 +124,6 @@ const CartPopUp = ({ isOpened }) => {
         </button>
       </div>
 
-      {/* Account and Cart Links */}
-      <div
-        className={`flex space-x-6 items-center text-gray-400 mt-6 transition-all duration-500 ease-in-out ${
-          isOpened ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        <button
-          className="flex items-center space-x-2 hover:text-white"
-          aria-label="Account menu"
-        >
-          <VscAccount size={24} />
-          <span>Account</span>
-        </button>
-        <button
-          className="flex items-center space-x-2 hover:text-white"
-          aria-label="Shopping cart"
-        >
-          <FiShoppingCart size={24} />
-          <span>Cart</span>
-        </button>
-      </div>
     </div>
   );
 };

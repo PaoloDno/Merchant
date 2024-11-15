@@ -17,11 +17,16 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        style4: ['0.625rem', '0.875rem'],  // 10px font-size with 14px line-height
-        style3: ['1.25rem', '1.75rem'],    // 20px font-size with 28px line-height
-        style2: ['2.1875rem', '2.75rem'],  // 35px font-size with 44px line-height
-        style1: ['4.6875rem', '5.5rem'],   // 75px font-size with 88px line-height
-      },
+        style4: ['0.625rem', '0.875rem'],   // 10px font-size with 14px line-height
+        style4a: ['1rem', '0.875rem'],
+        style3: ['1.25rem', '1.75rem'],     // 20px font-size with 28px line-height
+        style3a: ['1.5rem', '2rem'],        // 24px font-size with 32px line-height
+        style3b: ['1.75rem', '2.25rem'],    // 28px font-size with 36px line-height
+        style2: ['2.5rem', '3rem'],         // 40px font-size with 48px line-height
+        style2a: ['2.75rem', '3.25rem'],    // 44px font-size with 52px line-height
+        style2b: ['3rem', '3.5rem'],        // 48px font-size with 56px line-height
+        style1: ['4.5rem', '5.25rem'],      // 72px font-size with 84px line-height
+      },      
       textColor: {
         skin: {
           primary: withOpacity('--color-text-primary'),  // Apply opacity to primary text color
@@ -77,7 +82,7 @@ export default {
       animation: {
         expandWidth: 'expandWidth 0.75s cubic-bezier(0.2, 0.5, 0.8, 1) forwards',
         expandSpin: 'expandSpin 1.5s ease-in-out 1 forwards',
-        opacityAnimation: 'opacityAnimation 2s ease-in-out forwards'
+        opacityAnimation: 'opacityAnimation 0.5s ease-in-out forwards'
       }
     },
   },

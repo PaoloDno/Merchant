@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const ProductReviewSchema = new mongoose.Schema({
   profileID: { type: mongoose.Schema.Types.ObjectId, ref: 'UserProfile', required: true },
   productID: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },

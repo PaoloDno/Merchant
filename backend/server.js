@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const connDB = require('./config/db.js')
 
 //routes
-
+const userRoute = require('./routes/userRoutes.js')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +20,7 @@ app.use(express.json());
 connDB();
 
 // App Routes
+app.use('/commerce/users', userRoute);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,5 +1,7 @@
+const mongoose = require('mongoose');
+
 const UserProfileSchema = new mongoose.Schema({
-  userID: { 
+  userId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'User', 
     required: true 
@@ -8,16 +10,16 @@ const UserProfileSchema = new mongoose.Schema({
   lastname: { type: String, default: "" },
   phoneNumber: { type: String, default: "" },
   profileImage: { type: String, default: "avatar" },
-  addressID: {
+  addressId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address'
   },
-  cartID: {
+  cartId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart'
   },
   userReviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProductReview' }],
-  orderHistoryID: { type: mongoose.Schema.Types.ObjectId, ref: 'OrderHistory'}
+  orderHistoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'OrderHistory'}
 });
 
 const UserProfile = mongoose.model('UserProfile', UserProfileSchema);

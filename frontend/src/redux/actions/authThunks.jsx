@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../features/api";
 
-export const loginAction = createAsyncThunk('auth/login', async (credentials, thunkAPI) => {
+export const loginAction = createAsyncThunk('auth/loginAction', async (credentials, thunkAPI) => {
   try {
-    const response = await api.post('/users/login', credentials); 
+    console.log(credentials);
+    const response = await api.post('/user/login', credentials); 
     if (response){
       const { token, user } = response.data.locals;
       localStorage.setItem('token', token);
@@ -15,10 +16,11 @@ export const loginAction = createAsyncThunk('auth/login', async (credentials, th
     }
 });
 
-export const registerAction = createAsyncThunk('auth/register', async (data, thunkAPI) => {
+export const registerAction = createAsyncThunk('auth/registerAction', async (data, thunkAPI) => {
   try {
+    console.log(data);
     const response = await api.post('/user/register', data);
-    const {token, user} =  response.data.locals;
+    const {user, token } =  response.data.locals;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
   } catch (error){

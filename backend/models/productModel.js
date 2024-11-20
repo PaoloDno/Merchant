@@ -8,8 +8,8 @@ const ProductSchema = new mongoose.Schema({
   size: {type: String},
   features: {type: String}, 
   price: { type: Number, required: true },
-  categoryID: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
-  subCategoryID: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' },
+  categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true },
+  subCategoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'SubCategory' },
   stock: { type: Number, required: true },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProductReview' }]
 });

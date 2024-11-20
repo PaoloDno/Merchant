@@ -4,11 +4,12 @@ import { loginAction, registerAction, logoutAction } from '../actions/authThunks
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
-  isAuthenticated: false,
-  user: null,
-  token: null,
-  isLoading: false,
-  error: null
+    isAuthenticated: false,
+    user: null,
+    role: null,
+    token: null,
+    isLoading: false,
+    error: null
   },
   reducers: {
     setUser(state, action) {
@@ -16,7 +17,7 @@ const authSlice = createSlice({
       state.user = action.payload.user;
       state.token = action.payload.token;
     },
-    clearError (state, action) {
+    clearError (state) {
       state.error = null;
     }
   },

@@ -1,45 +1,51 @@
 import React from "react";
-import LoginForm from "../components/forms/login";
+import LoginForm2 from "../components/forms/signInForm";
 import { useNavigate } from "react-router-dom";
-import landingImg from "./../assets/isetan.jpg";
+import landingImg from "../assets/b.jpg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container flex flex-col justify-center items-center min-h-screen bg-skin-primary px-5 py-12 text-skin-primary text-style3">
-      
-      <div className="flex flex-col md:flex-row-reverse w-full max-w-7xl items-center bg-skin-button-primary rounded-lg shadow-lg p-6 md:p-8 space-y-8 md:space-y-0 md:space-x-8">
-        
-        {/* Sign-in Section */}
-        <div className="flex flex-col items-center sm:w-full sm:max-w-sm p-6 bg-skin-button-secondary bg-opacity-50 text-skin-button rounded-md shadow-md min-h-[400px] md:min-h-[500px]">
-          <span className="text-style3b font-bold">LOGO</span>
-          <h2 className="mt-4 text-style3b font-semibold text-center">
-            Sign in to your Account
-          </h2>
-          <LoginForm />
-        </div>
-        
+    <div className="relative flex items-center justify-center min-h-screen w-full overflow-x-hidden">
+      {/* Background Image */}
+      <img
+        src={landingImg}
+        alt="Landing Page Background"
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Overlay */}
+      <div className="absolute w-full h-full inset-0 bg-black bg-opacity-40"></div>
+
+      {/* Main Content */}
+      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8 w-full max-w-6xl px-6 py-6">
         {/* Welcome Section */}
-        <div className="relative flex flex-col justify-center items-center md:w-3/4 w-full min-h-[400px] md:min-h-[500px] bg-cover bg-center text-center text-style3 md:text-style2 rounded-md overflow-hidden">
-          <img
-            alt="landing page image"
-            src={landingImg}
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 h-full w-full bg-gradient-to-t from-black to-skin-start opacity-70"></div>
-          <div className="relative z-10 flex flex-col items-center bg-skin-button-primary bg-opacity-90 p-8 md:p-10 rounded-md shadow-md hover:bg-opacity-100 transition-opacity duration-300 ease-in">
-            <p className="mb-4 text-lg">We Are Happy You Are Here</p>
-            <button
-              className="text-lg font-semibold text-skin-primary bg-skin-primary px-4 py-2 rounded-md hover:bg-skin-secondary transition-colors duration-300"
-              aria-label="View our Store"
-              onClick={() => navigate('/home')}
-            >
-              View Our Store
-            </button>
-          </div>
+        <div className="flex flex-col items-center justify-center w-full max-w-md bg-white bg-opacity-20 rounded-lg shadow-lg p-8 transition-transform transform hover:scale-105 duration-300">
+          <h2 className="text-3xl font-semibold text-white text-center mb-6">
+            Welcome to Our Store
+          </h2>
+          <p className="text-lg text-gray-200 text-center mb-4">
+            We are happy you are here! Explore our store for amazing products.
+          </p>
+          <button
+            className="text-lg font-semibold text-skin-button bg-skin-button-secondary px-6 py-2 rounded-full hover:bg-skin-button-primary transition duration-300"
+            onClick={() => navigate("/home")}
+          >
+            View Our Store
+          </button>
+          
+          <div className="absolute inset-0 w-full h-full -z-10 backdrop-blur-sm"></div>
         </div>
-        
+
+        {/* Sign-in Section */}
+        <div className="flex flex-col items-center w-full max-w-md bg-white bg-opacity-20 rounded-lg shadow-lg p-8">
+          <h2 className="text-3xl font-semibold text-white text-center mb-6">
+            Sign In to Your Account
+          </h2>
+          <LoginForm2 />
+          <div className="absolute inset-0 w-full h-full -z-10 backdrop-blur-sm"></div>
+        </div>
       </div>
     </div>
   );

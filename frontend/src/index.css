@@ -8,18 +8,19 @@
 @layer base {
   /* Base (Default) Theme */
   :root {
-    --color-text-primary: 175, 105, 43; 
-    --color-text-secondary: 221, 161, 94; 
-    
+    --color-text-primary: 46, 21, 0; 
+    --color-text-secondary: 43, 23, 0; 
     --color-text-button: 250, 237, 205; 
     
-    --color-fill-primary: 214, 189, 157; 
-    --color-fill-secondary: 63, 47, 16; 
+    --color-fill-primary: 230, 173, 93; 
+    --color-fill-secondary: 182, 140, 82; 
     
-    --color-fill-high: 208, 233, 140; 
+    --color-fill-high: 240, 111, 139; 
     
-    --color-button-primary: 29, 11, 9;
-    --color-button-secondary: 95, 74, 35;
+    --color-button-primary: 29, 11, 9;  
+    
+    --color-button-primary: 224, 200, 148;
+    --color-button-secondary: 212, 176, 107;
   }
   
   /* Dark Theme */
@@ -55,12 +56,12 @@
   }
 
   .color-trial{
-    --color-text-primary: rgb(175, 105, 43); 
-    --color-text-secondary: rgb(221, 161, 94); 
+    --color-text-primary: rgb(46, 21, 0); 
+    --color-text-secondary: rgb(43, 23, 0); 
     --color-text-button: rgb(250, 237, 205); 
     
-    --color-fill-primary: rgb(214, 189, 157); 
-    --color-fill-secondary: rgb(63, 47, 16); 
+    --color-fill-primary: rgb(230, 173, 93); 
+    --color-fill-secondary: rgb(182, 140, 82); 
     
     --color-fill-high: rgb(208, 233, 140); 
     

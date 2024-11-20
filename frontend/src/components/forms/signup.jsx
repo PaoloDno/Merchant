@@ -33,7 +33,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full bg-white bg-opacity-10 p-5 mt-6 rounded-lg">
+    <form onSubmit={handleSubmit} className="w-full skin-white bg-gray-800 bg-opacity-30 p-5 mt-6 rounded-lg">
       {!isCompleted ? (
         <>
           {step === 1 && (
@@ -83,7 +83,7 @@ const SignUpForm = () => {
 
           {step === 2 && (
             <div>
-              <h2 className="text-xl font-bold mb-4">Address Information</h2>
+              <h2 className="text-xl font-bold mb-4">Profile Information</h2>
               <input
                 type="text"
                 name="firstName"

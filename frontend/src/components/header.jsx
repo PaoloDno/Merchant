@@ -50,7 +50,7 @@ const Header = () => {
   };
 
   return (
-    <header className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container
+    <header className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container z-100
     items-center justify-between bg-skin-button-primary text-skin-secondary relative text-style3 box-border px-4">
       
       {/* Mobile Menu Button */}
@@ -79,7 +79,7 @@ const Header = () => {
             key={button.name}
             to={button.path}
             onClick={closePopups}
-            className="px-3 py-2 rounded-lg  hover:bg-skin-button-secondary hover:text-skin-high "
+            className="px-3 py-2 rounded-lg  hover:bg-skin-button-secondary hover:text-skin-secondary "
           >
             {button.name}
           </Link>
@@ -89,7 +89,7 @@ const Header = () => {
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
         <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-skin-primary shadow-md z-20 lg:hidden min-h-screen pb-16 transition-all duration-200 p-2">
-          <button onClick={closePopups} className="text-style2 m-3 text-skin-primary hover:bg-skin-button-secondary p-2">
+          <button onClick={closePopups} className="text-style2 m-3 text-skin-primary hover:bg-skin-button-secondary p-2 transition-all duration-500">
             <FaXmark size={24} />
           </button>
           {navButtons.map((button) => (
@@ -97,7 +97,7 @@ const Header = () => {
               key={button.name}
               to={button.path}
               onClick={closePopups}
-              className="block w-fit text-left px-4 my-4 text-skin-primary hover:bg-skin-button-primary hover:text-skin-high"
+              className="block w-fit text-left px-4 my-4 text-skin-primary hover:bg-skin-high hover:text-skin-high transition-all duration-500"
             >
               {button.name}
             </Link>
@@ -108,16 +108,16 @@ const Header = () => {
       {/* Right Icons: Search, Cart, Theme, Account */}
       <div className="flex items-center md:text-style3a text-style3 md:ml-10 space-x-6 mx-2">
         <button onClick={() => handlePopup("search")} aria-label="Search">
-          <VscSearch size={24} className="hover:text-skin-high" />
+          <VscSearch size={24} className="hover:text-skin-high transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("cart")} aria-label="Cart">
-          <FiShoppingCart size={24} className="hover:text-skin-high" />
+          <FiShoppingCart size={24} className="hover:text-skin-high transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("theme")} aria-label="Theme">
-          <RiPaintFill size={24} className="hover:text-skin-high" />
+          <RiPaintFill size={24} className="hover:text-skin-high transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("user")} aria-label="User">
-          <VscAccount size={24} className="hover:text-skin-high" />
+          <VscAccount size={24} className="hover:text-skin-high transition-all duration-500" />
         </button>
       </div>
 
@@ -169,7 +169,7 @@ const Header = () => {
       {/* Overlay for Popup and Menu */}
       {(activePopUp || isMobileMenuOpen) && (
         <div
-          className="fixed inset-0 bg-gradient-to-bl from-skin-start to-slate-950 opacity-80 z-10"
+          className="fixed inset-0 bg-gradient-to-bl from-skin-start to-slate-950 opacity-90 z-10 backdrop-blur-sm"
           onClick={closePopups}
         ></div>
       )}

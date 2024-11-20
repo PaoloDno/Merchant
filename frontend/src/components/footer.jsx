@@ -38,7 +38,7 @@ const Footer = () => {
             <button className="hover:underline
             block w-fit px-4 py-1 box-border text-skin-secondary
             bg-skin-button-secondary rounded-2xl
-            hover:bg-skin-secondary hover:text-white 
+            hover:bg-skin-secondary hover:text-skin-secondary 
             bg-opacity-60 text-center my-4
             ">Log-in / Sign-up</button>
             <span>for personalized links</span>
@@ -47,7 +47,7 @@ const Footer = () => {
       </div>
       
       {/* Copyright */}
-      <div className="text-center text-style3 mt-8 text-skin-high">
+      <div className="text-center text-style3 mt-8 text-skin-secondary">
         &copy; 2024 Merchant. All rights reserved.
       </div>
     </footer>

@@ -1,5 +1,5 @@
 import React from "react";
-import SignUpForm2 from "../components/forms/create";
+import SignUpForm2 from "../components/forms/signupForm";
 import backgroundVideo from "../assets/a.mp4";
 import { useNavigate } from "react-router-dom";
 

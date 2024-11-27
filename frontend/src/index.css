@@ -24,7 +24,7 @@
   }
   
   /* Dark Theme */
-  .dark {
+  .theme-dark {
     --color-text-primary: 255, 255, 255;      /* #ffffff */
     --color-text-secondary: 224, 224, 224;    /* #e0e0e0 */
     
@@ -40,7 +40,7 @@
   }
   
   /* Monochrome Theme (Soft Skin Palette) */
-  .monochrome {
+  .theme-monochrome {
     --color-text-primary: 160, 124, 106;      /* #a07c6a */
     --color-text-secondary: 198, 168, 158;    /* #c6a89e */
     

@@ -12,22 +12,22 @@ const UserPopUp = ({ onLogout }) => {
 
   return (
     <div
-      className={`animate-opacityAnimation transform-origin-left flex flex-col items-end
-       justify-between w-full h-[70vh] bg-skin-button-primary box-border
-       text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4`}
-    >
-      <div className="flex flex-col w-full">
-        <h2 className="text-style4 md:text-style3 font-semibold mb-4 w-full flex items-center space-x-2">
-          <VscAccount className="text-style3" />
-          <span>User Profile</span>
-        </h2>
-      
-      <div className="flex flex-col w-full space-y-2">
+    className={`animate-opacityAnimation flex flex-col items-center
+     justify-between w-full h-[75vh] bg-skin-primmary box-border
+     text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4 text-style4a md:text-style3`}
+  >
+    <div className="flex flex-col w-full bg-white text-black h-full p-2 rounded-md">
+    <h2 className="text-style4 md:text-style3 font-semibold my-4 w-full flex flex-row items-center space-x-2">
+      <VscAccount className="text-style3a md:text-style3b" />
+      <span className="text-style4a md:text-style3a">Search Bar</span>
+    </h2>
+
+      <div className="flex flex-col w-full space-y-4">
         {profileLinks.map(([label, path], index) => (
           <Link 
             to={path} 
             key={index} 
-            className="bg-skin-secondary text-skin-primary px-4 py-2 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
+            className="bg-slate-950 text-white text-style4a md:text-style3 px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
           >
             {label}
           </Link>
@@ -36,7 +36,7 @@ const UserPopUp = ({ onLogout }) => {
         {/* Logout Button */}
         <button 
           onClick={onLogout} 
-          className="bg-skin-secondary text-skin-primary px-4 py-2 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
+          className="bg-skin-secondary text-skin-primary px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
         >
           Logout
         </button>

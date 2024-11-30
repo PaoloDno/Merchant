@@ -11,10 +11,11 @@ function App() {
     <Router>
       <ThemeWrapper>
       <div className="flex flex-col min-h-screen min-w-screen justify-center overflow-hidden">
+        <ThemeWrapper>
         <header className="w-full">
           <Headerbar />
         </header>
-        
+        </ThemeWrapper>
         <main className="flex-grow w-full bg-green-300 flex items-center justify-center">
           <AppRoutes />
         </main>

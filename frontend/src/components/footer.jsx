@@ -46,6 +46,12 @@ const Footer = () => {
         </div>
       </div>
       
+      <div className="flex flex-row justify-center items-center my-5">
+          <div className="w-2 h-2 theme-coffee bg-skin-primary"></div>
+          <div className="w-2 h-2 theme-dark bg-skin-primary"></div>
+          <div className="w-2 h-2 theme-monochrome bg-skin-primary"></div>
+      </div>
+
       {/* Copyright */}
       <div className="text-center text-style3 mt-8 text-skin-secondary">
         &copy; 2024 Merchant. All rights reserved.

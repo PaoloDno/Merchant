@@ -167,7 +167,7 @@ const SignUpForm2 = () => {
     const error = errors[section]?.[field];
   
     return (
-      <div className="relative flex flex-1 group flex-col text-skin-button font-medium text-style4a
+      <div className="relative flex flex-1 group flex-col text-white font-medium text-style4a
         md:text-style3 p-1 md:p-4 bg-skin-primary rounded-lg bg-opacity-10 md:mb-3 space-y-4 w-full mb-4">
         <label className="inline-blockblock font-semibold text-style4a md:text-style4a p-1">{label}</label>
         <div className="relative group container box-border my-4">
@@ -176,6 +176,7 @@ const SignUpForm2 = () => {
             value={value}
             onChange={(e) => handleChange(section, field, e.target.value)}
             placeholder={`${label}`}
+            autoComplete={`${label}`}
             className={`w-full p-2 md:p-4 border  rounded placeholder-gray-600 text-gray-900 bg-gray-100 bg-opacity-80 focus:ring-2 box-border
               ${
                 error
@@ -259,7 +260,7 @@ const SignUpForm2 = () => {
             <button
               type="button"
               onClick={handleNext}
-              className="px-4 py-2 bg-skin-primary text-skin-primary rounded hover:bg-skin-secondary"
+              className="px-4 py-2 bg-skin-button-primary text-skin-primary rounded hover:bg-skin-secondary"
             >
               Next <FaAngleRight className="inline ml-2" />
             </button>

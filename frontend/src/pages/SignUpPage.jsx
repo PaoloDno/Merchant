@@ -43,7 +43,7 @@ const SignUpPage = () => {
             Already have an account?
           </p>
           <button
-            className="text-primary text-lg font-medium px-6 py-2 rounded-full bg-skin-primary md:bg-skin-button-primary bg-opacity-30 hover:bg-skin-high transition duration-300"
+            className="text-skin-button text-lg font-medium px-6 py-2 rounded-full bg-skin-button-primary bg-opacity-30 hover:bg-skin-button-secondary transition duration-300"
             onClick={() => navigate("/login")}
           >
             Log In

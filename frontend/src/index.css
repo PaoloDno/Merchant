@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@600&family=Londrina+Shadow&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Afacad+Flux&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@600&family=Londrina+Shadow&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -8,95 +8,70 @@
 @layer base {
   /* Base (Default) Theme */
   :root {
-    --color-text-primary: 46, 21, 0; 
-    --color-text-secondary: 43, 23, 0; 
-    --color-text-button: 250, 237, 205; 
-    
-    --color-fill-primary: 230, 173, 93; 
-    --color-fill-secondary: 182, 140, 82; 
-    
-    --color-fill-high: 240, 111, 139; 
-    
-    --color-button-primary: 29, 11, 9;  
-    
-    --color-button-primary: 224, 200, 148;
-    --color-button-secondary: 212, 176, 107;
-  }
-  
-  /* Dark Theme */
-  .theme-dark {
-    --color-text-primary: 255, 255, 255;      /* #ffffff */
-    --color-text-secondary: 224, 224, 224;    /* #e0e0e0 */
-    
-    --color-text-button: 0, 0, 0;             /* #000000 */
-    
-    --color-fill-primary: 26, 26, 26;         /* #1a1a1a */
-    --color-fill-secondary: 43, 43, 43;       /* #2b2b2b */
-    
-    --color-fill-high: 121, 116, 116;         /* #797474 */
-    
-    --color-button-primary: 245, 245, 245;    /* #f5f5f5 */
-    --color-button-secondary: 204, 204, 204;  /* #cccccc */
-  }
-  
-  /* Monochrome Theme (Soft Skin Palette) */
-  .theme-monochrome {
-    --color-text-primary: 160, 124, 106;      /* #a07c6a */
-    --color-text-secondary: 198, 168, 158;    /* #c6a89e */
-    
-    --color-text-button: 232, 209, 199;       /* #e8d1c7 */
-    
-    --color-fill-primary: 241, 226, 219;      /* #f1e2db */
-    --color-fill-secondary: 227, 213, 201;    /* #e3d5c9 */
-    
-    --color-fill-high: 83, 65, 48;            /* #534130 */
-    
-    --color-button-primary: 217, 165, 152;    /* #d9a598 */
-    --color-button-secondary: 182, 142, 130;  /* #b68e82 */
+    --color-text-primary: 32, 29, 25;
+    --color-text-secondary: 26, 17, 12;
+    --color-text-button: 8, 6, 2;
+
+    --color-fill-primary: 120, 72, 48;
+    --color-fill-secondary: 150, 100, 65;
+    --color-fill-high: 196, 145, 97;
+
+    --color-button-primary: 120, 72, 48;
+    --color-button-secondary: 120, 72, 48;
   }
 
-  .color-trial{
-    --color-text-primary: rgb(46, 21, 0); 
-    --color-text-secondary: rgb(43, 23, 0); 
-    --color-text-button: rgb(250, 237, 205); 
-    
-    --color-fill-primary: rgb(230, 173, 93); 
-    --color-fill-secondary: rgb(182, 140, 82); 
-    
-    --color-fill-high: rgb(208, 233, 140); 
-    
-    --color-button-primary: rgb(29, 11, 9); 
+  /* Default Theme (Coffee) */
+  .theme-coffee {
+    --color-text-primary: 233, 193, 174; /* Rich coffee brown for main text */
+    --color-text-secondary: 245, 204, 163; /* Lighter caramel for secondary text */
+    --color-text-button: 32, 30, 25; /* Soft cream for button text */
+
+    --color-fill-primary: 194, 142, 91; /* Soft cappuccino brown for background */
+    --color-fill-secondary: 220, 185, 131; /* Lighter beige for secondary background */
+    --color-fill-high: 235, 208, 164; /* Pale coffee milk for highlights */
+
+    --color-button-primary: 178, 128, 88; /* Warm beige for primary buttons */
+    --color-button-secondary: 136, 101, 72; 
   }
-  
+
   /* Dark Theme */
-  .dark-trial {
-    --color-text-primary: rgb(255, 255, 255); /* #ffffff */
-    --color-text-secondary: rgb(224, 224, 224); /* #e0e0e0 */
-    
-    --color-text-button: rgb(0, 0, 0); /* #000000 */
-    
-    --color-fill-primary: rgb(26, 26, 26); /* #1a1a1a */
-    --color-fill-secondary: rgb(43, 43, 43); /* #2b2b2b */
-    
-    --color-fill-high: rgb(121, 116, 116); /* #797474 */
-    
-    --color-button-primary: rgb(245, 245, 245); /* #f5f5f5 */
-    --color-button-secondary: rgb(204, 204, 204); /* #cccccc */
+  .theme-dark {
+    --color-text-primary: 245, 245, 245;
+    --color-text-secondary: 193, 200, 201;
+    --color-text-button: 210, 205, 252;
+
+    --color-fill-primary: 27, 25, 25;
+    --color-fill-secondary: 45, 45 ,45 ;
+    --color-fill-high: 141, 75, 155;
+
+    --color-button-primary: 21, 37, 54;
+    --color-button-secondary: 9, 9, 10;
   }
-  
+
   /* Monochrome Theme (Soft Skin Palette) */
-  .monochrome-trial {
-    --color-text-primary: rgb(160, 124, 106); /* #a07c6a */
-    --color-text-secondary: rgb(198, 168, 158); /* #c6a89e */
-    
-    --color-text-button: rgb(232, 209, 199); /* #e8d1c7 */
-    
-    --color-fill-primary: rgb(241, 226, 219); /* #f1e2db */
-    --color-fill-secondary: rgb(227, 213, 201); /* #e3d5c9 */
-    
-    --color-fill-high: rgb(83, 65, 48); /* #534130 */
-    
-    --color-button-primary: rgb(217, 165, 152); /* #d9a598 */
-    --color-button-secondary: rgb(182, 142, 130); /* #b68e82 */
+  .theme-monochrome {
+    --color-text-primary: 245, 245, 245;
+    --color-text-secondary: 240, 240, 240;
+    --color-text-button: 236, 230, 255;
+
+    --color-fill-primary: 250, 224, 211;
+    --color-fill-secondary: 230, 202, 187;
+    --color-fill-high: 184, 136, 114;
+
+    --color-button-primary: 192, 158, 140;
+    --color-button-secondary: 160, 124, 110;
   }
+}
+
+.theme-dark2 {
+  --color-text-primary: rgb(245, 245, 245);
+  --color-text-secondary: rgb(193, 200, 201);
+  --color-text-button: rgb(25, 25, 25);
+
+  --color-fill-primary: rgb(27, 25, 25);
+  --color-fill-secondary: rgb(45, 45 ,45);
+  --color-fill-high: rgb(143, 141, 134);
+
+  --color-button-primary: rgb(21, 37, 54);
+  --color-button-secondary: rgb(9, 9, 10);
 }

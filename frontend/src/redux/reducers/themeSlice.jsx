@@ -1,14 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit'
 
 
-const themes = ['default','dark', 'monochrome'];
+const themes = ['coffee','dark', 'monochrome'];
 
 
 
 const themeSlice = createSlice({
   name: 'theme',
   initialState: {
-    currentTheme: 'dark',
+    currentTheme: 'default',
   },
   reducers: {
     nextTheme: (state) => {

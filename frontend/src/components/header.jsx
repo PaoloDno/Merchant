@@ -50,13 +50,13 @@ const Header = () => {
   };
 
   return (
-    <header className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container z-100
-    items-center justify-between bg-skin-button-primary text-skin-secondary relative text-style3 box-border px-4">
+    <div className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container z-110
+    items-center justify-between bg-skin-primary text-skin-primary relative text-style3 box-border px-4">
       
       {/* Mobile Menu Button */}
       <div className="flex items-center lg:hidden">
         <button
-          className="p-2 transition-all duration-200 hover:text-skin-high"
+          className="p-2 transition-all duration-200 hover:text-skin-secondary"
           onClick={toggleMobileMenu}
           aria-label="Menu"
         >
@@ -88,8 +88,9 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-skin-primary shadow-md z-20 lg:hidden min-h-screen pb-16 transition-all duration-200 p-2">
-          <button onClick={closePopups} className="text-style2 m-3 text-skin-primary hover:bg-skin-button-secondary p-2 transition-all duration-500">
+        <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-slate-100 shadow-md z-20 lg:hidden min-h-screen pb-16 transition-all duration-200 p-2">
+
+          <button onClick={closePopups} className="text-style2 m-3 text-black p-2 transition-all duration-500">
             <FaXmark size={24} />
           </button>
           {navButtons.map((button) => (
@@ -97,7 +98,7 @@ const Header = () => {
               key={button.name}
               to={button.path}
               onClick={closePopups}
-              className="block w-fit text-left px-4 my-4 text-skin-primary hover:bg-skin-high hover:text-skin-high transition-all duration-500"
+              className="block w-fit text-left px-4 my-4 text-black underline underline-offset-3 hover:bg-skin-high hover:text-skin-high transition-all duration-500"
             >
               {button.name}
             </Link>
@@ -106,18 +107,18 @@ const Header = () => {
       )}
 
       {/* Right Icons: Search, Cart, Theme, Account */}
-      <div className="flex items-center md:text-style3a text-style3 md:ml-10 space-x-6 mx-2">
+      <div className="flex items-center text-style3 md:text-style3a md:ml-10 space-x-6 mx-2">
         <button onClick={() => handlePopup("search")} aria-label="Search">
-          <VscSearch size={24} className="hover:text-skin-high transition-all duration-500" />
+          <VscSearch className="hover:text-skin-secondary transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("cart")} aria-label="Cart">
-          <FiShoppingCart size={24} className="hover:text-skin-high transition-all duration-500" />
+          <FiShoppingCart className="hover:text-skin-secondary transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("theme")} aria-label="Theme">
-          <RiPaintFill size={24} className="hover:text-skin-high transition-all duration-500" />
+          <RiPaintFill className="hover:text-skin-secondary transition-all duration-500" />
         </button>
         <button onClick={() => handlePopup("user")} aria-label="User">
-          <VscAccount size={24} className="hover:text-skin-high transition-all duration-500" />
+          <VscAccount className="hover:text-skin-secondary transition-all duration-500" />
         </button>
       </div>
 
@@ -125,38 +126,39 @@ const Header = () => {
       <div
         className={`${
           activePopUp ? "absolute" : "hidden"
-        } h-[95vh] w-3/4 lg:w-1/4 z-20 bg-skin-secondary bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
+        } h-[95vh] w-3/4 lg:w-1/4 z-20 bg-white bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
       >
       <div className="flex flex-row relative w-full mr-2">
-        <button onClick={closePopups} className="text-style2 m-2 p-2 box-content hover:bg-skin-primary hover:bg-opacity-50 hover:rounded-full hover:text-skin-high">
-          <FaXmark size={24} />
+        <button onClick={closePopups} className="text-style3 w-5 h-5 mx-2 p-3 box-content bg-skin-button-primary 
+        bg-opacity-90 focus:animate-opacityAnimation rounded-full text-skin-button">
+          <FaXmark />
         </button>
         <div className="flex space-x-2 md:space-x-4 justify-evenly mb-1 md:mb-4 w-3/4 box-border text-style3a md:text-style3b">
           <button
             onClick={() => handlePopup("search")}
             aria-label="Search"
-            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 hover:rounded-full hover:text-skin-high"
+            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 text-black hover:rounded-full hover:text-skin-primary"
           >
             <VscSearch className="absolute inset-0 m-auto p-1" />
           </button>
           <button
             onClick={() => handlePopup("cart")}
             aria-label="Cart"
-            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 hover:rounded-full hover:text-skin-high"
+            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 text-black hover:rounded-full hover:text-skin-primary"
           >
             <FiShoppingCart className="absolute inset-0 m-auto p-1" />
           </button>
           <button
             onClick={() => handlePopup("theme")}
             aria-label="Theme"
-            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 hover:rounded-full hover:text-skin-high"
+            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 text-black hover:rounded-full hover:text-skin-primary"
           >
             <RiPaintFill className="absolute inset-0 m-auto p-1" />
           </button>
           <button
             onClick={() => handlePopup("user")}
             aria-label="User"
-            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 hover:rounded-full hover:text-skin-high"
+            className="relative w-10 h-10 m-2 hover:bg-skin-primary hover:bg-opacity-50 text-black hover:rounded-full hover:text-skin-primary"
           >
             <VscAccount className="absolute inset-0 m-auto p-1" />
           </button>
@@ -168,12 +170,18 @@ const Header = () => {
 
       {/* Overlay for Popup and Menu */}
       {(activePopUp || isMobileMenuOpen) && (
-        <div
-          className="fixed inset-0 bg-gradient-to-bl from-skin-start to-slate-950 opacity-90 z-10 backdrop-blur-sm"
-          onClick={closePopups}
-        ></div>
+        <div className="fixed inset-0 z-80 h-full w-full">
+          <div
+            className="fixed inset-0 w-full h-full bg-gradient-to-b from-slate-400 to-slate-900 opacity-20 z-10"
+            onClick={closePopups}
+          ></div>
+          <div
+            className="fixed inset-0 w-full h-full bg-gradient-to-tr from-skin-start to-skin-end opacity-70 z-9"
+            
+          ></div>
+        </div>
       )}
-    </header>
+    </div>
   );
 };
 

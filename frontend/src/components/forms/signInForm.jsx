@@ -49,6 +49,7 @@ const LoginForm2 = () => {
             type="text"
             name="username"
             placeholder="Username"
+            autoComplete="usersname"
             value={userCreds.username}
             onChange={handleInputChange}
             className="w-full p-3 mb-4 rounded-md placeholder-gray-700 text-gray-900 bg-gray-100 bg-opacity-80 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -57,6 +58,7 @@ const LoginForm2 = () => {
             type="password"
             name="password"
             placeholder="Password"
+            autoComplete="password"
             value={userCreds.password}
             onChange={handleInputChange}
             className="w-full p-3 mb-4 rounded-md placeholder-gray-700 text-gray-900 bg-gray-100 bg-opacity-80 focus:ring-2 focus:ring-blue-500 focus:outline-none"

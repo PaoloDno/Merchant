@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const OrderHistorySchema = new mongoose.Schema({
-  profileId: { // Change from userID to profileID
+  userId: { // Change from userID to profileID
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Profile',
     required: true

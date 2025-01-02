@@ -5,7 +5,7 @@ import { nextTheme, setTheme } from "../../redux/reducers/themeSlice";
 import { useState, useEffect } from "react";
 
 const ThemePopUp = () => {
-  const themes = ["coffee", "dark", "monochrome"];
+  const themes = ["default", "coffee", "dark", "monochrome", "dark2"];
 
   const currentTheme = useSelector((state) => state.theme.currentTheme); 
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const ThemePopUp = () => {
           <RiPaintFill /> <span>{ current.charAt(0).toUpperCase() + current.slice(1)}</span>{}
         </button>
 
-        <div className="flex flex-col w-full space-y-2">
+        <div className="flex flex-col w-full flex-nowrap space-y-1 overflow-hidden overflow-y-scroll">
           {themes.map((theme, index) => (
             <div key={index} className="flex box-border items-center justify-between space-x-2 space-y-4 bg-white text-black border-2 border-skin-primary p-4 rounded-xl w-full overflow-hidden">
               <div className="flex flex-col box-content space-y-2">
@@ -61,6 +61,8 @@ const ThemePopUp = () => {
           <div className="w-2 h-2 theme-coffee bg-skin-primary"></div>
           <div className="w-2 h-2 theme-dark bg-skin-primary"></div>
           <div className="w-2 h-2 theme-monochrome bg-skin-primary"></div>
+          <div className="w-2 h-2 theme-default bg-skin-primary"></div>
+          <div className="w-2 h-2 theme-dark2 bg-skin-primary"></div>
         </div>
 
       </div>

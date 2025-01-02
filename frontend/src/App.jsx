@@ -16,7 +16,7 @@ function App() {
           <Headerbar />
         </header>
         </ThemeWrapper>
-        <main className="flex-grow w-full bg-green-300 flex items-center justify-center">
+        <main className="w-full min-w-screen bg-green-300 flex items-center justify-center">
           <AppRoutes />
         </main>
         

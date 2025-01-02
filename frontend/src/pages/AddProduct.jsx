@@ -1,9 +1,9 @@
 import React from "react";
-import LoginForm2 from "../components/forms/signInForm";
+import ProductForm from "../components/forms/productForm";
 import { useNavigate } from "react-router-dom";
 import landingImg from "../assets/b.jpg";
 
-const LandingPage = () => {
+const AddProductPage = () => {
   const navigate = useNavigate();
 
   const commonCardStyle =
@@ -25,7 +25,7 @@ const LandingPage = () => {
         {/* Welcome Section */}
         <div className={`${commonCardStyle} transition-transform transform hover:scale-105 duration-300`}>
           <h2 className="text-3xl font-semibold text-white text-center mb-6">
-            Welcome to Our Store
+            Go back to the store
           </h2>
           <p className="text-lg text-gray-200 text-center mb-4">
             We are happy you are here! Explore our store for amazing products.
@@ -38,16 +38,15 @@ const LandingPage = () => {
           </button>
         </div>
 
-        {/* Sign-in Section */}
         <div className={commonCardStyle}>
           <h2 className="text-3xl font-semibold text-white text-center mb-6">
-            Sign In to Your Account
+            Add a Product
+            <ProductForm />
           </h2>
-          <LoginForm2 />
         </div>
       </div>
     </div>
   );
 };
 
-export default LandingPage;
+export default AddProductPage;

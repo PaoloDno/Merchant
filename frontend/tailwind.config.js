@@ -57,7 +57,7 @@ export default {
         },
       },
       fontFamily: {
-        Afacad: ['Afacad Flux', 'sans-serif'],    // Afacad font
+        Afacad: ['"Afacad Flux"', 'sans-serif'],    // Afacad font
         Londrina: ['Londrina Shadow', 'sans-serif'], // Londrina font
       },
       keyframes: {

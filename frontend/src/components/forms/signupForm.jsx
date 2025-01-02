@@ -11,6 +11,7 @@ const SignUpForm2 = () => {
   const dispatch = useDispatch();
 
   // Regex Patterns AI generated
+  // Snake case for regex just because i want too
   const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
   const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
   const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,24}$/;
@@ -161,7 +162,7 @@ const SignUpForm2 = () => {
     }
   };
 
-  //this is crazy its come from chatGPT but this is the shit! 
+   
   const renderInput = (label, section, field, requirement = "No special characters allowed.", type = "text") => {
     const value = formData[section][field];
     const error = errors[section]?.[field];
@@ -260,7 +261,7 @@ const SignUpForm2 = () => {
             <button
               type="button"
               onClick={handleNext}
-              className="px-4 py-2 bg-skin-button-primary text-skin-primary rounded hover:bg-skin-secondary"
+              className="px-4 py-2 bg-skin-button-primary text-skin-button rounded hover:bg-skin-secondary"
             >
               Next <FaAngleRight className="inline ml-2" />
             </button>

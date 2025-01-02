@@ -9,7 +9,7 @@ const navButtons = [
 
 const Footer = () => {
   return (
-    <footer className="bg-skin-button-primary text-skin-primary py-10 bg-opacity-90">
+    <footer className="bg-skin-primary text-skin-primary py-10 bg-opacity-90">
       <div className="container mx-auto flex flex-wrap justify-between w-full mb-10">
         
         {/* Company Info */}

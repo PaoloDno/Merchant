@@ -50,7 +50,7 @@ const Header = () => {
   };
 
   return (
-    <div className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container z-110
+    <div className="min-w-full h-[62px] p-2 lg:px-3 flex flex-row container z-50
     items-center justify-between bg-skin-primary text-skin-primary relative text-style3 box-border px-4">
       
       {/* Mobile Menu Button */}
@@ -88,7 +88,7 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-slate-100 shadow-md z-20 lg:hidden min-h-screen pb-16 transition-all duration-200 p-2">
+        <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-slate-100 shadow-md z-40 lg:hidden min-h-screen pb-16 transition-all duration-200 p-2">
 
           <button onClick={closePopups} className="text-style2 m-3 text-black p-2 transition-all duration-500">
             <FaXmark size={24} />
@@ -126,7 +126,7 @@ const Header = () => {
       <div
         className={`${
           activePopUp ? "absolute" : "hidden"
-        } h-[95vh] w-3/4 lg:w-1/4 z-20 bg-white bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
+        } h-[95vh] w-3/4 lg:w-1/4 z-30 bg-white bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
       >
       <div className="flex flex-row relative w-full mr-2">
         <button onClick={closePopups} className="text-style3 w-5 h-5 mx-2 p-3 box-content bg-skin-button-primary 
@@ -170,16 +170,17 @@ const Header = () => {
 
       {/* Overlay for Popup and Menu */}
       {(activePopUp || isMobileMenuOpen) && (
-        <div className="fixed inset-0 z-80 h-full w-full">
+        <div className="fixed inset-0 z-20 h-full w-full">
           <div
-            className="fixed inset-0 w-full h-full bg-gradient-to-b from-slate-400 to-slate-900 opacity-20 z-10"
+            className="fixed inset-0 w-full h-full bg-gradient-to-bl from-slate-200 to-slate-900 opacity-20"
             onClick={closePopups}
           ></div>
           <div
-            className="fixed inset-0 w-full h-full bg-gradient-to-tr from-skin-start to-skin-end opacity-70 z-9"
-            
-          ></div>
-        </div>
+            className="fixed inset-0 w-full h-full bg-black bg-opacity-30"
+            onClick={closePopups}
+          >
+          <FaXmark className="fixed text-style2 md:text-style1 inset-0 text-skin-primary top-10 left-10 md:top-20 md:left-20 opacity-70" /></div>
+          </div>
       )}
     </div>
   );

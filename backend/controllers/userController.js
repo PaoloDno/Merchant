@@ -56,13 +56,18 @@ const registerUser = [
     try {
       const { user, address, profile } = req.body;
 
+      console.log( user, address, profile);
+
+      if (!user || !address || !profile) {
+        return res.status(400).json({ success: false, message: 'Invalid request structure' });
+      }
+
       // Validate input
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ success: false, errors: errors.array() });
       }
 
-      // Check for existing user
       const existingUser = await User.findOne({ $or: [{ username: user.username }, { email: user.email }] });
       if (existingUser) {
         return res.status(400).json({ success: false, message: 'Username or Email already in use' });
@@ -70,24 +75,14 @@ const registerUser = [
 
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
-      const newUser = new User({
-        username: user.username,
-        email: user.email,
-        password: hashedPassword,
-        role: user.role || 'user',
-      });
-
+      const newUser = new User({ username: user.username, email: user.email, password: hashedPassword, role: user.role || 'user' });
       const savedUser = await newUser.save();
 
-      // Create related records
-      const [savedAddress, savedCart, savedOrderHistory, savedProfile] = await Promise.all([
-        new Address({ userId: savedUser._id, ...address }).save(),
-        new Cart({ userId: savedUser._id, items: [] }).save(),
-        new OrderHistory({ userId: savedUser._id, orders: [] }).save(),
-        new Profile({ userId: savedUser._id, ...profile }).save(),
-      ]);
+      const savedAddress = await new Address({ userId: savedUser._id, ...address }).save();
+      const savedCart = await new Cart({ userId: savedUser._id, items: [] }).save();
+      const savedOrderHistory = await new OrderHistory({ userId: savedUser._id, orders: [] }).save();
+      const savedProfile = await new Profile({ userId: savedUser._id, firstname: profile.firstName, lastname: profile.lastName, ...profile }).save();
 
-      // Update profile with IDs
       savedProfile.addressId = savedAddress._id;
       savedProfile.cartId = savedCart._id;
       await savedProfile.save();
@@ -95,16 +90,14 @@ const registerUser = [
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
-        user: {
-          id: savedUser._id,
-          username: savedUser.username,
-          email: savedUser.email,
-        },
+        user: { id: savedUser._id, username: savedUser.username, email: savedUser.email },
       });
     } catch (error) {
+      console.error("Registration Error:", error.message);
       next(error);
     }
   },
 ];
+
 
 module.exports = { loginUser, registerUser };

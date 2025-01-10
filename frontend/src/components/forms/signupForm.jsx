@@ -156,7 +156,7 @@ const SignUpForm2 = () => {
       const resultAction = await dispatch(registerAction({ user, profile, address }));
       console.log(resultAction);
 
-      if (register.fulfilled.match(resultAction)) {
+      if (registerAction.fulfilled.match(resultAction)) {
         navigate("/profile");
       }
     }

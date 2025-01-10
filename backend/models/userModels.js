@@ -3,6 +3,7 @@ const shortid = require('shortid');
 
 const UserSchema = new mongoose.Schema({
   userId: { type: String, default: shortid.generate, unique: true },
+  username: {type: String, required: true, unique: true},
   email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
   password: { type: String, required: true, minlength: 6 },
   role: { type: String, enum: ['user', 'admin', 'moderator'], default: 'user' },

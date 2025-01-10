@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../features/api";
+import { setError } from "../reducers/errorSlice";
 
 export const loginAction = createAsyncThunk('auth/loginAction', async (credentials, thunkAPI) => {
   try {
@@ -12,7 +13,11 @@ export const loginAction = createAsyncThunk('auth/loginAction', async (credentia
       return { token, user };
       }
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      dispatch(setError({
+        message: error.response?.data?.message || 'An error occured',
+        status: error.response?.status,
+      }))
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
 });
 
@@ -20,10 +25,16 @@ export const registerAction = createAsyncThunk('auth/registerAction', async (dat
   try {
     console.log(data);
     const response = await api.post('/user/register', data);
+    console.log(data);
+    console.log("a");
     const {user, token } =  response.data.locals;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
   } catch (error){
+    dispatch(setError({
+      message: error.response?.data?.message || 'An error occured',
+      status: error.response?.status,
+    }))
     return thunkAPI.rejectWithValue(error.response.data.message)
   }   
 });

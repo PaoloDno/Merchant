@@ -8,7 +8,19 @@ const OrderHistory = require('../models/orderHistorySchema');
 const { body, validationResult } = require('express-validator');
 const validateLogin = require('./../middlewares/validInputMiddleware')
 
-const SECRET_KEY = process.env.SECRET_KEY;
+
+//token function
+
+const generateToken = (user) => {
+  const payload = {
+    userId: user._id,
+    username: user.username,
+    role: user.role,
+  };
+
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '2h' });
+};
+
 
 // Login User
 const loginUser = [
@@ -27,7 +39,7 @@ const loginUser = [
         return res.status(401).json({ success: false, message: 'Invalid password' });
       }
 
-      const token = jwt.sign({ userId: user._id, role: user.role }, SECRET_KEY, { expiresIn: '2h' });
+      const token = generateToken(user);
 
       res.status(200).json({
         success: true,
@@ -87,10 +99,13 @@ const registerUser = [
       savedProfile.cartId = savedCart._id;
       await savedProfile.save();
 
+      const token = generateToken(user);
+
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
-        user: { id: savedUser._id, username: savedUser.username, email: savedUser.email },
+        token,
+        user: { id: savedUser._id, username: savedUser.username, role: savedUser.role, email: savedUser.email },
       });
     } catch (error) {
       console.error("Registration Error:", error.message);

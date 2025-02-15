@@ -13,8 +13,8 @@ export const loginAction = createAsyncThunk('auth/loginAction', async (credentia
       return { token, user };
       }
     } catch (error) {
-      dispatch(setError({
-        message: error.response?.data?.message || 'An error occured',
+      thunkAPI.dispatch(setError({
+        message: error.response?.data?.message || 'Failed to login',
         status: error.response?.status,
       }))
       return thunkAPI.rejectWithValue(error.response?.data);
@@ -31,7 +31,7 @@ export const registerAction = createAsyncThunk('auth/registerAction', async (dat
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
   } catch (error){
-    dispatch(setError({
+    thunkAPI.dispatch(setError({
       message: error.response?.data?.message || 'An error occured',
       status: error.response?.status,
     }))

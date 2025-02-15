@@ -20,14 +20,14 @@ function App() {
           <Headerbar />
         </header>
         <ErrorAlert className="w-full" />
-        <TestError />
-        <TestThunk />
         </ThemeWrapper>
         <main className="w-full min-w-screen bg-green-300 flex items-center justify-center" >
           <AppRoutes />
         </main>
         <footer className="w-full" >
           <Footer />
+          <TestError />
+          <TestThunk />
         </footer>
       </div>
       </ThemeWrapper>

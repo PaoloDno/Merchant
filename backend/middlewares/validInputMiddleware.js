@@ -22,4 +22,5 @@ const validateLogin = [
   },
 ];
 
+
 module.exports = validateLogin;

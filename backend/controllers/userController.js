@@ -6,7 +6,7 @@ const Profile = require('../models/profileModel');
 const Cart = require('../models/cartModels');
 const OrderHistory = require('../models/orderHistorySchema');
 const { body, validationResult } = require('express-validator');
-const validateLogin = require('./../middlewares/validInputMiddleware')
+//const validateLogin = require('./../middlewares/validInputMiddleware')
 
 
 //token function
@@ -18,18 +18,21 @@ const generateToken = (user) => {
     role: user.role,
   };
 
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '2h' });
+  return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
 };
 
 
 // Login User
 const loginUser = [
-  validateLogin, // Input validation middleware
+  //validateLogin, // Input validation middleware
   async (req, res, next) => {
     try {
       const { username, password } = req.body;
+      console.log("Login request body:", req.body);
+
 
       const user = await User.findOne({ username });
+
       if (!user) {
         return res.status(404).json({ success: false, message: 'User not found' });
       }
@@ -39,7 +42,10 @@ const loginUser = [
         return res.status(401).json({ success: false, message: 'Invalid password' });
       }
 
+      console.log(user);
       const token = generateToken(user);
+      console.log(token);
+      console.log("success");
 
       res.status(200).json({
         success: true,
@@ -53,6 +59,8 @@ const loginUser = [
         },
       });
     } catch (error) {
+      
+      console.log("fail login", error.message);
       next(error); // Pass to error handling middleware
     }
   },
@@ -82,6 +90,7 @@ const registerUser = [
 
       const existingUser = await User.findOne({ $or: [{ username: user.username }, { email: user.email }] });
       if (existingUser) {
+        console.log("unsuccessful")
         return res.status(400).json({ success: false, message: 'Username or Email already in use' });
       }
 
@@ -98,6 +107,7 @@ const registerUser = [
       savedProfile.addressId = savedAddress._id;
       savedProfile.cartId = savedCart._id;
       await savedProfile.save();
+      console.log("success");
 
       const token = generateToken(user);
 

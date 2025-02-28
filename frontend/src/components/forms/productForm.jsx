@@ -95,6 +95,7 @@ const ProductForm = () => {
     e.preventDefault();
     if (validateStep()) {
       setIsLoading(true);
+      console.log(formData);
       try {
         await dispatch(createProduct(formData));
         navigate("/success");

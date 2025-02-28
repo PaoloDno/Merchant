@@ -126,7 +126,7 @@ const Header = () => {
       <div
         className={`${
           activePopUp ? "absolute" : "hidden"
-        } h-[95vh] w-3/4 lg:w-1/4 z-30 bg-white bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
+        } h-[95vh] w-3/4 lg:w-2/5 z-30 bg-white bg-opacity-80 p-2 mx-2 top-0 right-0 box-border rounded-2xl transition-all`}
       >
       <div className="flex flex-row relative w-full mr-2">
         <button onClick={closePopups} className="text-style3 w-5 h-5 mx-2 p-3 box-content bg-skin-button-primary 

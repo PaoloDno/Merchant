@@ -6,13 +6,16 @@ export const loginAction = createAsyncThunk('auth/loginAction', async (credentia
   try {
     console.log(credentials);
     const response = await api.post('/user/login', credentials); 
+    console.log("Login response:", response.data);
+
     if (response){
-      const { token, user } = response.data.locals;
+      const { token, user } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('user', JSON.stringify(user));
       return { token, user };
       }
     } catch (error) {
+      console.log(error);
       thunkAPI.dispatch(setError({
         message: error.response?.data?.message || 'Failed to login',
         status: error.response?.status,
@@ -27,7 +30,7 @@ export const registerAction = createAsyncThunk('auth/registerAction', async (dat
     const response = await api.post('/user/register', data);
     console.log(data);
     console.log("a");
-    const {user, token } =  response.data.locals;
+    const {user, token } =  response.data;
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
   } catch (error){

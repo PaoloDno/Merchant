@@ -9,10 +9,9 @@ export const loginAction = createAsyncThunk('auth/loginAction', async (credentia
     console.log("Login response:", response.data);
 
     if (response){
-      const { token, user } = response.data;
+      const { token } = response.data;
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
-      return { token, user };
+      return { token };
       }
     } catch (error) {
       console.log(error);

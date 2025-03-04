@@ -7,6 +7,7 @@ const errorHandler = require('./middlewares/errorHandlingMiddleware.js');
 
 //routes
 const userRoute = require('./routes/userRoutes.js')
+const productRoute = require('./routes/productRoutes.js')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ connDB();
 
 // App Routes
 app.use('/commerce/user', userRoute);
+app.use('/commerce/product', productRoute);
 
 // Error Handler
 app.use(errorHandler);

@@ -98,7 +98,7 @@ const ProductForm = () => {
       console.log(formData);
       try {
         await dispatch(createProduct(formData));
-        navigate("/success");
+        navigate("/home");
       } catch (error) {
         console.error("Submission failed:", error);
       } finally {

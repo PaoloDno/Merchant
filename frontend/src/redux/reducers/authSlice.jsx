@@ -6,16 +6,18 @@ const authSlice = createSlice({
   initialState: {
     isAuthenticated: false,
     user: null,
-    role: null,
-    token: null,
+    isAdmin: null,
+    token: localStorage.getItem('token') || null,
     isLoading: false,
     error: null
   },
   reducers: {
-    setUser(state, action) {
+    setToken(state, action) {
       state.isAuthenticated = true;
-      state.user = action.payload.user;
       state.token = action.payload.token;
+      state.user = action.payload.user;
+      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
     },
     clearError (state) {
       state.error = null;
@@ -31,6 +33,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.isAdmin = action.payload.isAdmin;
       state.isLoading = false;
       console.log(state.user, state.token);
     })
@@ -46,6 +49,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      state.isAdmin = action.payload.isAdmin;
       state.isLoading = false;
     })
     .addCase(registerAction.rejected, (state, action) => {
@@ -56,6 +60,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
       state.token = null;
+      state.isAdmin = null;
     });
   }
 });

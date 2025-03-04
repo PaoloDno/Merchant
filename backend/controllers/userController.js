@@ -15,7 +15,7 @@ const generateToken = (user) => {
   const payload = {
     userId: user._id,
     username: user.username,
-    role: user.role,
+    isAdmin: user.isAdmin,
   };
 
   return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '2h' });
@@ -51,12 +51,6 @@ const loginUser = [
         success: true,
         message: 'Login successful',
         token,
-        user: {
-          id: user._id,
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
       });
     } catch (error) {
       
@@ -96,7 +90,7 @@ const registerUser = [
 
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
-      const newUser = new User({ username: user.username, email: user.email, password: hashedPassword, role: user.role || 'user' });
+      const newUser = new User({ username: user.username, email: user.email, password: hashedPassword});
       const savedUser = await newUser.save();
 
       const savedAddress = await new Address({ userId: savedUser._id, ...address }).save();
@@ -114,8 +108,7 @@ const registerUser = [
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
-        token,
-        user: { id: savedUser._id, username: savedUser.username, role: savedUser.role, email: savedUser.email },
+        token
       });
     } catch (error) {
       console.error("Registration Error:", error.message);

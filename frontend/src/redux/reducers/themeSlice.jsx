@@ -1,9 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-
-
 const themes = [ 'default', 'coffee','dark', 'monochrome', 'dark2'];
-
-
 
 const themeSlice = createSlice({
   name: 'theme',

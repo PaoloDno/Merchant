@@ -24,3 +24,5 @@ const validateLogin = [
 
 
 module.exports = validateLogin;
+
+//code on the controller itself

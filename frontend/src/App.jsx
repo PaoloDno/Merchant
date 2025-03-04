@@ -15,12 +15,12 @@ function App() {
     <Router>
       <ThemeWrapper>
       <div className="flex flex-col min-h-screen min-w-screen justify-center overflow-hidden" >
-        <ThemeWrapper >
+        
         <header className="w-full" >
           <Headerbar />
         </header>
         <ErrorAlert className="w-full" />
-        </ThemeWrapper>
+        
         <main className="w-full min-w-screen bg-green-300 flex items-center justify-center" >
           <AppRoutes />
         </main>

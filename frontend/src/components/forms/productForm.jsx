@@ -47,6 +47,10 @@ const ProductForm = () => {
       regex: /^[^<>\/\?@!]{3,12}$/,
       error: "Must be 3-12 characters, no special characters.",
     },
+    description: {
+      regex: /^[^<>\/\?@!]{10,40}$/,
+      error: "must be atlest minimum of 10 characters"
+    },
     price: {
       regex: /^\d+(\.\d{1,2})?$/,
       error: "Must be a valid number.",
@@ -84,25 +88,37 @@ const ProductForm = () => {
   };
 
   const handleNext = () => {
+    setIsLoading(true);
     if (validateStep()) {
       setStep((prev) => prev + 1);
     }
   };
 
+  useEffect(() => {
+    if(isLoading){
+      const timer = setTimeout(() => setIsLoading(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading])
+
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     if (validateStep()) {
-      setIsLoading(true);
       console.log(formData);
+      
       try {
-        await dispatch(createProduct(formData));
-        navigate("/home");
-      } catch (error) {
-        console.error("Submission failed:", error);
-      } finally {
-        setIsLoading(false);
+        const resultAction = await dispatch(createProduct(formData));
+  
+        if (createProduct.fulfilled.match(resultAction)) {
+          console.log("Success:", resultAction);
+        } else {
+          console.error("Submission failed:", resultAction.error);
+        }
+      } catch (err) {
+        console.error("An error occurred:", err);
       }
     }
   };
@@ -232,7 +248,7 @@ const ProductForm = () => {
                 isLoading ? "bg-gray-300" : "bg-green-500 text-white hover:bg-green-600"
               }`}
             >
-              {isLoading ? "Submitting..." : "Submit"}
+              {isLoading ? "Submit" : "Submit"}
             </button>
           )}
         </div>

@@ -1,4 +1,6 @@
 const Product = require("../models/productModel");
+const Category = require("../models/categorySchema");
+const SubCategory = require("../models/subCategorySchema")
 const { body, validationResult } = require("express-validator");
 
 // CREATE PRODUCT
@@ -22,32 +24,66 @@ const createProduct = [
       if (!errors.isEmpty()) {
         return res.status(400).json({ success: false, errors: errors.array() });
       }
-
-      const { basicInfo, categoryDetails, specifications } = req.body;
-
+  
+      let { basicInfo, categoryDetails, specifications } = req.body;
+  
+      console.log("Received Data:", basicInfo, categoryDetails, specifications);
+  
+      // Convert `subCategory` to an array if it's a string
+      if (!Array.isArray(categoryDetails.subCategory)) {
+        categoryDetails.subCategory = [categoryDetails.subCategory]; // Convert to array
+      }
+  
+      // Find or Create Category
+      let category = await Category.findOne({ name: categoryDetails.category });
+      if (!category) {
+        console.log("Creating new category:", categoryDetails.category);
+        category = new Category({ name: categoryDetails.category });
+        await category.save();
+      }
+      categoryDetails.categoryId = category._id;
+  
+      // Find or Create Subcategories
+      const subCategoryIds = [];
+      for (const subCategoryName of categoryDetails.subCategory) {
+        let subCategory = await SubCategory.findOne({ name: subCategoryName });
+        if (!subCategory) {
+          subCategory = new SubCategory({ name: subCategoryName, categoryId: category._id });
+          await subCategory.save();
+        }
+        subCategoryIds.push(subCategory._id);
+      }
+      categoryDetails.subCategoryId = subCategoryIds;
+  
       // Check if product already exists
       const existingProduct = await Product.findOne({ "basicInfo.productName": basicInfo.productName });
       if (existingProduct) {
         return res.status(400).json({ success: false, message: "Product already exists" });
       }
-
+  
       // Create new product
       const product = new Product({ basicInfo, categoryDetails, specifications });
       await product.save();
-
+  
       res.status(201).json({ success: true, message: "Product created successfully", product });
     } catch (error) {
-      next(error); // Pass error to middleware
+      console.error("Error creating product:", error.message);
+      next(error);
     }
-  },
+  }
 ];
 
 // GET ALL PRODUCTS
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await Product.find();
+    
+    console.log(products);
+
     res.status(200).json({ success: true, products });
+  
   } catch (error) {
+    
     next(error);
   }
 };

@@ -51,6 +51,11 @@ const loginUser = [
         success: true,
         message: 'Login successful',
         token,
+        user: {
+          username: user.username,
+          userId: user.userId,
+          email: user.email
+        }
       });
     } catch (error) {
       
@@ -108,7 +113,12 @@ const registerUser = [
       res.status(201).json({
         success: true,
         message: 'User registered successfully',
-        token
+        token,
+        user: {
+          username: user.username,
+          userId: user.userId,
+          email: user.email
+        }
       });
     } catch (error) {
       console.error("Registration Error:", error.message);

@@ -27,18 +27,20 @@ const LoginForm2 = () => {
     setUserCreds((prev) => ({ ...prev, [name]: value })); // Keeping user experience smooth
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const sanitizedCreds = {
       username: sanitizeInput(userCreds.username),
       password: sanitizeInput(userCreds.password),
     };
-    const resultAction = dispatch(loginAction(sanitizedCreds));
-    if(loginAction.fulfilled.match(resultAction)) {
+  
+    const resultAction = await dispatch(loginAction(sanitizedCreds));
+  
+    if (loginAction.fulfilled.match(resultAction)) {
       console.log('Login successful!');
       const timeoutId = setTimeout(() => {
         navigate('/home');
-        }, 1500);
+      }, 1500);
       return () => clearTimeout(timeoutId);
     } else {
       console.log('Login failed. Please check your username and password.');

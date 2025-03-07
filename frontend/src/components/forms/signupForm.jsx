@@ -157,10 +157,17 @@ const SignUpForm2 = () => {
       console.log(resultAction);
 
       if (registerAction.fulfilled.match(resultAction)) {
-        navigate("/profile");
+        console.log('Registration successful!');
+        const timeoutId = setTimeout(() => {
+          navigate('/home');
+        }, 1000);
+        return () => clearTimeout(timeoutId);
+      } else {
+        console.log('Login failed. Please check your username and password.');
       }
     }
   };
+
 
    
   const renderInput = (label, section, field, requirement = "No special characters allowed.", type = "text") => {

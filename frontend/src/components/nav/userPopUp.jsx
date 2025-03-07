@@ -1,14 +1,27 @@
 import React from "react";
 import { VscAccount } from "react-icons/vsc";
-import { Link } from "react-router-dom"; // Ensure React Router is set up for navigation
+import { useSelector, useDispatch } from "react-redux";
+import {logoutAction} from '../../redux/actions/authThunks'
 
-const UserPopUp = ({ onLogout }) => {
+import { Link, useNavigate } from "react-router-dom"; // Ensure React Router is set up for navigation
 
-  const profileLinks = [
-    ["Profile", "/profile"],
-    ["Login", "/login"],
-    ["Signup", "/signup"],
+const UserPopUp = () => {
+
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(logoutAction());
+    navigate('/')
+  }
+
+  const profileLinks = isAuthenticated ? [
+      ["Profile", "/profile"],
+  ] : [
+      ["Login", "/login"],
+      ["Signup", "/signup"],
   ];
+
 
   return (
     <div
@@ -34,12 +47,15 @@ const UserPopUp = ({ onLogout }) => {
         ))}
 
         {/* Logout Button */}
-        <button 
-          onClick={onLogout} 
-          className="bg-skin-secondary text-skin-primary px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
-        >
-          Logout
-        </button>
+        {isAuthenticated && (
+          <button 
+            onClick={handleLogout} 
+            className="bg-skin-secondary text-skin-primary px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
+          >
+            Logout
+          </button>
+        )}
+
       </div>
       
       </div>

@@ -1,5 +1,6 @@
 import { createAsyncThunk} from "@reduxjs/toolkit";
 import api from "../features/api";
+import { setError } from "../reducers/errorSlice";
 
 export const createProduct = createAsyncThunk(
   'product/createProduct',
@@ -17,7 +18,7 @@ export const createProduct = createAsyncThunk(
     } catch (error) {
       console.log(error);
             thunkAPI.dispatch(setError({
-              message: error.response?.data?.message || 'Failed to login',
+              message: error.response?.data?.message || 'Failed to create products',
               status: error.response?.status,
             }))
             return thunkAPI.rejectWithValue(error.response?.data);

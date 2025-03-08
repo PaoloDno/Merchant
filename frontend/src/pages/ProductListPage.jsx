@@ -1,5 +1,8 @@
 import React from "react";
 
+
+
+
 const ProductListPage = ({ hotProducts, randomProducts, onSearch }) => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">

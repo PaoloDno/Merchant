@@ -25,4 +25,4 @@ const validateLogin = [
 
 module.exports = validateLogin;
 
-//code on the controller itself
+//change to validation on the backend controllers itself

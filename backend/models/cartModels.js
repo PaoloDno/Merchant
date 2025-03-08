@@ -1,16 +1,43 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const CartSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  items: [
-    {
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-      quantity: { type: Number, required: true, min: 1 },
-      options: { type: Object } // For any additional product options (e.g., size, color)
-    }
-  ],
-  createdAt: { type: Date, default: Date.now }
-});
+const CartSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+      unique: true, // One cart per user
+    },
+    items: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          min: 1,
+        },
+        price: {
+          type: Number,
+          required: true,
+        },
+      },
+    ],
+    totalPrice: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
 
-const Cart = mongoose.model('Cart', CartSchema);
-module.exports = Cart;
+// 🛒 Method to Calculate Total Price
+CartSchema.methods.calculateTotalPrice = function () {
+  this.totalPrice = this.items.reduce((sum, item) => sum + item.quantity * item.price, 0);
+  return this.totalPrice;
+};
+
+module.exports = mongoose.model("Cart", CartSchema);

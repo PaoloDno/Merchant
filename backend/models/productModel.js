@@ -19,6 +19,18 @@ const ProductSchema = new mongoose.Schema({
     material: { type: String },
     size: { type: String },
   },
+  metrics: {
+    likes: { type: Number, default: 0 }, // User likes
+    salesCount: { type: Number, default: 0 }, // Number of times sold
+    isHot: { type: Boolean, default: false }, // Mark as hot-selling product
+  },
+  seller: {
+    sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "Seller", required: true },
+    sellerName: { type: String, required: true },
+    contact: { type: String },
+    rating: { type: Number, default: 0 },
+    view: { type: Number, default: 0},
+  },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "ProductReview" }],
 });
 

@@ -14,10 +14,12 @@ const UserProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address'
   },
+  //seller: {} i think i need something that add a seller_id
   cartId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cart'
   },
+  stores: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Seller' }],
   userReviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'ProductReview' }],
   orderHistoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'OrderHistory'}
 });

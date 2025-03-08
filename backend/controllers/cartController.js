@@ -2,7 +2,7 @@ const Cart = require("../models/cartModels");
 const Product = require("../models/productModel");
 
 // Get Cart
-exports.getCart = async (req, res) => {
+exports.getCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ userId: req.user.id })
       .populate("items.productId", "basicInfo.productName basicInfo.price");
@@ -14,11 +14,12 @@ exports.getCart = async (req, res) => {
     res.status(200).json(cart);
   } catch (error) {
     res.status(500).json({ message: "Error fetching cart", error: error.message });
+    next(error);
   }
 };
 
 // Add to Cart
-exports.addToCart = async (req, res) => {
+exports.addToCart = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
     if (!productId || quantity <= 0) {
@@ -51,12 +52,12 @@ exports.addToCart = async (req, res) => {
 
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ message: "Error adding item to cart", error: error.message });
+    next(error);
   }
 };
 
 // Update Cart Item Quantity
-exports.updateCartItem = async (req, res) => {
+exports.updateCartItem = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
     if (!productId || quantity < 1) {
@@ -77,12 +78,12 @@ exports.updateCartItem = async (req, res) => {
 
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ message: "Error updating cart item", error: error.message });
+    next(error);
   }
 };
 
 // Remove Item from Cart
-exports.removeFromCart = async (req, res) => {
+exports.removeFromCart = async (req, res, next) => {
   try {
     const { productId } = req.body;
     const cart = await Cart.findOne({ userId: req.user.id });
@@ -96,7 +97,7 @@ exports.removeFromCart = async (req, res) => {
 
     res.status(200).json(cart);
   } catch (error) {
-    res.status(500).json({ message: "Error removing item from cart", error: error.message });
+    next(error);
   }
 };
 
@@ -112,6 +113,15 @@ exports.clearCart = async (req, res) => {
 
     res.status(200).json({ message: "Cart cleared successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error clearing cart", error: error.message });
+    next(error);
   }
 };
+
+
+modules.export = {
+  getCart,
+  addToCart,
+  updateCartItem,
+  removeFromCart,
+  clearCart
+}

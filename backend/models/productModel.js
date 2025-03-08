@@ -23,16 +23,24 @@ const ProductSchema = new mongoose.Schema({
     likes: { type: Number, default: 0 }, // User likes
     salesCount: { type: Number, default: 0 }, // Number of times sold
     isHot: { type: Boolean, default: false }, // Mark as hot-selling product
+    rating:  { 
+      "1star": { type: Number, default: 0 },
+      "2star": { type: Number, default: 0 },
+      "3star": { type: Number, default: 0 },
+      "4star": { type: Number, default: 0 },
+      "5star": { type: Number, default: 0 }
+    },
+    AverageRating: { type: Number, deafult: 0},
+    view: { type: Number, default: 0},
   },
   seller: {
     sellerId: { type: mongoose.Schema.Types.ObjectId, ref: "Seller", required: true },
-    sellerName: { type: String, required: true },
+    storeName: { type: String, required: true },
+    storeDescription: { type: String, default: "" },
     contact: { type: String },
-    rating: { type: Number, default: 0 },
-    view: { type: Number, default: 0},
   },
   reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: "ProductReview" }],
-});
+}, { timestamps: true });
 
 const Product = mongoose.model("Product", ProductSchema);
 module.exports = Product;

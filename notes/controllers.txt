@@ -6,22 +6,26 @@ user / profile;
 	put. auth, updateaddress put check
 	get. ProfileAndAddress > DisplayPRofile
 seller;
-	post. !isBanned, auth, create
-	getSeller
-	updateseller
-	deleteseller isBan 
-	adminDeleteSeller
-	adminVerifySeller
+	post. !isBanned, auth, createSeller
+	get. getMyStore, auth
+	put. updateMyStore, auth
+	delete. deleteMyStore, auth 
+	delete. adminDeleteSeller, admin, user.isBanned
+	put adminVerifySeller, admin, user.isVerrified
+	get viewStore, find {Seller}
 product;
 	createProduct
 	updateProduct
 	getproductId
 	deleteProduct
+
 getProductController;	
 	getHotProducts
 	getBestProducts
 	getCategoryProducts
 	getRandomProducts
+
+
 cart;
 	getCart
 	addToCart

@@ -10,6 +10,8 @@ const userRoute = require('./routes/userRoutes.js');
 const productRoute = require('./routes/productRoutes.js');
 const storeRoutes = require('./routes/sellerRoutes.js');
 const categoryRoutes = require('./routes/categoryRoutes.js');
+const cartRoutes = require("./routes/cartRoutes.js");
+const checkOutRoutes = require("./routes/checkOutRoutes.js")
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +31,8 @@ app.use('/commerce/user', userRoute);
 app.use('/commerce/product', productRoute);
 app.use('/commerce/store', storeRoutes);
 app.use('/commerce/category', categoryRoutes);
+app.use('/commerce/cart', cartRoutes);
+app.use('/commerce/check', checkOutRoutes);
 
 // Error Handler
 app.use(errorHandler);

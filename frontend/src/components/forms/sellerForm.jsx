@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { createSeller } from "../../redux/actions/sellerThunks";
+import { createStoreAction } from "../../redux/actions/storeThunks";
 
 const SellerForm = () => {
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const SellerForm = () => {
 
     setIsLoading(true);
     try {
-      await dispatch(createSeller(formData));
+      await dispatch(createStoreAction(formData));
       navigate("/home");
     } catch (error) {
       console.error("Submission failed", error);
@@ -81,7 +81,7 @@ const SellerForm = () => {
         type="text"
         value={formData[field]}
         onChange={(e) => handleChange(field, e.target.value)}
-        className={`w-full p-2 border rounded ${errors[field] ? "border-red-500" : "border-gray-300"}`}
+        className={`w-full p-2 border rounded text-black ${errors[field] ? "border-red-500" : "border-gray-300"}`}
       />
       {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
     </div>

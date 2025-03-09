@@ -72,8 +72,19 @@ const loginUser = [
           userId: user.userId, //fake user ID
           email: user.email,
         },
-        profile,
-        address,
+        profile: {
+          firstname: profile.firstname,
+          lastname: profile.lastname,
+          phoneNumber: profile.phoneNumber
+        },
+        address: {
+          street: address.street,
+          city: address.city,
+          zipCode: address.zipCode,
+          landmark: address.landmark,
+          country: address.country
+        },
+
       });
     } catch (error) {
       console.log("fail login", error.message);
@@ -183,8 +194,18 @@ const registerUser = [
           userId: savedUser._id, // Corrected fake userId
           email: savedUser.email,
         },
-        profile: savedProfile,
-        address: savedAddress
+        profile: {
+          firstname: savedProfile.firstname,
+          lastname: savedProfile.lastname,
+          phoneNumber: savedProfile.phoneNumber
+        },
+        address: {
+          street: savedAddress.street,
+          city: savedAddress.city,
+          zipCode: savedAddress.zipCode,
+          landmark: savedAddress.landmark,
+          country: savedAddress.country
+        },
       });
     } catch (error) {
       console.error("Registration Error:", error.message);

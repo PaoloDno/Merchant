@@ -14,8 +14,10 @@ router.post("/", authMiddleware, createSeller);
 router.get("/", authMiddleware, getMyStore);
 router.put("/", authMiddleware, updateMyStore);
 router.delete("/:id", authMiddleware, deleteMyStore);
-router.put("/admin/", authMiddleware, adminMiddleware, adminVerifySeller );
-router.delete("/admin", authMiddleware, adminMiddleware, adminDeleteSeller);
+router.put("/admin/:id", authMiddleware, adminMiddleware, adminVerifySeller );
+router.delete("/admin/:id", authMiddleware, adminMiddleware, adminDeleteSeller);
 
 
 module.exports = router;
+
+//store

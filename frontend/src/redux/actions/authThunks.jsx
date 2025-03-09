@@ -21,7 +21,7 @@ export const loginAction = createAsyncThunk('auth/loginAction', async (credentia
         message: error.response?.data?.message || 'Failed to login',
         status: error.response?.status,
       }))
-      return thunkAPI.rejectWithValue(error.response?.data);
+      return thunkAPI.rejectWithValue(error.response?.data.message);
     }
 });
 
@@ -40,7 +40,7 @@ export const registerAction = createAsyncThunk('auth/registerAction', async (dat
       message: error.response?.data?.message || 'An error occured',
       status: error.response?.status,
     }))
-    return thunkAPI.rejectWithValue(error.response.data.message)
+    return thunkAPI.rejectWithValue(error.response?.data.message)
   }   
 });
 

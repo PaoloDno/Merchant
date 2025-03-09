@@ -1,23 +1,23 @@
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { 
-  loginAction, 
-  registerAction, 
-  logoutAction, 
-  updateAddressAction, 
-  updateProfileAction, 
-  displayUserAction 
-} from '../actions/authThunks';
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import {
+  loginAction,
+  registerAction,
+  logoutAction,
+  updateAddressAction,
+  updateProfileAction,
+  displayUserAction,
+} from "../actions/authThunks";
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     isAuthenticated: false,
     user: null,
     profile: null,
     address: null,
-    token: localStorage.getItem('token') || null,
+    token: localStorage.getItem("token") || null,
     isLoading: false,
-    error: null
+    error: null,
   },
   reducers: {
     setUser(state, action) {
@@ -27,7 +27,7 @@ const authSlice = createSlice({
     },
     clearError(state) {
       state.error = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -129,7 +129,7 @@ const authSlice = createSlice({
           state.error = action.payload;
         }
       );
-  }
+  },
 });
 
 export const { setUser, clearError } = authSlice.actions;

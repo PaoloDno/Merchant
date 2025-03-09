@@ -50,6 +50,19 @@ const loginUser = [
       console.log(token);
       console.log("success");
 
+      const profile = await Profile.findOne({ userId: user._id });
+      if (!profile) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Profile not found" });
+      }
+
+      // Retrieve Address using the addressId from the Profile
+      let address = null;
+      if (profile.addressId) {
+        address = await Address.findById(profile.addressId);
+      }
+
       res.status(200).json({
         success: true,
         message: "Login successful",
@@ -59,6 +72,8 @@ const loginUser = [
           userId: user.userId, //fake user ID
           email: user.email,
         },
+        profile,
+        address,
       });
     } catch (error) {
       console.log("fail login", error.message);
@@ -82,7 +97,7 @@ const registerUser = [
     try {
       const { user, address, profile } = req.body;
 
-      console.log(user, address, profile);
+      console.log("Register request:", user, address, profile);
 
       if (!user || !address || !profile) {
         return res
@@ -96,63 +111,80 @@ const registerUser = [
         return res.status(400).json({ success: false, errors: errors.array() });
       }
 
+      // Check if the username or email already exists
       const existingUser = await User.findOne({
         $or: [{ username: user.username }, { email: user.email }],
       });
+
       if (existingUser) {
-        console.log("unsuccessful");
+        console.log("Registration failed: User already exists.");
         return res
           .status(400)
-          .json({
-            success: false,
-            message: "Username or Email already in use",
-          });
+          .json({ success: false, message: "Username or Email already in use" });
       }
+
 
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
+      // Create the new user
       const newUser = new User({
         username: user.username,
         email: user.email,
         password: hashedPassword,
       });
+
       const savedUser = await newUser.save();
 
-      const savedAddress = await new Address({
+      // Create the user's address, cart, orderhistory
+      const savedAddress = new Address({
         userId: savedUser._id,
         ...address,
-      }).save();
-      const savedCart = await new Cart({
+      });
+      await savedAddress.save();
+
+      
+      const savedCart = new Cart({
         userId: savedUser._id,
         items: [],
-      }).save();
-      const savedOrderHistory = await new OrderHistory({
+      });
+      await savedCart.save();
+
+      
+      const savedOrderHistory = new OrderHistory({
         userId: savedUser._id,
         orders: [],
-      }).save();
-      const savedProfile = await new Profile({
+      });
+      await savedOrderHistory.save();
+
+      
+      const savedProfile = new Profile({
         userId: savedUser._id,
         firstname: profile.firstName,
         lastname: profile.lastName,
+        addressId: savedAddress._id, 
+        cartId: savedCart._id, 
+        orderHistoryId: savedOrderHistory._id,
         ...profile,
-      }).save();
-
-      savedProfile.addressId = savedAddress._id;
-      savedProfile.cartId = savedCart._id;
+      });
       await savedProfile.save();
-      console.log("success");
 
-      const token = generateToken(user);
+      console.log("Registration successful");
 
+      // Generate JWT token
+      const token = generateToken(savedUser);
+
+      // Send back only necessary user info
       res.status(201).json({
         success: true,
         message: "User registered successfully",
         token,
         user: {
-          username: user.username,
-          userId: user.userId,
-          email: user.email,
+          username: savedUser.username,
+          userId: savedUser._id, // Corrected fake userId
+          email: savedUser.email,
         },
+        profile: savedProfile,
+        address: savedAddress
       });
     } catch (error) {
       console.error("Registration Error:", error.message);
@@ -161,7 +193,7 @@ const registerUser = [
   },
 ];
 
-exports.updateProfile = async (req, res, next) => {
+const updateProfile = async (req, res, next) => {
   try {
     const { firstname, lastname, phoneNumber, profileImage } = req.body;
 
@@ -182,20 +214,18 @@ exports.updateProfile = async (req, res, next) => {
 
     await profile.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Profile updated successfully",
-        profile,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      profile,
+    });
   } catch (error) {
     console.error("Profile Update Error:", error.message);
     next(error);
   }
 };
 
-exports.updateAddress = async (req, res, next) => {
+const updateAddress = async (req, res, next) => {
   try {
     const { street, city, state, zipCode, country } = req.body;
 
@@ -225,20 +255,18 @@ exports.updateAddress = async (req, res, next) => {
 
     await address.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Address updated successfully",
-        address,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Address updated successfully",
+      address,
+    });
   } catch (error) {
     console.error("Address Update Error:", error.message);
     next(error);
   }
 };
 
-exports.DisplayUser = async (req, res, next) => {
+const DisplayUser = async (req, res, next) => {
   try {
     let userId = req.user.userId;
 
@@ -272,4 +300,10 @@ exports.DisplayUser = async (req, res, next) => {
   }
 };
 
-module.exports = { loginUser, registerUser, updateProfile, updateAddress, DisplayUser };
+module.exports = {
+  loginUser,
+  registerUser,
+  updateProfile,
+  updateAddress,
+  DisplayUser,
+};

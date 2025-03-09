@@ -115,10 +115,3 @@ exports.searchProducts = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  getHotProducts,
-  getProductsByCategory,
-  getNewProducts,
-  getRandomProducts,
-  searchProducts
-}

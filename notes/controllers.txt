@@ -1,4 +1,4 @@
-user / profile;
+user/profile;
 	 - generate token
 	post. login post jwt check 
 	post. register post jwt check
@@ -18,14 +18,11 @@ product;
 	updateProduct
 	getproductId
 	deleteProduct
-
 getProductController;	
 	getHotProducts
 	getBestProducts
 	getCategoryProducts
 	getRandomProducts
-
-
 cart;
 	getCart
 	addToCart
@@ -37,6 +34,7 @@ OrderController;
 	FetchOrder
 	OrderGet
 	CancelOrder/Report
+	OrderComplete
 Category;
 	createCategory
 	createsubCategory
@@ -47,7 +45,3 @@ productReview;
 	deleteReview
 	getReviewProduct
 	getReviewUser
-
-	
-	
-

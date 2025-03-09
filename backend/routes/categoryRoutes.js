@@ -2,6 +2,8 @@ const express = require('express');
 const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/authorizationMiddleware');
 
+const router = express.Router();
+
 const { createCategory, createSubCategory, updateCategory, updateSubCategory,
         getAllCategories, getAllSubCategories, getProductByCategoryId, getProductsBySubCategoryId,
         deleteCategory, deleteSubCategory
@@ -21,3 +23,5 @@ router.get("/sub/:id", authMiddleware, adminMiddleware, getAllSubCategories);
 //get Product
 router.get("/products/:id", authMiddleware, adminMiddleware, getProductByCategoryId),
 router.get("/products/sub/:id", authMiddleware, adminMiddleware, getProductsBySubCategoryId );
+
+module.exports = router;

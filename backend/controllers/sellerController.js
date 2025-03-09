@@ -1,5 +1,5 @@
-const Seller = require("../models/Seller");
-const User = require("../models/User");
+const Seller = require("../models/sellerModel");
+const User = require("../models/userModels");
 const Profile = require("../models/profileModel")
 
 // Create a new seller profile
@@ -173,12 +173,3 @@ exports.viewStore = async (req, res, next) => {
   }
 };
 
-module.exports = {
-  createSeller,
-  getMyStore,
-  updateMyStore,
-  deleteMyStore,
-  adminVerifySeller,
-  adminDeleteSeller,
-  viewStore,
-}

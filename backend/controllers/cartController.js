@@ -118,10 +118,3 @@ exports.clearCart = async (req, res) => {
 };
 
 
-modules.export = {
-  getCart,
-  addToCart,
-  updateCartItem,
-  removeFromCart,
-  clearCart
-}

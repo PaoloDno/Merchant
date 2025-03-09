@@ -1,5 +1,5 @@
-const Category = require("../models/categoryModel");
-const SubCategory = require("../models/subCategoryModel");
+const Category = require("../models/categorySchema");
+const SubCategory = require("../models/subCategorySchema");
 const Product = require("../models/productModel");
 
 // create Category
@@ -164,15 +164,3 @@ exports.deleteSubCategory = async (req, res) => {
   }
 };
 
-module.exports = {
-  createCategory,
-  createSubCategory,
-  getProductByCategoryId,
-  getProductsBySubCategoryId,
-  getAllCategories,
-  getAllSubCategories,
-  updateCategory,
-  updateSubCategory,
-  deleteCategory,
-  deleteSubCategory
-}

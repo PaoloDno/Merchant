@@ -1,4 +1,4 @@
-const ProductReview = require("../models/productReviewModel");
+const ProductReview = require("../models/productReviewSchema");
 const Product = require("../models/productModel");
 const User = require("../models/userModels");
 
@@ -7,13 +7,17 @@ exports.createReview = async (req, res, next) => {
   try {
     const { productId, rating, comment } = req.body;
 
-    const {isVerified, isBanned} = req.user;
-    if(!isVerified || isBanned){
-      return res.status(404).json({ message: "User is not qualified for a review"});
-    } 
+    const { isVerified, isBanned } = req.user;
+    if (!isVerified || isBanned) {
+      return res
+        .status(404)
+        .json({ message: "User is not qualified for a review" });
+    }
 
     if (!productId || !rating) {
-      return res.status(400).json({ message: "Product ID and rating are required" });
+      return res
+        .status(400)
+        .json({ message: "Product ID and rating are required" });
     }
 
     const product = await Product.findById(productId);
@@ -48,11 +52,11 @@ exports.createReview = async (req, res, next) => {
     let avgRating = 0;
     if (totalRatings > 0) {
       const totalScore =
-        (1 * ratingMetrics["1star"]) +
-        (2 * ratingMetrics["2star"]) +
-        (3 * ratingMetrics["3star"]) +
-        (4 * ratingMetrics["4star"]) +
-        (5 * ratingMetrics["5star"]);
+        1 * ratingMetrics["1star"] +
+        2 * ratingMetrics["2star"] +
+        3 * ratingMetrics["3star"] +
+        4 * ratingMetrics["4star"] +
+        5 * ratingMetrics["5star"];
 
       avgRating = (totalScore / totalRatings).toFixed(1);
     }
@@ -60,12 +64,13 @@ exports.createReview = async (req, res, next) => {
     product.metrics.AverageRating = avgRating;
     await product.save();
 
-    res.status(201).json({ message: "Review added successfully", review: newReview });
+    res
+      .status(201)
+      .json({ message: "Review added successfully", review: newReview });
   } catch (error) {
     next(error);
   }
 };
-
 
 // Delete a Review and Update Rating
 exports.deleteReview = async (req, res, next) => {
@@ -79,7 +84,9 @@ exports.deleteReview = async (req, res, next) => {
 
     // Check if the logged-in user is the owner of the review
     if (review.userId.toString() !== req.user.id) {
-      return res.status(403).json({ message: "Unauthorized to delete this review" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this review" });
     }
 
     const product = await Product.findById(review.productId);
@@ -106,11 +113,11 @@ exports.deleteReview = async (req, res, next) => {
     let avgRating = 0;
     if (totalRatings > 0) {
       const totalScore =
-        (1 * ratingMetrics["1star"]) +
-        (2 * ratingMetrics["2star"]) +
-        (3 * ratingMetrics["3star"]) +
-        (4 * ratingMetrics["4star"]) +
-        (5 * ratingMetrics["5star"]);
+        1 * ratingMetrics["1star"] +
+        2 * ratingMetrics["2star"] +
+        3 * ratingMetrics["3star"] +
+        4 * ratingMetrics["4star"] +
+        5 * ratingMetrics["5star"];
 
       avgRating = (totalScore / totalRatings).toFixed(1);
     }
@@ -123,7 +130,6 @@ exports.deleteReview = async (req, res, next) => {
     next(error);
   }
 };
-
 
 // Get All Reviews for a Product
 exports.getReviewProduct = async (req, res) => {
@@ -155,4 +161,4 @@ exports.getReviewUser = async (req, res) => {
   }
 };
 
-module.exports = {};
+

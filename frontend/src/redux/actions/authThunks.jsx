@@ -53,7 +53,12 @@ export const logoutAction = createAsyncThunk('auth/logout', async () => {
 export const updateProfileAction = createAsyncThunk('auth/updateProfileAction', async (data, thunkAPI) => {
   try {
     console.log(data);
-    const response = await api.put('/user/profile', data);
+    const token = thunkAPI.getState().auth.token;
+    const response = await api.put('/user/profile', data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error){
     thunkAPI.dispatch(setError({

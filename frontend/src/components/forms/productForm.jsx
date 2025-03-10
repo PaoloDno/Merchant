@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
-import { createProduct } from "../../redux/actions/productThunks";
+import { createProductAction } from "../../redux/actions/productThunks";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
@@ -110,9 +110,9 @@ const ProductForm = () => {
       console.log(formData);
       
       try {
-        const resultAction = await dispatch(createProduct(formData));
+        const resultAction = await dispatch(createProductAction(formData));
   
-        if (createProduct.fulfilled.match(resultAction)) {
+        if (createProductAction.fulfilled.match(resultAction)) {
           console.log("Success:", resultAction);
         } else {
           console.error("Submission failed:", resultAction.error);

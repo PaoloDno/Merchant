@@ -105,7 +105,7 @@ const createProduct = [
       res.status(201).json({
         success: true,
         message: "Product created successfully",
-        product,
+        product, // to edit
       });
     } catch (error) {
       console.error("Error creating product:", error.message);

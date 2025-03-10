@@ -1,9 +1,9 @@
 const Seller = require("../models/sellerModel");
 const User = require("../models/userModels");
-const Profile = require("../models/profileModel")
+const Profile = require("../models/profileModel");
 
-// Create a new seller profile
-exports.createSeller = async (req, res, next) => {
+// Create a new store profile
+exports.createStore = async (req, res, next) => {
   try {
     const { storeName, storeDescription, contactEmail, contactPhone, address } = req.body;
 
@@ -13,12 +13,12 @@ exports.createSeller = async (req, res, next) => {
     }
 
     if (user.isBanned) {
-      return res.status(403).json({ message: "Your account is banned. You cannot create a seller profile." });
+      return res.status(403).json({ message: "Your account is banned. You cannot create a store profile." });
     }
 
-    const existingSeller = await Seller.findOne({ user: req.user.id });
-    if (existingSeller) {
-      return res.status(400).json({ message: "User already has a seller profile" });
+    const existingStore = await Seller.findOne({ userId: req.user.id });
+    if (existingStore) {
+      return res.status(400).json({ message: "User already has a store profile" });
     }
 
     const profile = await Profile.findOne({ userId: req.user.userId });
@@ -26,8 +26,8 @@ exports.createSeller = async (req, res, next) => {
       return res.status(404).json({ message: "User profile not found" });
     }
 
-    // Create a new seller profile
-    const seller = new Seller({
+    // Create a new store profile
+    const store = new Seller({
       userId: req.user.userId,
       storeName,
       storeDescription,
@@ -36,140 +36,136 @@ exports.createSeller = async (req, res, next) => {
       address,
     });
 
-    await seller.save();
+    await store.save();
 
-    // Update the user profile to include this seller ID
-    await Profile.findByIdAndUpdate(profile._id, { $push: { stores: seller._id } });
+    // Update the user profile to include this store ID
+    await Profile.findByIdAndUpdate(profile._id, { $push: { stores: store._id } });
 
-    res.status(201).json({ message: "Seller profile created successfully", seller });
+    res.status(201).json({ message: "Store profile created successfully", store });
   } catch (error) {
-    res.status(500).json({ message: "Error creating seller profile", error });
+    res.status(500).json({ message: "Error creating store profile", error });
     next(error);
   }
 };
 
-// Get seller details
+// Get store details
 exports.getMyStore = async (req, res, next) => {
   try {
-    const seller = await Seller.findOne({ userId: req.user.userId });
+    const store = await Seller.findOne({ userId: req.user.userId });
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller profile not found" });
+    if (!store) {
+      return res.status(404).json({ message: "Store profile not found" });
     }
 
-    res.json(seller);
+    res.status(200).json({
+      success: true,
+      message: "get Product successfully",
+      store,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching seller profile", error });
+    res.status(500).json({ success: true, message: "Error fetching store profile", error });
     next(error);
   }
 };
 
-// Update seller details
+// Update store details
 exports.updateMyStore = async (req, res, next) => {
   try {
-    const seller = await Seller.findOne({ user: req.user.userId });
+    const store = await Seller.findOne({ user: req.user.userId });
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller profile not found" });
+    if (!store) {
+      return res.status(404).json({ message: "Store profile not found" });
     }
 
     const { storeName, storeDescription, contactEmail, contactPhone, address } = req.body;
 
-    seller.storeName = storeName || seller.storeName;
-    seller.storeDescription = storeDescription || seller.storeDescription;
-    seller.contactEmail = contactEmail || seller.contactEmail;
-    seller.contactPhone = contactPhone || seller.contactPhone;
-    seller.address = address || seller.address;
+    store.storeName = storeName || store.storeName;
+    store.storeDescription = storeDescription || store.storeDescription;
+    store.contactEmail = contactEmail || store.contactEmail;
+    store.contactPhone = contactPhone || store.contactPhone;
+    store.address = address || store.address;
 
-    await seller.save();
-    res.status(200).json({ message: "Seller profile updated successfully", seller });
+    await store.save();
+    res.status(200).json({ message: "Store profile updated successfully", store });
   } catch (error) {
-    res.status(500).json({ message: "Error updating seller profile", error });
+    res.status(500).json({ message: "Error updating store profile", error });
     next(error);
   }
 };
 
-
-
-// Delete seller profile
+// Delete store profile
 exports.deleteMyStore = async (req, res, next) => {
   try {
     const { id } = req.params; // Store ID from request parameters
     const userId = req.user.userId; // Authenticated user's ID
 
-    // Find the seller profile by store ID and user ID
-    const seller = await Seller.findOne({ _id: id, userId: userId });
+    const store = await Seller.findOne({ _id: id, userId: userId });
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller profile not found or unauthorized to delete this store" });
+    if (!store) {
+      return res.status(404).json({ message: "Store profile not found or unauthorized to delete this store" });
     }
 
-    // Delete the seller profile
     await Seller.findByIdAndDelete(id);
 
-    res.status(200).json({ message: "Seller profile deleted successfully" });
+    res.status(200).json({ message: "Store profile deleted successfully" });
   } catch (error) {
-    console.error("Error deleting seller profile:", error.message);
-    res.status(500).json({ message: "Error deleting seller profile", error: error.message });
+    console.error("Error deleting store profile:", error.message);
+    res.status(500).json({ message: "Error deleting store profile", error: error.message });
     next(error);
   }
 };
 
-
-
-exports.adminVerifySeller = async (req, res, next) => {
+// Admin: Verify store
+exports.adminVerifyStore = async (req, res, next) => {
   try {
-    const seller = await Seller.findById(req.params.id);
+    const store = await Seller.findById(req.params.id);
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller profile not found" });
+    if (!store) {
+      return res.status(404).json({ message: "Store profile not found" });
     }
 
-    seller.verified = true; // Mark seller as verified
-    await seller.save();
+    store.isVerified = true;
+    await store.save();
 
-    res.status(200).json({ message: "Seller verified successfully", seller });
+    res.status(200).json({ message: "Store verified successfully", store });
   } catch (error) {
-    res.status(500).json({ message: "Error verifying seller", error });
+    res.status(500).json({ message: "Error verifying store", error });
     next(error);
   }
 };
 
-
-
-exports.adminDeleteSeller = async (req, res, next) => {
+// Admin: Delete store
+exports.adminDeleteStore = async (req, res, next) => {
   try {
-    const seller = await Seller.findById(req.params.id);
+    const store = await Seller.findById(req.params.id);
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller profile not found" });
+    if (!store) {
+      return res.status(404).json({ message: "Store profile not found" });
     }
 
-    // Delete seller profile
     await Seller.findByIdAndDelete(req.params.id);
 
-    // Ban user associated with the seller
-    await User.findByIdAndUpdate(seller.userId, { isBanned: true });
+    await User.findByIdAndUpdate(store.userId, { isBanned: true });
 
-    res.status(200).json({ message: "Seller deleted successfully" });
+    res.status(200).json({ message: "Store deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting seller", error });
+    res.status(500).json({ message: "Error deleting store", error });
     next(error);
   }
 };
 
+// View store details
 exports.viewStore = async (req, res, next) => {
   try {
-    const seller = await Seller.findById(req.params.id);
+    const store = await Seller.findById(req.params.id);
 
-    if (!seller) {
-      return res.status(404).json({ message: "Seller not found" });
+    if (!store) {
+      return res.status(404).json({ message: "Store not found" });
     }
 
-    res.status(200).json(seller);
+    res.status(200).json(store);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching seller details", error });
+    res.status(500).json({ message: "Error fetching store details", error });
     next(error);
   }
 };
-

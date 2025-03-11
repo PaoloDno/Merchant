@@ -11,7 +11,10 @@ exports.getCart = async (req, res, next) => {
       return res.status(200).json({ message: "Cart is empty", items: [], totalPrice: 0 });
     }
 
-    res.status(200).json(cart);
+    res.status(200).json({
+      success: true,
+      message: "Product created successfully",
+      cart});
   } catch (error) {
     res.status(500).json({ message: "Error fetching cart", error: error.message });
     next(error);
@@ -31,7 +34,7 @@ exports.addToCart = async (req, res, next) => {
       return res.status(404).json({ message: "Product not found" });
     }
 
-    let cart = await Cart.findOne({ userId: req.user.id });
+    let cart = await Cart.findOne({ userId: req.user.userId });
 
     if (!cart) {
       cart = new Cart({ userId: req.user.id, items: [] });
@@ -50,7 +53,11 @@ exports.addToCart = async (req, res, next) => {
     cart.calculateTotalPrice();
     await cart.save();
 
-    res.status(200).json(cart);
+    res.status(200).json({
+      success: true,
+      message: "Product created successfully",
+      cart
+    });
   } catch (error) {
     next(error);
   }
@@ -76,7 +83,11 @@ exports.updateCartItem = async (req, res, next) => {
     cart.calculateTotalPrice();
     await cart.save();
 
-    res.status(200).json(cart);
+    res.status(200).json({
+      success: true,
+      message: "Product created successfully",
+      cart
+    });
   } catch (error) {
     next(error);
   }
@@ -95,7 +106,11 @@ exports.removeFromCart = async (req, res, next) => {
     cart.calculateTotalPrice();
     await cart.save();
 
-    res.status(200).json(cart);
+    res.status(200).json({
+      success: true,
+      message: "Product created successfully",
+      cart
+    });
   } catch (error) {
     next(error);
   }
@@ -111,7 +126,9 @@ exports.clearCart = async (req, res) => {
     cart.totalPrice = 0;
     await cart.save();
 
-    res.status(200).json({ message: "Cart cleared successfully" });
+    res.status(200).json({ 
+      success: true,
+      message: "Cart cleared successfully" });
   } catch (error) {
     next(error);
   }

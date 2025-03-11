@@ -10,15 +10,17 @@ const { createCategory, createSubCategory, updateCategory, updateSubCategory,
       } = require("../controllers/categoryController");
 
 router.post("/", authMiddleware, adminMiddleware, createCategory),
-router.post("/sub", authMiddleware, adminMiddleware, createSubCategory );
 router.put("/:id", authMiddleware, adminMiddleware, updateCategory),
-router.put("/sub/:id", authMiddleware, adminMiddleware, updateSubCategory );
 router.delete("/:id", authMiddleware, adminMiddleware, deleteCategory),
+
+//sub
+router.post("/sub", authMiddleware, adminMiddleware, createSubCategory );
+router.put("/sub/:id", authMiddleware, adminMiddleware, updateSubCategory );
 router.delete("/sub/:id", authMiddleware, adminMiddleware, deleteSubCategory );
 
-
-router.get("/:id", authMiddleware, adminMiddleware, getAllCategories),
-router.get("/sub/:id", authMiddleware, adminMiddleware, getAllSubCategories);
+//getall
+router.get("/all", authMiddleware, adminMiddleware, getAllCategories),
+router.get("/sub/all", authMiddleware, adminMiddleware, getAllSubCategories);
 
 //get Product
 router.get("/products/:id", authMiddleware, adminMiddleware, getProductByCategoryId),

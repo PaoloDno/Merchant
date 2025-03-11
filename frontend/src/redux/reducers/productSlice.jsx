@@ -26,6 +26,7 @@ const productSlice = createSlice({
       .addCase(createProductAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products.push(action.payload);
+        state.product = action.payload.product;
       })
 
       // FETCH SINGLE PRODUCT

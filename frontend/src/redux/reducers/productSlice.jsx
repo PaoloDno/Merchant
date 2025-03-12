@@ -1,5 +1,17 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { createProductAction, getProductByIdAction, updateProductByIdAction, deleteProductByIdAction } from "../actions/productThunks";
+import {
+  createProductAction,
+  getProductByIdAction,
+  updateProductByIdAction,
+  deleteProductByIdAction,
+} from "../actions/productThunks";
+
+import {
+  getHotProductsActions,
+  getProductsByCategoryActions,
+  getNewProductsActions,
+  getRandomProductsActions,
+} from "../actions/getProductThunks";
 
 const initialState = {
   products: [],
@@ -18,7 +30,7 @@ const productSlice = createSlice({
     },
     clearError: (state) => {
       state.error = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -38,7 +50,9 @@ const productSlice = createSlice({
       // UPDATE PRODUCT
       .addCase(updateProductByIdAction.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.products.findIndex((p) => p._id === action.payload._id);
+        const index = state.products.findIndex(
+          (p) => p._id === action.payload._id
+        );
         if (index !== -1) {
           state.products[index] = action.payload;
         }
@@ -50,17 +64,61 @@ const productSlice = createSlice({
         state.products = state.products.filter((p) => p._id !== action.payload);
       })
 
-      // Matchers for Pending and Rejected
-      .addMatcher(isPending(createProductAction, getProductByIdAction, updateProductByIdAction, deleteProductByIdAction), (state) => {
-        state.isLoading = true;
-        state.error = null;
+      .addCase(getHotProductsActions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
+      })
+      
+      .addCase(getProductsByCategoryActions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
+      })
+      
+      .addCase(getNewProductsActions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
+      })
+      
+      .addCase(getRandomProductsActions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
       })
 
-      .addMatcher(isRejected(createProductAction, getProductByIdAction, updateProductByIdAction, deleteProductByIdAction), (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-  }
+      // Matchers for Pending and Rejected
+      .addMatcher(
+        isPending(
+          createProductAction,
+          getProductByIdAction,
+          updateProductByIdAction,
+          deleteProductByIdAction,
+          getHotProductsActions,
+          getProductsByCategoryActions,
+          getNewProductsActions,
+          getRandomProductsActions,
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      )
+
+      .addMatcher(
+        isRejected(
+          createProductAction,
+          getProductByIdAction,
+          updateProductByIdAction,
+          deleteProductByIdAction,
+          getHotProductsActions,
+          getProductsByCategoryActions,
+          getNewProductsActions,
+          getRandomProductsActions,
+        ),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload;
+        }
+      );
+  },
 });
 
 export const { clearProduct, clearError } = productSlice.actions;

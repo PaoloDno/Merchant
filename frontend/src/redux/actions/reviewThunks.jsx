@@ -1,14 +1,15 @@
+//product
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../features/api";
 import { setError } from "../reducers/errorSlice";
 
-export const createProductAction = createAsyncThunk(
-  "product/createProduct",
-  async (productData, thunkAPI) => {
-    // thunkAPI can be destructured
+
+export const createReviewAction = createAsyncThunk(
+  "review/createReviewAction",
+  async (reviewData, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.post(`/product/`, productData, {
+      const response = await api.post(`/product/review`, reviewData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -22,16 +23,14 @@ export const createProductAction = createAsyncThunk(
       }));
       return thunkAPI.rejectWithValue(error.response?.data);
     }
-  }
-);
+});
 
-export const getProductByIdAction = createAsyncThunk(
-  "product/getProductById",
-  async ( productId, { thunkAPI }) => {
-    // thunkAPI can be destructured
+export const deleteReviewAction = createAsyncThunk(
+  "review/deleteReviewAction",
+  async ( _ , thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.get(`/product/${productId}`, {
+      const response = await api.delete(`/product/review`, productData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -40,22 +39,19 @@ export const getProductByIdAction = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(
         setError({
-          message: error.response?.data?.message || "An error occured",
+          message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
-  }
-);
+      }));
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }  
+});
 
-export const updateProductByIdAction = createAsyncThunk(
-  "product/updateProductById",
-  async ( productId, productData, { thunkAPI }) => {
-    // thunkAPI can be destructured
+export const getReviewProductAction = createAsyncThunk(
+  "review/getReviewProductAction",
+  async ( productId , thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.put(`/product/${productId}`, productData, {
+      const response = await api.get(`/product/review/${productId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -64,22 +60,19 @@ export const updateProductByIdAction = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(
         setError({
-          message: error.response?.data?.message || "An error occured",
+          message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      }));
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
-  }
-);
+});
 
-export const deleteProductByIdAction = createAsyncThunk(
-  "product/deleteProductById",
-  async ( productId, { thunkAPI }) => {
-    // thunkAPI can be destructured
+export const getReviewUserAction = createAsyncThunk(
+  "review/getReviewProduct",
+  async ( _ , thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.delete(`/product/${productId}`, {
+      const response = await api.get(`/product/review/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -88,14 +81,9 @@ export const deleteProductByIdAction = createAsyncThunk(
     } catch (error) {
       thunkAPI.dispatch(
         setError({
-          message: error.response?.data?.message || "An error occured",
+          message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
+      }));
+      return thunkAPI.rejectWithValue(error.response?.data);
     }
-  }
-);
-
-
-
+});

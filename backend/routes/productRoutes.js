@@ -46,7 +46,7 @@ router.get("/random/", getRandomProducts);
 router.post("/review", authMiddleware, createReview);
 router.delete("/review", authMiddleware, deleteReview);
 router.get("/review/user", authMiddleware, getReviewUser);
-router.get("/review/product", authMiddleware, getReviewProduct);
+router.get("/review/product/:id", authMiddleware, getReviewProduct);
 
 
 module.exports = router;

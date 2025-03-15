@@ -5,6 +5,8 @@ import themeReducer from "./reducers/themeSlice";
 import productReducer from "./reducers/productSlice";
 import storeReducer from "./reducers/storeSlice";
 import cartReducer from "./reducers/cartSlice";
+import reviewReducer from "./reducers/reviewSlice";
+import orderReducer from "./reducers/orderSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +16,8 @@ const store = configureStore({
     store: storeReducer,
     product: productReducer,
     cart: cartReducer,
+    review: reviewReducer,
+    orderReducer: orderReducer
   },
 });
 

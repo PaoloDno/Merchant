@@ -29,19 +29,21 @@ export default {
       },      
       textColor: {
         skin: {
-          primary: withOpacity('--color-text-primary'),  // Apply opacity to primary text color
-          secondary: withOpacity('--color-text-secondary'), // Apply opacity to secondary text color
-          button: withOpacity('--color-text-button'),     // Apply opacity to button text color
-          'high': withOpacity('--color-fill-high')
+          primary: withOpacity('--color-text'),  // Apply opacity to primary text color
+          secondary: withOpacity('--color-text-inverted'), // Apply opacity to secondary text color
         },
       },
       backgroundColor: {
         skin: {
-          primary: withOpacity('--color-fill-primary'),    // Apply opacity to primary background color
-          secondary: withOpacity('--color-fill-secondary'), // Apply opacity to secondary background color
-          high: withOpacity('--color-fill-high'),           // Apply opacity to high emphasis background color
+          primary: withOpacity('--color-primary'),    // Apply opacity to primary background color
+          secondary: withOpacity('--color-secondary'), // Apply opacity to secondary background color
+          high: withOpacity('--color-fill-inverted'),           // Apply opacity to high emphasis background color
+          'fill-1': withOpacity('--color-fill-1'), 
+          'fill-2': withOpacity('--color-fill-2'),
+          'fill-3': withOpacity('--color-fill-3'),
           'button-primary': withOpacity('--color-button-primary'), // Apply opacity to primary button background
           'button-secondary': withOpacity('--color-button-secondary'), // Apply opacity to secondary button background
+          'back': withOpacity('--colorback'),
         },
       },
       borderColor: {
@@ -52,8 +54,8 @@ export default {
       },
       gradientColorStops: {
         skin: {
-          start: withOpacity('--color-fill-primary'),     // Apply opacity to gradient start color
-          end: withOpacity('--color-fill-high'),          // Apply opacity to gradient end color
+          start: withOpacity('--color-fill-1'),     // Apply opacity to gradient start color
+          end: withOpacity('--color-fill-3'),          // Apply opacity to gradient end color
         },
       },
       fontFamily: {

@@ -12,3 +12,15 @@ app.use('/commerce/store', storeRoutes);
 app.use('/commerce/category', categoryRoutes);
 app.use('/commerce/cart', cartRoutes);
 app.use('/commerce/check', checkOutRoutes);
+
+
+login or singup
+
+// profile
+
+// setup STore
+
+// sell - create product
+
+
+

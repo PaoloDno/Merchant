@@ -1,71 +1,83 @@
 import React, { useState } from "react";
 import { VscAccount } from "react-icons/vsc";
 import { useSelector, useDispatch } from "react-redux";
-import {logoutAction} from '../../redux/actions/authThunks'
+import { logoutAction } from "../../redux/actions/authThunks";
 
 import { Link, useNavigate } from "react-router-dom"; // Ensure React Router is set up for navigation
 
-const UserPopUp = () => {
-
+const UserPopUp = ({closePopups}) => {
   const dispatch = useDispatch();
-  const {isAuthenticated, user, profile  } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
   const [User, setUser] = useState(user || {});
-  const [Profile, setProfile] = useState(profile || {});
   const navigate = useNavigate();
+
+  const profileLinks = isAuthenticated
+    ? [
+        ["Profile", "/profile"],
+        ["Cart", "/"],
+        ["Deliveries", "/"],
+        ["Store", "/"],
+      ]
+    : [
+        ["Login", "/login"],
+        ["Signup", "/signup"],
+      ];
+
   const handleLogout = () => {
     dispatch(logoutAction());
-    navigate('/')
-  }
-  console.log(User, Profile)
-
-  const profileLinks = isAuthenticated ? [
-      ["Profile", "/profile"],
-      ["Cart", "/"],
-      ["Deliveries", "/"],
-      ["Store", "/"],
-  ] : [
-      ["Login", "/login"],
-      ["Signup", "/signup"],
-  ];
-
+    closePopups();
+    navigate("/");
+  };
 
   return (
     <div
-    className={`animate-opacityAnimation flex flex-col items-center
-     justify-between w-full h-[75vh] bg-skin-primmary box-border
-     text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4 text-style4a md:text-style3`}
-  >
-    <div className="flex flex-col w-full bg-white text-black h-full p-2 rounded-md">
-    <h2 className="text-style4 md:text-style3 font-semibold my-4 w-full flex flex-row items-center space-x-2">
-      <VscAccount className="text-style3a md:text-style3b" />
-      <span className="text-style4a md:text-style3a">
-        {!User.username ? "Login or Sign Up" : User.username}
-      </span>
-    </h2>
+      className={`animate-opacityAnimation flex flex-col items-center
+      justify-center w-full h-[90vh] box-border border border-2px border-skin-primary p-2
+      pb-4 px-3 rounded-b-lg rounded-t-xl
+      mb-4 text-style4a md:text-style3`}
+    >
+      <div className="flex flex-col w-full bg-skin-fill-3 text-skin-secondary
+       h-full px-5 rounded-md relative">
+        <h2 className="text-style4 md:text-style3 font-semibold my-4 w-full
+         flex flex-row items-center space-x-2">
+          <span className="text-style4a md:text-style3a w-full h-full">
+            {!User.username ?
+             <div className="flex flex-col justify-center items-center w-full">
+              <VscAccount className="text-style2 md:text-style1 m-[2rem] mt-[4rem]" />
+              User not logged in
+            </div> 
+             : 
+             <span className="flex flex-row items-center">
+              <VscAccount className="text-style3a md:text-style3b mr-[1rem]" />
+              {User.username}
+              </span> }
+          </span>
+        </h2>
 
-      <div className="flex flex-col w-full space-y-4">
-        {profileLinks.map(([label, path], index) => (
-          <Link 
-            to={path} 
-            key={index} 
-            className="bg-slate-950 text-white text-style4a md:text-style3 px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
-          >
-            {label}
-          </Link>
-        ))}
+        <div className="flex flex-col w-full space-y-5 my-2 justify-center">
+          {profileLinks.map(([label, path], index) => (
+            <Link
+              to={path}
+              key={index}
+              onClick={closePopups}
+              className="bg-skin-primary text-skin-primary text-style4a md:text-style3 p-3 box-content 
+              rounded-md text-center font-semibold hover:bg-skin-secondary items-center hover:scale-y-110"
+            >
+              {label}
+            </Link>
+          ))}
 
-        {/* Logout Button */}
-        {isAuthenticated && (
-          <button 
-            onClick={handleLogout} 
-            className="bg-skin-secondary text-skin-primary px-4 py-4 rounded-md text-center font-semibold hover:bg-skin-secondary-hover"
-          >
-            Logout
-          </button>
-        )}
-
-      </div>
-      
+          {/* Logout Button */}
+          {isAuthenticated && (
+            <button
+              onClick={handleLogout}
+              className="bg-skin-fill-1 text-skin-primary px-4 py-4 rounded-md text-center
+              font-semibold hover:bg-skin-secondary hover:scale-y-110"
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   createProductAction,
   getProductByIdAction,
@@ -64,21 +64,19 @@ const productSlice = createSlice({
         state.products = state.products.filter((p) => p._id !== action.payload);
       })
 
+      // Fetch Product Lists
       .addCase(getHotProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
       })
-      
       .addCase(getProductsByCategoryActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
       })
-      
       .addCase(getNewProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
       })
-      
       .addCase(getRandomProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
@@ -86,36 +84,17 @@ const productSlice = createSlice({
 
       // Matchers for Pending and Rejected
       .addMatcher(
-        isPending(
-          createProductAction,
-          getProductByIdAction,
-          updateProductByIdAction,
-          deleteProductByIdAction,
-          getHotProductsActions,
-          getProductsByCategoryActions,
-          getNewProductsActions,
-          getRandomProductsActions,
-        ),
+        (action) => action.type.endsWith('/pending'),
         (state) => {
           state.isLoading = true;
           state.error = null;
         }
       )
-
       .addMatcher(
-        isRejected(
-          createProductAction,
-          getProductByIdAction,
-          updateProductByIdAction,
-          deleteProductByIdAction,
-          getHotProductsActions,
-          getProductsByCategoryActions,
-          getNewProductsActions,
-          getRandomProductsActions,
-        ),
+        (action) => action.type.endsWith('/rejected'),
         (state, action) => {
           state.isLoading = false;
-          state.error = action.payload;
+          state.error = action.error?.message || "Something went wrong";
         }
       );
   },

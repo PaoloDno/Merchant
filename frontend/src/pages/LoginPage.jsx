@@ -4,7 +4,8 @@ import backgroundVideo from "./../assets/a.mp4";
 
 const LoginPage = () => {
   return (
-    <div className="relative flex items-center justify-center min-h-screen w-full overflow-hidden">
+    <div className="relative flex items-center justify-center
+    min-h-screen w-full overflow-hidden">
       {/* Background Video */}
       <video
         src={backgroundVideo}

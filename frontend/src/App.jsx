@@ -14,14 +14,16 @@ function App() {
   return (
     <Router>
       <ThemeWrapper>
-      <div className="flex flex-col min-h-screen min-w-screen justify-center overflow-hidden" >
+      <div className="flex flex-col min-h-screen min-w-screen
+      justify-center overflow-hidden" >
         
         <header className="w-full" >
           <Headerbar />
         </header>
         <ErrorAlert className="w-full" />
         
-        <main className="w-full min-w-screen bg-green-300 flex items-center justify-center" >
+        <main className="w-full min-w-screen bg-skin-back flex items-center
+        justify-center" >
           <AppRoutes />
         </main>
         <footer className="w-full" >

@@ -32,8 +32,33 @@ const reviewSlice = createSlice({
       .addCase(getReviewUserAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.reviews = action.payload.reviews;
-      });
+      })
+
+      .addMatcher(
+        isPending(
+          createReviewAction,
+          deleteReviewAction,
+          getReviewProductAction,
+          getReviewUserAction
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      )
+      .addMatcher(
+        isRejected(
+          createReviewAction,
+          deleteReviewAction,
+          getReviewProductAction,
+          getReviewUserAction
+        ),
+        (state) => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      );
   },
 });
 
-export default reviewSlice.reducer
+export default reviewSlice.reducer;

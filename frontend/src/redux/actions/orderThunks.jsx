@@ -1,80 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../features/api";
-import { setError} from "../reducers/errorSlice";
+import { setError } from "../reducers/errorSlice";
 
-export const getHotProductsActions = createAsyncThunk(
-  "product/getHotProductsActions",
-  async (_ , thunkAPI) => {
+export const processOrderAction = createAsyncThunk(
+  "order/processOrderAction",
+  async (orderData, thunkAPi) => {
     try {
-      console.log("get hor products");
-      const response = await api.get("/product/hot", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      thunkAPI.dispatch(
-        setError({
-          message: error.response?.data?.message || "An error occured",
-          status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }
-});
-
-export const getProductsByCategoryActions = createAsyncThunk(
-  "product/getProductsByCategoryActions",
-  async ( categoryId, thunkAPI) => {
-    try {
-      console.log("get hor products");
-      const response = await api.get(`/product/category/${categoryId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      thunkAPI.dispatch(
-        setError({
-          message: error.response?.data?.message || "An error occured",
-          status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }  
-});
-
-
-export const getNewProductsActions = createAsyncThunk(
-  "product/getNewProductsActions",
-  async ( _ , thunkAPI) => {
-    try {
-      console.log("get new products");
-      const response = await api.get(`/product/new`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      thunkAPI.dispatch(
-        setError({
-          message: error.response?.data?.message || "An error occured",
-          status: error.response?.status,
-        })
-      );
-      return thunkAPI.rejectWithValue(error.response.data.message);
-    }  
-});
-
-export const getRandomProductsActions = createAsyncThunk(
-  "product/getRandomProductsActions",
-  async( _ , thunkAPI) => {
-    try {
-      console.log("get random products");
-      const response = await api.get(`/product/new`, {
+      console.log(orderData);
+      const token = thunkAPI.getState().auth.token;
+      const response = await api.post("/check/checkout", categoryData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -90,4 +24,74 @@ export const getRandomProductsActions = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.response.data.message);
     }
   }
-)
+);
+
+export const getOrderHistoryUserAction = createAsyncThunk(
+  "order/getOrderHistoryUserAction",
+  async ( _ , thunkAPI) => {
+    try {
+      console.log(categoryData);
+      const token = thunkAPI.getState().auth.token;
+      const response = await api.get("/check/", categoryData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        setError({
+          message: error.response?.data?.message || "An error occured",
+          status: error.response?.status,
+        })
+      );
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+});
+
+export const getOrderByIdAction = createAsyncThunk(
+  "order/getOrderByIdAction",
+  async (orderId, thunkAPI) => {
+    try {
+      console.log(categoryData);
+      const token = thunkAPI.getState().auth.token;
+      const response = await api.get(`/check/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        setError({
+          message: error.response?.data?.message || "An error occured",
+          status: error.response?.status,
+        })
+      );
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    } 
+});
+
+export const getAllOrderAction = createAsyncThunk(
+  "order/getAllOrderAction",
+  async ( _ , thunkAPI) => {
+    try {
+      console.log(categoryData);
+      const token = thunkAPI.getState().auth.token;
+      const response = await api.get(`/check/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        setError({
+          message: error.response?.data?.message || "An error occured",
+          status: error.response?.status,
+        })
+      );
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    } 
+});
+

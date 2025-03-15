@@ -5,7 +5,7 @@ import LandingPage from "../pages/LandingPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
-import UserProfilePage from "../pages/UserProfile";
+import UserProfilePage from "../pages/ProfilePages/ProfileDisplayPage";
 import AboutPage from "../pages/AboutPage";
 
 //test

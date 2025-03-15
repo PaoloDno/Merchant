@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { VscSearch } from "react-icons/vsc";
 
-const SearchBarPopUp = ({ isOpened }) => {
+const SearchBarPopUp = ({ closePopups }) => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -9,12 +9,12 @@ const SearchBarPopUp = ({ isOpened }) => {
     <div
       className={`animate-opacityAnimation flex flex-col items-center
        justify-between w-full h-[75vh] bg-skin-primmary box-border
-       text-skin-primary py-2 px-2 rounded-b-lg rounded-t-xl mb-4 text-style4a md:text-style3`}
+       text-skin-primary md:py-2 md:px-2 rounded-b-lg rounded-t-xl mb-4 text-style4a md:text-style3`}
     >
       <div className="flex flex-col w-full bg-white text-black h-full p-2 rounded-md">
       <h2 className="text-style4 md:text-style3 font-semibold my-4 w-full flex flex-row items-center space-x-2">
         <VscSearch className="text-style3a md:text-style3b" />
-        <span className="text-style4a md:text-style3a">Search Bar</span>
+        <span className="text-style4a md:text-style3a">Search Products</span>
       </h2>
 
       {/* Search Bar Section */}

@@ -17,7 +17,7 @@
     --color-fill-3: rgb(231, 251, 255);
     --color-fill-inverted: rgb(246, 146, 47);
 
-    --color-button-primary: rgb(167, 227, 255);
+    --color-button-primary: rgb(8, 24, 58);
     --color-button-secondary: rgb(239, 249, 253);
   }
 
@@ -34,11 +34,11 @@
 
     --color-button-primary: rgb(250, 255, 255);
     --color-button-secondary: rgb(11, 38, 48);
-    --colorback: #000;
-    --colorback: #000;
-    --colorback: #000;
-    --colorback: #000;
-    --colorback: #000;
+    --colorback: rgb(24, 20, 20);
+    --colorback: rgb(223, 250, 252);
+    --colorback: rgb(226, 178, 90); /*coffee */
+    --colorback: rgb(112, 64, 64); /*coffee */
+    --colorback: #151933;
   
   }
 

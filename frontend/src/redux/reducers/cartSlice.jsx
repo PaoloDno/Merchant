@@ -6,6 +6,9 @@ import {
   removeFromCartAction,
   clearCartAction,
 } from "../actions/cartThunks";
+import {
+  displayUserAction
+} from "../actions/authThunks";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -37,6 +40,10 @@ const cartSlice = createSlice({
         state.isLoading = false;
         state.cart = null;
       })
+      .addCase(displayUserAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.cart = action.payload.cart;
+      })
 
       // Matchers for Pending and Rejected
       .addMatcher(isPending(
@@ -59,7 +66,7 @@ const cartSlice = createSlice({
         ),
         (state, action) => {
           state.isLoading = false;
-          state.error = action.payload;
+          state.error = action.payload || "Something went wrong but this code dont know";
       });
   },
 });

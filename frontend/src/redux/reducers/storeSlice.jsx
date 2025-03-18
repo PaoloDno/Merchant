@@ -9,14 +9,23 @@ import {
   adminDeleteSellerAction,
 } from "../actions/storeThunks";
 
+import {
+  displayUserAction
+} from "../actions/authThunks";
+
 const storeSlice = createSlice({
   name: "store",
   initialState: {
     isLoading: false,
+    stores: [],
     error: null,
     store: null,
   },
-  reducers: {},
+  reducers: {
+    setStore(state, action) {
+      state.store = action.payload.store;
+    }
+  },
   extraReducers: (builder) => {
     builder
       //createStore
@@ -110,6 +119,15 @@ const storeSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
+      .addCase(displayUserAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.stores = action.payload.stores || []; // Save the whole array to `stores`
+        state.store = state.stores[0] || null; // Optionally set the first store as the `store`
+        state.error = null;
+    
+        console.log("All Stores:", state.stores);
+        console.log("First Store (for convenience):", state.store);
+      })
       .addMatcher(
         isAnyOf(
           createStoreAction.pending,
@@ -143,4 +161,5 @@ const storeSlice = createSlice({
   },
 });
 
+export const {setStore} = storeSlice.actions
 export default storeSlice.reducer;

@@ -162,9 +162,8 @@ const Header = () => {
         ${activePopUp ? "fixed" : "hidden"} flex flex-col
         top-0 right-0 z-30 h-[98vh] w-5/6 lg:w-2/5 bg-opacity-90
         bg-slate-100 p-[0.5rem] pr-[0.25rem] box-border rounded-sm
-        transition-transform transform ${
-          activePopUp ? "translate-x-0" : "translate-x-full"
-        }
+        transition-transform transform
+        ${ activePopUp ? "translate-x-0" : "translate-x-full" }
       `}
       >
         <div className="flex items-center justify-between m-1 flex-row">

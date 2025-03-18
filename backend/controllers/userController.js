@@ -290,34 +290,40 @@ const updateAddress = async (req, res, next) => {
 const DisplayUser = async (req, res, next) => {
   try {
     let userId = req.user.userId;
+    console.log("user", userId);
 
-    // Find the user's profile
-    let profile = await Profile.findOne({ userId: userId });
+    // Find the user's profile and populate related data
+    let profile = await Profile.findOne({ userId: userId })
+      .populate('addressId')
+      .populate('cartId')
+      .populate('stores')
+      .populate('orderHistoryId')
+      .populate('userReviews');
+
     if (!profile) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Profile not found" });
+      return res.status(404).json({ success: false, message: "Profile not found" });
     }
 
-    if (!profile.addressId) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Address ID not found in profile" });
-    }
+    // Extract the related data from the populated profile
+    const address = profile.addressId || null;
+    const cart = profile.cartId || null;
+    const stores = profile.stores || [];
+    const orderHistory = profile.orderHistoryId || null;
+    const userReviews = profile.userReviews || [];
 
-    // Fetch the address using the stored addressId
-    let address = await Address.findById(profile.addressId);
-    if (!address) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Address not found" });
-    }
-
-    res.status(200).json({ success: true, profile, address });
+    console.log({ success: true, profile, address, cart, stores, orderHistory, userReviews });
+    res.status(200).json({ 
+      success: true, 
+      profile, 
+      address, 
+      cart, 
+      stores,
+      orderHistory,
+      userReviews
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server error", error: error.message });
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
+    next(error);
   }
 };
 

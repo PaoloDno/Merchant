@@ -73,7 +73,13 @@ export const updateProfileAction = createAsyncThunk('auth/updateProfileAction', 
 export const updateAddressAction = createAsyncThunk('auth/updateAddressAction', async (data, thunkAPI) => {
   try {
     console.log(data);
-    const response = await api.put('/user/address', data);
+    console.log(data);
+    const token = thunkAPI.getState().auth.token;
+    const response = await api.put('/user/address', data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error){
     thunkAPI.dispatch(setError({
@@ -86,8 +92,13 @@ export const updateAddressAction = createAsyncThunk('auth/updateAddressAction', 
 
 export const displayUserAction = createAsyncThunk('auth/displayUserAction', async (data, thunkAPI) => {
   try {
-    console.log(data);
-    const response = await api.get('/user/', data);
+    const token = thunkAPI.getState().auth.token;
+    const response = await api.get('/user/', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
     return response.data;
   } catch (error){
     thunkAPI.dispatch(setError({

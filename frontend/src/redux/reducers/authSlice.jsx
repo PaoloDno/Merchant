@@ -42,7 +42,6 @@ const authSlice = createSlice({
         state.profile = action.payload.profile;
         state.address = action.payload.address;
         state.isLoading = false;
-        console.log(state.payload);
       })
       .addCase(loginAction.rejected, (state, action) => {
         state.isLoading = false;
@@ -59,7 +58,6 @@ const authSlice = createSlice({
         state.profile = action.payload.profile;
         state.address = action.payload.address;
         state.isLoading = false;
-        console.log(state.user, state.token);
       })
       .addCase(registerAction.rejected, (state, action) => {
         state.isLoading = false;
@@ -74,7 +72,7 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateAddressAction.fulfilled, (state) => {
+      .addCase(updateAddressAction.fulfilled, (state, action) => {
         state.address = action.payload.address;
       })
       .addCase(updateAddressAction.rejected, (state) => {
@@ -85,10 +83,10 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateProfileAction.fulfilled, (state) => {
+      .addCase(updateProfileAction.fulfilled, (state, action) => {
         state.profile = action.payload.profile;
       })
-      .addCase(updateProfileAction.rejected, (state) => {
+      .addCase(updateProfileAction.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -96,8 +94,10 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(displayUserAction.fulfilled, (state) => {
+      .addCase(displayUserAction.fulfilled, (state,action) => {
+        state.isLoading = false;
         state.profile = action.payload.profile;
+        state.address = action.payload.address;
       })
       .addCase(displayUserAction.rejected, (state) => {
         state.isLoading = false;

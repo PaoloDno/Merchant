@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./components/appRoutes";
+import AppRoutes from "./redux/features/appRoutes";
 import Headerbar from "./components/header";
 import Footer from "./components/footer";
 //error handling

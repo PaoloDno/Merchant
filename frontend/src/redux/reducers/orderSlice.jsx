@@ -6,6 +6,10 @@ import {
   getAllOrderAction,
 } from "../actions/orderThunks";
 
+import{
+  displayUserAction
+} from "../actions/authThunks"
+
 const orderSlice = createSlice({
   name: "order",
   initialState: {
@@ -32,6 +36,9 @@ const orderSlice = createSlice({
       .addCase(getAllOrderAction.fulfilled, (state, action) => {
         state.orders = action.payload.orders;
         state.isLoading = false;
+      })
+      .addCase(displayUserAction.fulfilled, (state, action) => {
+        state.orders = action.payload.orders;
       })
 
       .addMatcher(

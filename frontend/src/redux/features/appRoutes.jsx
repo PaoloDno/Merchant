@@ -1,16 +1,16 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import LandingPage from "../pages/LandingPage";
-import HomePage from "../pages/HomePage";
-import LoginPage from "../pages/LoginPage";
-import SignUpPage from "../pages/SignUpPage";
-import UserProfilePage from "../pages/ProfilePages/ProfileDisplayPage";
-import AboutPage from "../pages/AboutPage";
+import LandingPage from "../../pages/LandingPage";
+import HomePage from "../../pages/HomePage";
+import LoginPage from "../../pages/LoginPage";
+import SignUpPage from "../../pages/SignUpPage";
+import UserProfilePage from "../../pages/ProfilePages/ProfileDisplayPage";
+import AboutPage from "../../pages/AboutPage";
 
 //test
-import AddProductPage from "../pages/AddProduct";
-import AddSellerPage from "../pages/AddStorePage"
+import AddProductPage from "../../pages/AddProduct";
+import AddSellerPage from "../../pages/AddStorePage"
 
 const AppRoutes = () =>{
 

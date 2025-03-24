@@ -42,32 +42,38 @@ const createProduct = [
         categoryDetails.subCategory = [categoryDetails.subCategory]; // Convert to array
       }
 
-      // Find Category and Find/Create Sub Cateogries
+      // Find Category and Find Sub Cateogries
       let category = await Category.findOne({ name: categoryDetails.category });
       if (!category) {
         console.log("Category Error:", categoryDetails.category);
         return res
           .status(403)
-          .json({ success: false, message: "Category Dont Exist" });
+          .json({ success: false, message: "Category Don't Exist" });
       }
       category.products += 1;
       await category.save();
       categoryDetails.categoryId = category._id;
 
-      // Find or Create Subcategories
+      // Find Subcategories (No creation, only finding)
       const subCategoryIds = [];
       for (const subCategoryName of categoryDetails.subCategory) {
-        let subCategory = await SubCategory.findOne({ name: subCategoryName });
+        const subCategory = await SubCategory.findOne({
+          name: subCategoryName // Ensure the subcategory belongs to the correct category
+        });
+
         if (!subCategory) {
-          subCategory = new SubCategory({
-            name: subCategoryName,
-            categoryId: category._id,
-          });
-          await subCategory.save();
-        } else if (subCategory) {
-          subCategory.products += 1;
-          await subCategory.save();
+          console.log("Subcategory Error:", subCategoryName);
+          return res
+            .status(403)
+            .json({
+              success: false,
+              message: `Subcategory ${subCategoryName} Doesn't Exist`,
+            });
         }
+
+        subCategory.products += 1;
+        await subCategory.save();
+
         subCategoryIds.push(subCategory._id);
       }
       categoryDetails.subCategoryId = subCategoryIds;
@@ -113,7 +119,6 @@ const createProduct = [
     }
   },
 ];
-
 
 // GET SINGLE PRODUCT BY ID
 const getProductById = async (req, res, next) => {

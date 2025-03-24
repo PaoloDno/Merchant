@@ -96,7 +96,7 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="absolute top-0 left-0 w-2/3 min-w-fit bg-skin-fill-3 shadow-md z-40 lg:hidden min-h-screen pb-5 transition-all duration-200 p-2">
+        <div className="fixed top-0 left-0 w-2/3 min-w-fit bg-skin-fill-3 shadow-md z-40 lg:hidden min-h-screen pb-5 transition-all duration-200 p-2">
           <button
             onClick={closePopups}
             className="text-style2 m-3 text-skin-secondary p-2 transition-all duration-500"

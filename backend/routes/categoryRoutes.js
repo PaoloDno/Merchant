@@ -9,12 +9,12 @@ const { createCategory, createSubCategory, updateCategory, updateSubCategory,
         deleteCategory, deleteSubCategory
       } = require("../controllers/categoryController");
 
-router.post("/", authMiddleware, adminMiddleware, createCategory),
+router.post("/", authMiddleware, createCategory), //admin
 router.put("/:id", authMiddleware, adminMiddleware, updateCategory),
 router.delete("/:id", authMiddleware, adminMiddleware, deleteCategory),
 
 //sub
-router.post("/sub", authMiddleware, adminMiddleware, createSubCategory );
+router.post("/sub", authMiddleware, createSubCategory ); //admin
 router.put("/sub/:id", authMiddleware, adminMiddleware, updateSubCategory );
 router.delete("/sub/:id", authMiddleware, adminMiddleware, deleteSubCategory );
 

@@ -12,6 +12,7 @@ const storeRoutes = require('./routes/sellerRoutes.js');
 const categoryRoutes = require('./routes/categoryRoutes.js');
 const cartRoutes = require("./routes/cartRoutes.js");
 const checkOutRoutes = require("./routes/checkOutRoutes.js")
+const adminRoutes = require("./routes/adminRoutes.js")
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -33,6 +34,7 @@ app.use('/commerce/store', storeRoutes);
 app.use('/commerce/category', categoryRoutes);
 app.use('/commerce/cart', cartRoutes);
 app.use('/commerce/check', checkOutRoutes);
+app.use('/commerce/admin', adminRoutes);
 
 // Error Handler
 app.use(errorHandler);

@@ -8,10 +8,10 @@ import { FaBoxes } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { BsCart4, BsClockHistory } from "react-icons/bs";
 
-import ProfileContent from "./ProfileContent/DisplayProfile";
-import StoreContent from "./ProfileContent/DisplayStore";
+import ProfileContent from "../ProfilePages/ProfileContent/DisplayProfile";
 
-const ProfileDisplayPage = () => {
+
+const AdminDisplayPage = () => {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState("profile");
@@ -21,11 +21,11 @@ const ProfileDisplayPage = () => {
       case "profile":
         return <ProfileContent />;
       case "store":
-        return <StoreContent />;
+        return <div>Products Content</div>;
       case "products":
         return <div>Products Content</div>;
-      case "cart":
-        return <div>Cart Content</div>;
+      case "category":
+        return <div>Categpry</div>;
       case "history":
         return <div>Order History Content</div>;
       default:
@@ -69,8 +69,8 @@ const ProfileDisplayPage = () => {
         <div className="flex flex-col w-full gap-3">
           {[
             { tab: "profile", icon: <VscAccount /> },
-            { tab: "store", icon: <FaBoxes /> },
-            { tab: "cart", icon: <BsCart4 /> },
+            { tab: "stores", icon: <FaBoxes /> },
+            { tab: "categories", icon: <BsCart4 /> },
             { tab: "history", icon: <BsClockHistory /> },
           ].map(({ tab, icon }) => (
             <button
@@ -111,4 +111,4 @@ const ProfileDisplayPage = () => {
   );
 };
 
-export default ProfileDisplayPage;
+export default AdminDisplayPage;

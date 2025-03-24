@@ -9,6 +9,7 @@ const EditStore = () => {
   const userStores = useSelector((state) => state.store.stores);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [stores, setStores] = useState([]);
   const [data, setData] = useState({
@@ -82,15 +83,18 @@ const EditStore = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 border border-gray-300 rounded-lg max-w-md mx-auto w-full h-full justify-between">
+    <div className="flex flex-col p-4 border border-gray-300 rounded-lg max-w-md min-w-full h-full justify-between">
+      <div className='flex flex-row w-full text-style3a justify-between px-3'>
+        <span>Store</span> <span>a</span>
+      </div>
       {data.storeName && ( // Conditionally render the data section
-        <div>
+        <div className='flex flex-col min-w-full'>
           <div className="mb-4">
             {data.storeLogo && (
               <img
                 src={data.storeLogo}
                 alt="Store Logo"
-                className="w-20 h-20 rounded-full mb-2"
+                className="w-20 h-20 rounded-full mb-2 bg-black"
               />
             )}
             <h1 className="text-xl font-bold">{data.storeName}</h1>
@@ -133,6 +137,14 @@ const EditStore = () => {
             </ul>
           </div>
         )}
+      </div>
+      <div>
+      <button
+          className="bg-blue-500 text-white px-2 py-1 rounded"
+          onClick={() => navigate('/store')}
+        >
+          CREATE STORE
+        </button>
       </div>
     </div>
   );

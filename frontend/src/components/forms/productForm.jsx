@@ -34,6 +34,34 @@ const ProductForm = () => {
         };
   });
 
+  const categories = {
+    Food: [
+      { value: "fastfood", label: "Fsatfood" },
+      { value: "vegetables", label: "Vegetables" },
+      { value: "pasta", label: "Pasta" },
+    ],
+    Drinks: [
+      { value: "softdrinks", label: "Softdrinks" },
+      { value: "alcohol", label: "Alcohol" },
+      { value: "coffee", label: "Coffee and Tea" },
+    ],
+    Electronics: [
+      { value: "cellphone", label: "Cellphone" },
+      { value: "console", label: "Console Game" },
+      { value: "gadgets", label: "Gadgets" },
+    ],
+    Fashion: [
+      { value: "clothing", label: "Clothing" },
+      { value: "footwear", label: "Footwear" },
+      { value: "accessories", label: "Accessories" },
+    ],
+    Furniture: [
+      { value: "tables", label: "Tables" },
+      { value: "chairs", label: "Chairs" },
+      { value: "beds", label: "Beds" },
+    ],
+  };
+
   const [errors, setErrors] = useState({
     basicInfo: {},
     categoryDetails: {},
@@ -49,7 +77,7 @@ const ProductForm = () => {
     },
     description: {
       regex: /^[^<>\/\?@!]{10,40}$/,
-      error: "must be atlest minimum of 10 characters"
+      error: "must be atlest minimum of 10 characters",
     },
     price: {
       regex: /^\d+(\.\d{1,2})?$/,
@@ -67,11 +95,20 @@ const ProductForm = () => {
 
   const validateField = (field, value) => {
     const rule = rules[field];
-    return rule && !rule.regex.test(value) ? rule.error : value ? "" : "This field is required.";
+    return rule && !rule.regex.test(value)
+      ? rule.error
+      : value
+      ? ""
+      : "This field is required.";
   };
 
   const validateStep = () => {
-    const currentSection = step === 1 ? "basicInfo" : step === 2 ? "categoryDetails" : "specifications";
+    const currentSection =
+      step === 1
+        ? "basicInfo"
+        : step === 2
+        ? "categoryDetails"
+        : "specifications";
     const fields = formData[currentSection];
     const stepErrors = {};
 
@@ -95,23 +132,23 @@ const ProductForm = () => {
   };
 
   useEffect(() => {
-    if(isLoading){
-      const timer = setTimeout(() => setIsLoading(false), 1000);
+    if (isLoading) {
+      const timer = setTimeout(() => setIsLoading(false), 1500);
       return () => clearTimeout(timer);
     }
-  }, [isLoading])
+  }, [isLoading]);
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 1));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (validateStep()) {
       console.log(formData);
-      
+
       try {
         const resultAction = await dispatch(createProductAction(formData));
-  
+
         if (createProductAction.fulfilled.match(resultAction)) {
           console.log("Success:", resultAction);
         } else {
@@ -150,37 +187,79 @@ const ProductForm = () => {
     const error = errors[section]?.[field];
 
     return (
-      <div className="relative flex flex-1 group flex-col text-white font-medium text-style4a
-        md:text-style3 p-1 md:p-4 bg-skin-primary rounded-lg bg-opacity-10 md:mb-3 space-y-4 w-full mb-4">
-        <label className="inline-blockblock text-left font-semibold text-style4b md:text-style4b p-1">{label}</label>
+      <div
+        className="relative flex flex-1 group flex-col text-white font-medium text-style4a
+        md:text-style3 p-1 md:p-4 bg-skin-primary rounded-lg bg-opacity-10 md:mb-3 space-y-4 w-full mb-4"
+      >
+        <label className="inline-blockblock text-left font-semibold text-style4b md:text-style4b p-1">
+          {label}
+        </label>
         <div className="relative group container box-border my-4">
-        <input
-          type={type}
-          value={value}
-          onChange={(e) => handleChange(section, field, e.target.value)}
-          placeholder={`${label}`}
-          autoComplete={`${label}`}
-          className={`w-full p-2 md:p-4 border  rounded placeholder-gray-600 text-gray-900 bg-gray-100 bg-opacity-80 focus:ring-2 box-border
+          <input
+            type={type}
+            value={value}
+            onChange={(e) => handleChange(section, field, e.target.value)}
+            placeholder={`${label}`}
+            autoComplete={`${label}`}
+            className={`w-full p-2 md:p-4 border  rounded placeholder-gray-600 text-gray-900 bg-gray-100 bg-opacity-80 focus:ring-2 box-border
             ${
               error
                 ? "border-red-500 focus:ring-red-300"
                 : "focus:ring-blue-500 focus:outline-none"
             }`}
-        />
-        {requirement && (
-          <div
-            className="absolute hidden left-1/2 bottom-0 transform -translate-x-1/2 translate-y-full
+          />
+          {requirement && (
+            <div
+              className="absolute hidden left-1/2 bottom-0 transform -translate-x-1/2 translate-y-full
             opacity-0 group-hover:opacity-100 transition-opacity group-hover:flex text-style4a w-full p-2
-            duration-400 bg-blue-500 text-white rounded-md flex-nowrap z-10">
-            <IoMdInformationCircleOutline className="mr-2" /> {requirement}
-          </div>
-        )}
+            duration-400 bg-blue-500 text-white rounded-md flex-nowrap z-10"
+            >
+              <IoMdInformationCircleOutline className="mr-2" /> {requirement}
+            </div>
+          )}
         </div>
         {error && (
-        <p className="text-slate-300 md:text-gray-200 bg-red-600 bg-opacity-40 md:bg-opacity-20 mt-1 px-2 text-style4 md:text-style3">
-          {error}
-        </p>
-      )}
+          <p className="text-slate-300 md:text-gray-200 bg-red-600 bg-opacity-40 md:bg-opacity-20 mt-1 px-2 text-style4 md:text-style3">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+ 
+
+  const renderDropdown = (label, section, field, options) => {
+    const value = formData[section][field];
+    const error = errors[section]?.[field];
+
+    return (
+      <div
+        className="relative flex flex-1 group flex-col text-white font-medium text-style4a
+      md:text-style3 p-1 md:p-4 bg-skin-primary rounded-lg bg-opacity-10 md:mb-3 space-y-4 w-full mb-4"
+      >
+        <label className="inline-block text-left font-semibold text-style4b md:text-style4b p-1">
+          {label}
+        </label>
+        <select
+          value={value}
+          onChange={(e) => handleChange(section, field, e.target.value)}
+          className={`w-full p-2 md:p-4 border rounded text-gray-900 bg-gray-100 bg-opacity-80
+            ${error ? "border-red-500" : "border-gray-300 focus:ring-blue-500"}
+          `}
+        >
+          <option value="">{`Select ${label}`}</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+        {error && (
+          <p className="text-slate-300 md:text-gray-200 bg-red-600 bg-opacity-40 md:bg-opacity-20 mt-1 px-2 text-style4 md:text-style3">
+            {error}
+          </p>
+        )}
       </div>
     );
   };
@@ -190,20 +269,66 @@ const ProductForm = () => {
       return (
         <div>
           <h2 className="text-lg font-bold mb-4">Basic Information</h2>
-          {renderInput("Product Name", "basicInfo", "productName", "3-12 characters, no special characters.")}
-          {renderInput("Description", "basicInfo", "description", "Provide a brief description.")}
-          {renderInput("Price", "basicInfo", "price", "Enter a valid price.", "number")}
-          {renderInput("Stock", "basicInfo", "stock", "Enter stock quantity.", "number")}
+          {renderInput(
+            "Product Name",
+            "basicInfo",
+            "productName",
+            "3-12 characters, no special characters."
+          )}
+          {renderInput(
+            "Description",
+            "basicInfo",
+            "description",
+            "Provide a brief description."
+          )}
+          {renderInput(
+            "Price",
+            "basicInfo",
+            "price",
+            "Enter a valid price.",
+            "number"
+          )}
+          {renderInput(
+            "Stock",
+            "basicInfo",
+            "stock",
+            "Enter stock quantity.",
+            "number"
+          )}
         </div>
       );
     }
     if (step === 2) {
+      const selectedCategory = formData.categoryDetails.category;
+      const subCategoryOptions = selectedCategory
+        ? categories[selectedCategory]
+        : [];
+
+        
+
       return (
         <div>
           <h2 className="text-lg font-bold mb-4">Category Details</h2>
-          {renderInput("Category", "categoryDetails", "category", "3-12 characters, no special characters.")}
-          {renderInput("Subcategory", "categoryDetails", "subCategory", "Specify the subcategory.")}
-          {renderInput("Features", "categoryDetails", "features", "List the product features.")}
+          {renderDropdown(
+            "Category",
+            "categoryDetails",
+            "category",
+            Object.keys(categories).map((cat) => ({ value: cat, label: cat }))
+          )}
+
+          {renderDropdown(
+            "Subcategory",
+            "categoryDetails",
+            "subCategory",
+            subCategoryOptions
+          )}
+
+          {renderInput(
+            "Features",
+            "categoryDetails",
+            "features",
+            "List the product features."
+          )}
         </div>
       );
     }
@@ -211,16 +336,23 @@ const ProductForm = () => {
       <div>
         <h2 className="text-lg font-bold mb-4">Specifications</h2>
         {renderInput("Color", "specifications", "color", "Specify the color.")}
-        {renderInput("Material", "specifications", "material", "Specify the material.")}
+        {renderInput(
+          "Material",
+          "specifications",
+          "material",
+          "Specify the material."
+        )}
         {renderInput("Size", "specifications", "size", "Specify the size.")}
       </div>
     );
   };
 
   return (
-    <div className="p-6 bg-gray-800 bg-opacity-50 text-white min-w-full rounded-lg
-     shadow-lg max-w-lg mx-auto">
-      <form onSubmit={handleSubmit} >
+    <div
+      className="p-6 bg-gray-800 bg-opacity-50 text-white min-w-full rounded-lg
+     shadow-lg max-w-lg mx-auto"
+    >
+      <form onSubmit={handleSubmit}>
         {renderStep()}
         <div className="flex justify-between mt-6">
           {step > 1 && (
@@ -245,7 +377,9 @@ const ProductForm = () => {
               type="submit"
               disabled={isLoading}
               className={`px-4 py-2 rounded ${
-                isLoading ? "bg-gray-300" : "bg-green-500 text-white hover:bg-green-600"
+                isLoading
+                  ? "bg-gray-300"
+                  : "bg-green-500 text-white hover:bg-green-600"
               }`}
             >
               {isLoading ? "Submit" : "Submit"}

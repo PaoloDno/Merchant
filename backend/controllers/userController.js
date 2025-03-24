@@ -71,6 +71,7 @@ const loginUser = [
           username: user.username,
           userId: user.userId, //fake user ID
           email: user.email,
+          isAdmin: user.isAdmin
         },
         profile: {
           firstname: profile.firstname,
@@ -193,6 +194,7 @@ const registerUser = [
           username: savedUser.username,
           userId: savedUser._id, // Corrected fake userId
           email: savedUser.email,
+          isAdmin: savedUser.isAdmin
         },
         profile: {
           firstname: savedProfile.firstname,

@@ -10,7 +10,14 @@ import AboutPage from "../../pages/AboutPage";
 
 //test
 import AddProductPage from "../../pages/AddProduct";
-import AddSellerPage from "../../pages/AddStorePage"
+import AddSellerPage from "../../pages/AddStorePage";
+import AddCategory from "../../pages/AddCategory";
+
+//errorpages
+import ErrorPage from "../../pages/ErrorPage";
+import NotAuthorizedPage from "../../pages/NotAuthorizedPage";
+
+import ProtectedRoutes from "../../redux/features/protectedRoutes"
 
 const AppRoutes = () =>{
 
@@ -21,11 +28,23 @@ const AppRoutes = () =>{
       <Route path ="/home" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
-      <Route path="/profile" element={<UserProfilePage/>} />
       <Route path="/about" element={<AboutPage />} />
+
       <Route path="/store" element={<AddSellerPage />} />
       
+      
+      <Route path="/profile" element={<UserProfilePage/>} />
+
+
       {/* ADMIN ROUTES */}
+      
+      <Route path="/admin"
+      element={
+        <ProtectedRoutes adminOnly={true}>
+          <ErrorPage/>
+        </ProtectedRoutes>
+        }
+      />
       //dashboard
       //admin/products
       //admin/categories
@@ -33,7 +52,11 @@ const AppRoutes = () =>{
       //admin/users
       //admin/producst/add
       //admin/product/edit/:id
+      <Route path="/cat" element={<AddCategory />} />
       <Route path="/add" element={<AddProductPage />} />
+
+      <Route path="/not-authorized" element={<NotAuthorizedPage />} />
+      <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
 }

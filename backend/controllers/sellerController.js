@@ -25,6 +25,11 @@ exports.createStore = async (req, res, next) => {
     if (!profile) {
       return res.status(404).json({ message: "User profile not found" });
     }
+    //limit profile.stores to 3
+    if (profile.stores && profile.stores.length >= 2) {
+      return res.status(400).json({ message: "You can only have up to 2 store profiles." });
+    }
+
 
     // Create a new store profile
     const store = new Seller({

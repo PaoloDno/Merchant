@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   createProductAction,
   getProductByIdAction,
@@ -13,9 +13,12 @@ import {
   getRandomProductsActions,
 } from "../actions/getProductThunks";
 
+import { fetchProducts } from "../actions/productThunks"; // Importing the new fetchProducts thunk
+
 const initialState = {
   products: [],
   product: null,
+  pagination: { currentPage: 1, totalPages: 0, totalProducts: 0 },
   isLoading: false,
   error: null,
 };
@@ -81,22 +84,42 @@ const productSlice = createSlice({
         state.isLoading = false;
         state.products = action.payload.products;
       })
-
-      // Matchers for Pending and Rejected
-      .addMatcher(
-        (action) => action.type.endsWith('/pending'),
-        (state) => {
-          state.isLoading = true;
-          state.error = null;
-        }
-      )
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          state.isLoading = false;
-          state.error = action.error?.message || "Something went wrong";
-        }
-      );
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
+        state.pagination = action.payload.pagination;
+      })
+      
+      // Using isPending and isRejected instead of matchers
+      .addMatcher(isPending(
+        createProductAction,
+        getProductByIdAction,
+        updateProductByIdAction,
+        deleteProductByIdAction,
+        getHotProductsActions,
+        getProductsByCategoryActions,
+        getNewProductsActions,
+        getRandomProductsActions,
+        fetchProducts
+      ), (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      
+      .addMatcher(isRejected(
+        createProductAction,
+        getProductByIdAction,
+        updateProductByIdAction,
+        deleteProductByIdAction,
+        getHotProductsActions,
+        getProductsByCategoryActions,
+        getNewProductsActions,
+        getRandomProductsActions,
+        fetchProducts
+      ), (state, action) => {
+        state.isLoading = false;
+        state.error = action.error?.message || "Something went wrong";
+      });
   },
 });
 

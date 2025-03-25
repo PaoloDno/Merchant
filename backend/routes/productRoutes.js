@@ -27,26 +27,27 @@ const {
 
 const router = express.Router();
 
-router.get("/:id", getProductById); // Get a single product by ID
-
-// Protected Routes (User Must Be Logged In)
-router.post("/", authMiddleware, createProduct); // User create product
-router.put("/:id", authMiddleware, updateProduct); // User update product
-router.delete("/:id", authMiddleware, deleteProduct); // User delete product
 
 //view products
 
-router.get("/hot/", getHotProducts);
-router.get("/searchQuery/:query", searchProducts);
-router.get("/category/:id", getProductsByCategory);
-router.get("/new/", getNewProducts);
-router.get("/random/", getRandomProducts);
+router.get("/hot", getHotProducts); // Get hot products
+router.get("/category/:categoryId", getProductsByCategory); // Get products by category
+router.get("/new", getNewProducts); // Get new products
+router.get("/random", getRandomProducts); // Get random products
+router.get("/search/:query", searchProducts); // Search products
 
 
 router.post("/review", authMiddleware, createReview);
 router.delete("/review", authMiddleware, deleteReview);
 router.get("/review/user", authMiddleware, getReviewUser);
 router.get("/review/product/:id", authMiddleware, getReviewProduct);
+
+router.get("/:id", getProductById); // Get a single product by ID
+
+// Protected Routes (User Must Be Logged In)
+router.post("/", authMiddleware, createProduct); // User create product
+router.put("/:id", authMiddleware, updateProduct); // User update product
+router.delete("/:id", authMiddleware, deleteProduct); // User delete product
 
 
 module.exports = router;

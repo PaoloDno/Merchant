@@ -13,7 +13,17 @@ import {
   getRandomProductsActions,
 } from "../actions/getProductThunks";
 
-import { fetchProducts } from "../actions/productThunks"; // Importing the new fetchProducts thunk
+// Group actions for uniform matching
+const productActions = [
+  createProductAction,
+  getProductByIdAction,
+  updateProductByIdAction,
+  deleteProductByIdAction,
+  getHotProductsActions,
+  getProductsByCategoryActions,
+  getNewProductsActions,
+  getRandomProductsActions
+];
 
 const initialState = {
   products: [],
@@ -53,11 +63,13 @@ const productSlice = createSlice({
       // UPDATE PRODUCT
       .addCase(updateProductByIdAction.fulfilled, (state, action) => {
         state.isLoading = false;
-        const index = state.products.findIndex(
-          (p) => p._id === action.payload._id
-        );
+        const updatedProduct = action.payload;
+        const index = state.products.findIndex((p) => p._id === updatedProduct._id);
         if (index !== -1) {
-          state.products[index] = action.payload;
+          state.products[index] = updatedProduct;
+        }
+        if (state.product?._id === updatedProduct._id) {
+          state.product = updatedProduct;
         }
       })
 
@@ -65,61 +77,50 @@ const productSlice = createSlice({
       .addCase(deleteProductByIdAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = state.products.filter((p) => p._id !== action.payload);
+        if (state.product?._id === action.payload) {
+          state.product = null;
+        }
       })
 
-      // Fetch Product Lists
+      // FETCH PRODUCT LISTS
       .addCase(getHotProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
+        state.pagination = action.payload.pagination || state.pagination;
       })
       .addCase(getProductsByCategoryActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
+        state.pagination = action.payload.pagination || state.pagination;
       })
       .addCase(getNewProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
+        state.pagination = action.payload.pagination || state.pagination;
       })
       .addCase(getRandomProductsActions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.products = action.payload.products;
+        state.pagination = action.payload.pagination || state.pagination;
       })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.products = action.payload.products;
-        state.pagination = action.payload.pagination;
-      })
-      
-      // Using isPending and isRejected instead of matchers
-      .addMatcher(isPending(
-        createProductAction,
-        getProductByIdAction,
-        updateProductByIdAction,
-        deleteProductByIdAction,
-        getHotProductsActions,
-        getProductsByCategoryActions,
-        getNewProductsActions,
-        getRandomProductsActions,
-        fetchProducts
-      ), (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      
-      .addMatcher(isRejected(
-        createProductAction,
-        getProductByIdAction,
-        updateProductByIdAction,
-        deleteProductByIdAction,
-        getHotProductsActions,
-        getProductsByCategoryActions,
-        getNewProductsActions,
-        getRandomProductsActions,
-        fetchProducts
-      ), (state, action) => {
-        state.isLoading = false;
-        state.error = action.error?.message || "Something went wrong";
-      });
+
+      // Handle all pending actions uniformly
+      .addMatcher(
+        (action) => productActions.some((thunk) => isPending(thunk)(action)),
+        (state) => {
+          state.isLoading = true;
+          state.error = null;
+        }
+      )
+
+      // Handle all rejected actions uniformly
+      .addMatcher(
+        (action) => productActions.some((thunk) => isRejected(thunk)(action)),
+        (state, action) => {
+          state.isLoading = false;
+          state.error = action.error?.message || "Something went wrong";
+        }
+      );
   },
 });
 

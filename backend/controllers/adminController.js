@@ -1,192 +1,170 @@
-const Store = require('../models/sellerModel');
-const Product = require('../models/productModel');
-const Categories = require('../models/categorySchema');
-const SubCategories = require('../models/subCategorySchema');
+const Store = require("../models/sellerModel");
+const Product = require("../models/productModel");
+const Categories = require("../models/categorySchema");
+const SubCategories = require("../models/subCategorySchema");
 const Profile = require("../models/profileModel");
 const Reviews = require("../models/productReviewSchema");
 const Order = require("../models/orderModel");
 
-// Get all profiles (limited to 15)
+// Utility function for pagination
+const getPagination = (page, limit) => {
+    const resultsPerPage = parseInt(limit);
+    const currentPage = parseInt(page);
+    const skipDocuments = (currentPage - 1) * resultsPerPage;
+    return { resultsPerPage, currentPage, skipDocuments };
+};
+
+// Get all profiles
 exports.getProfiles = async (req, res, next) => {
     try {
-        const { limit = 15, page = 1, firstname, lastname } = req.query;
-  
-        // Build the query object
+        const { limit = 15, page = 1, firstname, lastname, sortBy = "createdAt", sortOrder = "desc" } = req.query;
         const filter = {};
-  
-        if (firstname) {
-            filter.firstname = { $regex: firstname, $options: 'i' }; // Partial match, case-insensitive
-        }
-        
-        if (lastname) {
-            filter.lastname = { $regex: lastname, $options: 'i' }; // Partial match, case-insensitive
-        }
 
-        //pagination
-        const resultsPerPage = parseInt(limit);
-        const currentPage = parseInt(page);
-        const skipDocuments = (currentPage - 1) * resultsPerPage 
-  
-        // Find profiles based on query with limit
+        if (firstname) filter.firstname = { $regex: firstname, $options: "i" };
+        if (lastname) filter.lastname = { $regex: lastname, $options: "i" };
+
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
+
         const profiles = await Profile.find(filter)
-        .skip(skipDocuments)
-        .limit(resultsPerPage);
+            .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
 
-        //get
         const totalProfiles = await Profile.countDocuments(filter);
-        const totalPages = Math.ceil(totalProducts/ resultsPerPage);
-        
-        res.json({
-            profiles,
-            pagination: {
-                currentPage,
-                totalPages,
-                totalProfiles
-            }
-        });
-    } catch (error) {
-        next(error);
-    }
-  };
-
-// Get all stores (limited to 15)
-exports.getStores = async (req, res, next) => {
-    try {
-        const { limit = 15, hot, new: isNew, storeName, rating, isVerified } = req.query; 
-        let filter = {};
-
-        if (hot) filter.isHot = true;
-        if (isNew) filter.createdAt = { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }; // Created within the last 30 days
-        if (storeName) filter.storeName = { $regex: storeName, $options: 'i' }; // Partial match, case-insensitive
-        if (rating) filter.rating = { $gte: parseFloat(rating) }; // Only get stores with rating >= specified value
-        if (isVerified === 'true') filter.isVerified = true; // Only get verified stores if isVerified is true
-
-        //pagination logic
-        const resultsPerPage = parseInt(limit);
-        const currentPage = parseInt(page);
-        const skipDocuments = (currentPage - 1 ) * resultsPerPage;
-
-        const stores = await Store.find(filter).skip(skipDocuments).limit(resultsPerPage);
-
-        const totalStores = await Store.countDocuments(filter);
-        const totalPages = Math.ceil(totalStores / resultsPerPage);
-        
-        res.json({
-            stores,
-            pagination: {
-                currentPage,
-                totalPages,
-                totalProducts
-            }
-        });
+        res.json({ profiles, pagination: { currentPage, totalPages: Math.ceil(totalProfiles / resultsPerPage), totalProfiles } });
     } catch (error) {
         next(error);
     }
 };
 
+// Get all stores
+exports.getStores = async (req, res, next) => {
+    try {
+        const { limit = 15, page = 1, hot, new: isNew, storeName, rating, isVerified, sortBy = "createdAt", sortOrder = "desc" } = req.query;
+        const filter = {};
 
-// Get all products (limited to 15)
+        if (hot) filter.isHot = true;
+        if (isNew) filter.createdAt = { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) };
+        if (storeName) filter.storeName = { $regex: storeName, $options: "i" };
+        if (rating) filter.rating = { $gte: parseFloat(rating) };
+        if (isVerified === "true") filter.isVerified = true;
+
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
+
+        const stores = await Store.find(filter)
+            .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
+
+        const totalStores = await Store.countDocuments(filter);
+        res.json({ stores, pagination: { currentPage, totalPages: Math.ceil(totalStores / resultsPerPage), totalStores } });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// Get all products
 exports.getProducts = async (req, res, next) => {
     try {
-        const { 
-            limit = 15, 
-            page = 1,
-            hot, 
-            new: isNew, 
-            bestSelling, 
-            category, 
-            subcategory,
-            productName 
-        } = req.query;
+        const { limit = 15, page = 1, hot, new: isNew, bestSelling, category, subcategory, productName, sortBy = "createdAt", sortOrder = "desc" } = req.query;
+        const filter = {};
 
-        let filter = {};
-
-        // Building the Filter
         if (hot) filter.isHot = true;
         if (isNew) filter.createdAt = { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) };
         if (bestSelling) filter.salesCount = { $gte: 100 };
         if (category) filter.category = category;
         if (subcategory) filter.subcategory = subcategory;
-        if (productName) {
-            filter['basicInfo.productName'] = { $regex: productName, $options: 'i' };
-        }
+        if (productName) filter["basicInfo.productName"] = { $regex: productName, $options: "i" };
 
-        // Pagination Logic
-        const resultsPerPage = parseInt(limit);    // Results per page
-        const currentPage = parseInt(page);         // Current page number
-        const skipDocuments = (currentPage - 1) * resultsPerPage;  // How many documents to skip
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
 
-        // Fetching Data
         const products = await Product.find(filter)
+            .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
             .skip(skipDocuments)
             .limit(resultsPerPage);
 
-        // Getting Total Count of Documents Matching Filter
         const totalProducts = await Product.countDocuments(filter);
-        const totalPages = Math.ceil(totalProducts / resultsPerPage);
-
-        // Returning Response
-        res.json({
-            products,
-            pagination: {
-                currentPage,
-                totalPages,
-                totalProducts,
-            }
-        });
+        res.json({ products, pagination: { currentPage, totalPages: Math.ceil(totalProducts / resultsPerPage), totalProducts } });
     } catch (error) {
         next(error);
     }
 };
 
-// Get all categories (limited to 15)
+// Get all categories
 exports.getCategories = async (req, res, next) => {
     try {
-        const { limit = 15 } = req.query;
-        const categories = await Categories.find().limit(parseInt(limit));
-        res.json(categories);
+        const { limit = 15, page = 1, name, sortBy = "createdAt", sortOrder = "desc" } = req.query;
+        const filter = {};
+
+        if (name) filter.name = { $regex: name, $options: "i" };
+
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
+
+        const categories = await Categories.find(filter)
+            .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
+
+        const totalCategories = await Categories.countDocuments(filter);
+        res.json({ categories, pagination: { currentPage, totalPages: Math.ceil(totalCategories / resultsPerPage), totalCategories } });
     } catch (error) {
         next(error);
     }
 };
 
-// Get all subcategories (limited to 15)
+// Get all subcategories
 exports.getSubCategories = async (req, res, next) => {
-  try {
-      const { limit = 15 } = req.query;
-      const subCategories = await SubCategories.find().limit(parseInt(limit));
-      res.json(subCategories);
-  } catch (error) {
-      next(error);
-  }
+    try {
+        const { limit = 15, page = 1 } = req.query;
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
+
+        const subCategories = await SubCategories.find()
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
+
+        const totalSubCategories = await SubCategories.countDocuments();
+        res.json({ subCategories, pagination: { currentPage, totalPages: Math.ceil(totalSubCategories / resultsPerPage), totalSubCategories } });
+    } catch (error) {
+        next(error);
+    }
 };
 
-// Get all reviews (limited to 15)
+// Get all reviews
 exports.getReviews = async (req, res, next) => {
-  try {
-      const { limit = 15, product } = req.query;
-      let filter = {};
+    try {
+        const { limit = 15, page = 1, product } = req.query;
+        const filter = {};
+        if (product) filter.product = product;
 
-      if (product) filter.product = product; // Fetch reviews related to a specific product
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
 
-      const reviews = await Reviews.find(filter).limit(parseInt(limit));
-      res.json(reviews);
-  } catch (error) {
-      next(error);
-  }
+        const reviews = await Reviews.find(filter)
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
+
+        const totalReviews = await Reviews.countDocuments(filter);
+        res.json({ reviews, pagination: { currentPage, totalPages: Math.ceil(totalReviews / resultsPerPage), totalReviews } });
+    } catch (error) {
+        next(error);
+    }
 };
 
-// Get all orders (limited to 15)
+// Get all orders
 exports.getOrders = async (req, res, next) => {
-  try {
-      const { limit = 15, user } = req.query;
-      let filter = {};
+    try {
+        const { limit = 15, page = 1, user } = req.query;
+        const filter = {};
+        if (user) filter.userId = user;
 
-      if (user) filter.userId = user; // Fetch orders related to a specific user
+        const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
 
-      const orders = await Order.find(filter).limit(parseInt(limit));
-      res.json(orders);
-  } catch (error) {
-      next(error);
-  }
+        const orders = await Order.find(filter)
+            .skip(skipDocuments)
+            .limit(resultsPerPage);
+
+        const totalOrders = await Order.countDocuments(filter);
+        res.json({ orders, pagination: { currentPage, totalPages: Math.ceil(totalOrders / resultsPerPage), totalOrders } });
+    } catch (error) {
+        next(error);
+    }
 };

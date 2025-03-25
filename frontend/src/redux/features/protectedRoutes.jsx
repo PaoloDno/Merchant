@@ -12,10 +12,11 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
     useEffect(() => {
         const verifyToken = () => {
+            console.log(adminOnly, isAdmin);
             if (!token) {
                 dispatch(logoutAction());
                 navigate("/login");
-            } else if (adminOnly && !isAdmin) {
+            } else if (!adminOnly) {
               navigate("/not-authorized");
             }
             setLoading(false);

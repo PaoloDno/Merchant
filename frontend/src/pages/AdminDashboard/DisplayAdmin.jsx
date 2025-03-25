@@ -9,7 +9,7 @@ import { RxExit } from "react-icons/rx";
 import { BsCart4, BsClockHistory } from "react-icons/bs";
 
 import ProfileContent from "../ProfilePages/ProfileContent/DisplayProfile";
-
+import AdminProductContent from "./AdminContent/DisplayProductContent"
 
 const AdminDisplayPage = () => {
   const dispatch = useDispatch();
@@ -20,8 +20,8 @@ const AdminDisplayPage = () => {
     switch (activeTab) {
       case "profile":
         return <ProfileContent />;
-      case "store":
-        return <div>Products Content</div>;
+      case "stores":
+        return <AdminProductContent />;
       case "products":
         return <div>Products Content</div>;
       case "category":
@@ -70,6 +70,7 @@ const AdminDisplayPage = () => {
           {[
             { tab: "profile", icon: <VscAccount /> },
             { tab: "stores", icon: <FaBoxes /> },
+            { tab: "products", icon: <FaBoxes /> },
             { tab: "categories", icon: <BsCart4 /> },
             { tab: "history", icon: <BsClockHistory /> },
           ].map(({ tab, icon }) => (

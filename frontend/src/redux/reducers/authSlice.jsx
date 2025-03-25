@@ -15,9 +15,11 @@ const authSlice = createSlice({
     user: null,
     profile: null,
     address: null,
+    isAdmin: null,
     token: localStorage.getItem("token") || null,
     isLoading: false,
     error: null,
+    status: "idle",
   },
   reducers: {
     setUser(state, action) {
@@ -31,77 +33,13 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loginAction.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(loginAction.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.profile = action.payload.profile;
-        state.address = action.payload.address;
-        state.isLoading = false;
-      })
-      .addCase(loginAction.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(registerAction.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(registerAction.fulfilled, (state, action) => {
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        state.profile = action.payload.profile;
-        state.address = action.payload.address;
-        state.isLoading = false;
-      })
-      .addCase(registerAction.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
       .addCase(logoutAction.fulfilled, (state) => {
         state.isAuthenticated = false;
         state.user = null;
         state.token = null;
-      })
-      .addCase(updateAddressAction.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateAddressAction.fulfilled, (state, action) => {
-        state.address = action.payload.address;
-      })
-      .addCase(updateAddressAction.rejected, (state) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(updateProfileAction.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(updateProfileAction.fulfilled, (state, action) => {
-        state.profile = action.payload.profile;
-      })
-      .addCase(updateProfileAction.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(displayUserAction.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(displayUserAction.fulfilled, (state,action) => {
-        state.isLoading = false;
-        state.profile = action.payload.profile;
-        state.address = action.payload.address;
-      })
-      .addCase(displayUserAction.rejected, (state) => {
-        state.isLoading = false;
-        state.error = action.payload;
+        state.profile = null;
+        state.address = null;
+        state.isAdmin = null;
       })
       .addMatcher(
         isAnyOf(
@@ -112,8 +50,38 @@ const authSlice = createSlice({
           displayUserAction.pending
         ),
         (state) => {
+          state.isLoading = true;
           state.status = "loading";
           state.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          loginAction.fulfilled,
+          registerAction.fulfilled
+        ),
+        (state, action) => {
+          state.isAuthenticated = true;
+          state.user = action.payload.user;
+          state.token = action.payload.token;
+          state.profile = action.payload.profile;
+          state.address = action.payload.address;
+          state.isAdmin = action.payload.isAdmin;
+          state.isLoading = false;
+          state.status = "succeeded";
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          updateProfileAction.fulfilled,
+          updateAddressAction.fulfilled,
+          displayUserAction.fulfilled
+        ),
+        (state, action) => {
+          state.profile = action.payload.profile || state.profile;
+          state.address = action.payload.address || state.address;
+          state.isLoading = false;
+          state.status = "succeeded";
         }
       )
       .addMatcher(
@@ -125,6 +93,7 @@ const authSlice = createSlice({
           displayUserAction.rejected
         ),
         (state, action) => {
+          state.isLoading = false;
           state.status = "failed";
           state.error = action.payload;
         }

@@ -13,6 +13,9 @@ import AddProductPage from "../../pages/AddProduct";
 import AddSellerPage from "../../pages/AddStorePage";
 import AddCategory from "../../pages/AddCategory";
 
+//adminpages
+import AdminDashboard from "../../pages/AdminDashboard/DisplayAdmin";
+
 //errorpages
 import ErrorPage from "../../pages/ErrorPage";
 import NotAuthorizedPage from "../../pages/NotAuthorizedPage";
@@ -41,7 +44,7 @@ const AppRoutes = () =>{
       <Route path="/admin"
       element={
         <ProtectedRoutes adminOnly={true}>
-          <ErrorPage/>
+          <AdminDashboard/>
         </ProtectedRoutes>
         }
       />

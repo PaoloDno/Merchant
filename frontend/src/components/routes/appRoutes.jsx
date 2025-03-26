@@ -20,7 +20,14 @@ import AdminDashboard from "../../pages/AdminDashboard/DisplayAdmin";
 import ErrorPage from "../../pages/ErrorPage";
 import NotAuthorizedPage from "../../pages/NotAuthorizedPage";
 
-import ProtectedRoutes from "../../redux/features/protectedRoutes"
+//stores
+import MyStorePage from "../../pages/StoresPages/MyStorePage";
+import AddStoreProductPage from "../../pages/StoresPages/CreateMyProduct";
+
+//product
+import ViewProductPage from "../../pages/ProductPages/ViewProductPage";
+
+import ProtectedRoutes from "./protectedRoutes"
 
 const AppRoutes = () =>{
 
@@ -37,6 +44,14 @@ const AppRoutes = () =>{
       
       
       <Route path="/profile" element={<UserProfilePage/>} />
+
+
+      {/* store */}
+      <Route path="/MyStore/:storeId" element={<MyStorePage />} />
+      <Route path="/addProduct/:storeId" element={<AddStoreProductPage />} />
+
+      {/* product */}
+      <Route path="/viewProduct/:productId" element={<ViewProductPage />} />
 
 
       {/* ADMIN ROUTES */}

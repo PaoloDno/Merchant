@@ -6,11 +6,11 @@ import { setError } from "../reducers/errorSlice";
 
 export const createStoreAction = createAsyncThunk(
   "store/createStoreAction",
-  async (formData, thunkAPI) => {
+  async ({ formData, storeId } , thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
     
-      const response = await api.post("/store/", formData, {
+      const response = await api.post(`/store/${storeId}`, formData, {
         headers: {
           'Authorization': `Bearer ${token}`
         } 
@@ -33,7 +33,7 @@ export const createStoreAction = createAsyncThunk(
   }
 );
 
-export const getMyStoreAction = createAsyncThunk(
+export const getMyStoresAction = createAsyncThunk(
   "store/getMyStoreAction",
   async ( _, thunkAPI) => {
     try {
@@ -61,7 +61,7 @@ export const getMyStoreAction = createAsyncThunk(
   }
 );
 
-export const updatetMyStoreAction = createAsyncThunk(
+export const updateMyStoreAction = createAsyncThunk(
   "store/updateMyStoreAction",
   async ( formData, thunkAPI) => {
     try {

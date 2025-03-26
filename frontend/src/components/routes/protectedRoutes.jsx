@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { logoutAction } from '../actions/authThunks';
+import { logoutAction } from '../../redux/actions/authThunks';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
     const dispatch = useDispatch();

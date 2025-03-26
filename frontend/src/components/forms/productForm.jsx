@@ -5,9 +5,10 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { createProductAction } from "../../redux/actions/productThunks";
 
-const ProductForm = () => {
+const ProductForm = ({storeId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  console.log("form", storeId);
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState(() => {
@@ -133,7 +134,7 @@ const ProductForm = () => {
 
   useEffect(() => {
     if (isLoading) {
-      const timer = setTimeout(() => setIsLoading(false), 1500);
+      const timer = setTimeout(() => setIsLoading(false), 2000);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
@@ -144,13 +145,16 @@ const ProductForm = () => {
     e.preventDefault();
 
     if (validateStep()) {
-      console.log(formData);
+      console.log(formData, storeId);
 
       try {
-        const resultAction = await dispatch(createProductAction(formData));
+        console.log(storeId);
+        const resultAction = await dispatch(createProductAction({ formData, storeId:storeId }));
 
         if (createProductAction.fulfilled.match(resultAction)) {
           console.log("Success:", resultAction);
+          console.log(resultAction.payload.id, resultAction.payload, "id", resultAction.payload.product._id, resultAction.payload.product.id);
+          navigate(`/viewProduct/${resultAction.payload.product._id}`);
         } else {
           console.error("Submission failed:", resultAction.error);
         }

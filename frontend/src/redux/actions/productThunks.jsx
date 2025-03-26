@@ -4,11 +4,12 @@ import { setError } from "../reducers/errorSlice";
 
 export const createProductAction = createAsyncThunk(
   "product/createProduct",
-  async (productData, thunkAPI) => {
+  async ({formData, storeId}, thunkAPI) => {
     // thunkAPI can be destructured
+    console.log(formData, storeId);
     const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.post(`/product/`, productData, {
+      const response = await api.post(`/product/${storeId}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -28,14 +29,10 @@ export const createProductAction = createAsyncThunk(
 export const getProductByIdAction = createAsyncThunk(
   "product/getProductById",
   async ( productId, { thunkAPI }) => {
+    console.log(productId);
     // thunkAPI can be destructured
-    const token = thunkAPI.getState().auth.token;
     try {
-      const response = await api.get(`/product/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(`/product/${productId}`);
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(
@@ -51,7 +48,7 @@ export const getProductByIdAction = createAsyncThunk(
 
 export const updateProductByIdAction = createAsyncThunk(
   "product/updateProductById",
-  async ( productId, productData, { thunkAPI }) => {
+  async ( {productId, productData}, { thunkAPI }) => {
     // thunkAPI can be destructured
     const token = thunkAPI.getState().auth.token;
     try {

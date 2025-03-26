@@ -45,7 +45,7 @@ router.get("/review/product/:id", authMiddleware, getReviewProduct);
 router.get("/:id", getProductById); // Get a single product by ID
 
 // Protected Routes (User Must Be Logged In)
-router.post("/", authMiddleware, createProduct); // User create product
+router.post("/:id", authMiddleware, createProduct); // User create product
 router.put("/:id", authMiddleware, updateProduct); // User update product
 router.delete("/:id", authMiddleware, deleteProduct); // User delete product
 

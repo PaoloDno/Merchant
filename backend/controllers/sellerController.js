@@ -54,24 +54,25 @@ exports.createStore = async (req, res, next) => {
 };
 
 // Get store details
-exports.getMyStore = async (req, res, next) => {
+exports.getMyStores = async (req, res, next) => {
   try {
-    const store = await Seller.findOne({ userId: req.user.userId });
+    const stores = await Seller.find({ userId: req.user.userId });
 
-    if (!store) {
+    if (stores.length === 0) {
       return res.status(404).json({ message: "Store profile not found" });
     }
 
     res.status(200).json({
       success: true,
-      message: "get Product successfully",
-      store,
+      message: "Stores fetched successfully",
+      stores,
     });
   } catch (error) {
-    res.status(500).json({ success: true, message: "Error fetching store profile", error });
+    res.status(500).json({ success: false, message: "Error fetching store profile", error });
     next(error);
   }
 };
+
 
 // Update store details
 exports.updateMyStore = async (req, res, next) => {
@@ -163,6 +164,7 @@ exports.adminDeleteStore = async (req, res, next) => {
 exports.viewStore = async (req, res, next) => {
   try {
     const store = await Seller.findById(req.params.id);
+    console.log(store);
 
     if (!store) {
       return res.status(404).json({ message: "Store not found" });

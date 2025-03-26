@@ -163,7 +163,7 @@ const EditProfile = () => {
 
   const renderInput = (section, label, field, type) => {
     return (
-      <div className="flex flex-col group">
+      <div className="flex flex-col group w-full h-full">
         <label className="block font-semibold transition-all duration-300 group-focus-within:font-bold">
           {label}
         </label>
@@ -184,21 +184,21 @@ const EditProfile = () => {
   };
 
   return (
-    <div>
+    <div className="flex w-full h-full p-4 bg-skin-primary bg-opacity-10 pb-5">
       {isEditing ? (
         <form
           className="space-y-8 bg-opacity-10 min-h-[80vh] w-full h-full
         bg-skin-primary p-3"
           onSubmit={handleSubmit}
         >
-          <div className="w-full my-2 bg-skin-primary p-3 rounded-lg pb-6">
+          <div className="w-full my-2 bg-skin-secondary bg-opacity-40 p-3 rounded-lg pb-6">
             <h3 className="text-style3 flex flex-row md:text-style3a font-bold my-4"><VscAccount className="mx-2" />Profile</h3>
 
             {renderInput("profile", "First Name", "firstname", "text")}
             {renderInput("profile", "Last Name", "lastname", "text")}
             {renderInput("profile", "Phone Number", "phoneNumber", "text")}
           </div>
-          <div className="w-full my-2 bg-skin-primary p-3 rounded-lg pb-6">
+          <div className="w-full my-2 bg-skin-secondary bg-opacity-40 p-3 rounded-lg pb-6">
           <h3 className="text-style3 flex flex-row md:text-style3a font-bold my-4"><CiLocationOn className="mx-2" />Address</h3>
             {renderInput("address", "Street", "street", "text")}
             {renderInput("address", "City", "city", "text")}
@@ -225,16 +225,16 @@ const EditProfile = () => {
           </div>
         </form>
       ) : (
-        <div className="flex flex-col w-full h-full bg-skin-primary text-skin-primary
+        <div className="flex flex-col w-full h-full bg-skin-primary bg-opacity-10 text-skin-primary
          p-2 py-4 space-y-4">
-          <div className="w-full bg-skin-secondary bg-opacity-10 space-y-4">
+          <div className="w-full bg-skin-secondary bg-opacity-40 space-y-4 p-3 pb-6 rounded-lg">
             <h2 className="text-style3a md:text-style3a my-2">Profile</h2>
             <hr className="border-t border-skin-primary my-4" />
             <p>First Name: {formData.profile.firstname}</p>
             <p>Last Name: {formData.profile.lastname}</p>
             <p>Phone Number: {formData.profile.phoneNumber}</p>
           </div>
-          <div className="w-full bg-skin-secondary bg-opacity-10 space-y-4">
+          <div className="w-full bg-skin-secondary bg-opacity-40 space-y-4 p-3 pb-6 rounded-lg">
             <h2 className="text-style3a md:text-style3a my-2">Address</h2>
             <hr className="border-t border-skin-primary my-4" />
             <p>Street: {formData.address.street}</p>
@@ -245,8 +245,8 @@ const EditProfile = () => {
           </div>
           <button
             onClick={() => setIsEditing(true)}
-            className="flex flex-row p-2 px-6 bg-skin-button-secondary 
-            rounded-md text-skin-secondary md:w-1/6 justify-center items-center"
+            className="flex flex-row p-2 px-6 bg-skin-button-secondary
+            rounded-md text-skin-secondary md:w-1/6 justify-center items-center mb-4"
           >
             <Pencil className="mr-2"/> Edit
           </button>

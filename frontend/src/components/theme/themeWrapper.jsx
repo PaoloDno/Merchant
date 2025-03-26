@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { initializeUser } from '../redux/actions/initializeUser';
+import { initializeUser } from '../../redux/actions/initializeUser';
 import { useSelector } from "react-redux";
 
 const ThemeWrapper = ({ children }) => {

@@ -4,10 +4,10 @@ import { VscSearch, VscAccount, VscMenu } from "react-icons/vsc";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaXmark } from "react-icons/fa6";
 import { RiPaintFill } from "react-icons/ri";
-import SearchBarPopUp from "./nav/searchBar";
-import CartPopUp from "./nav/cartPopUp";
-import ThemePopUp from "./nav/themePopUp";
-import UserPopUp from "./nav/userPopUp";
+import SearchBarPopUp from "../nav/searchBar";
+import CartPopUp from "../nav/cartPopUp";
+import ThemePopUp from "../nav/themePopUp";
+import UserPopUp from "../nav/userPopUp";
 
 const navButtons = [
   { name: "Home", path: "/home" },

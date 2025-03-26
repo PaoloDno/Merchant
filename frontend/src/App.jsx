@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import AppRoutes from "./redux/features/appRoutes";
-import Headerbar from "./components/header";
-import Footer from "./components/footer";
+import AppRoutes from "./components/routes/appRoutes";
+import Headerbar from "./components/header/header";
+import Footer from "./components/footer/footer";
 //error handling
 import ErrorAlert from "./components/error/errorAlert";
 import TestError from "./components/error/testError";
 import TestThunk from "./components/error/testThunk";
 
-import ThemeWrapper from "./components/themeWrapper";
+import ThemeWrapper from "./components/theme/themeWrapper";
 
 function App() {
   return (

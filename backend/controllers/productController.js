@@ -28,6 +28,8 @@ const createProduct = [
 
   async (req, res, next) => {
     try {
+      const storeId = req.params.id;
+      console.log("StoreID: ", storeId);
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ success: false, errors: errors.array() });
@@ -35,7 +37,7 @@ const createProduct = [
 
       let { basicInfo, categoryDetails, specifications } = req.body;
 
-      console.log("Received Data:", basicInfo, categoryDetails, specifications);
+      console.log("Received Data:", basicInfo, categoryDetails, specifications, storeId);
 
       // Convert `subCategory` to an array if it's a string
       if (!Array.isArray(categoryDetails.subCategory)) {
@@ -79,8 +81,7 @@ const createProduct = [
       categoryDetails.subCategoryId = subCategoryIds;
 
       // seller
-      const userId = req.user.userId;
-      const store = await Seller.findOne({ userId: userId });
+      const store = await Seller.findOne({ _id: storeId });
 
       const seller = {
         sellerId: store._id,
@@ -123,6 +124,8 @@ const createProduct = [
 // GET SINGLE PRODUCT BY ID
 const getProductById = async (req, res, next) => {
   try {
+    console.log(req.params.id);
+    console.log("why arent u fetcing?");
     const product = await Product.findById(req.params.id);
     if (!product) {
       return res

@@ -10,7 +10,7 @@ const DisplayProductAdmin = () => {
     <div className="flex justify-center w-full h-full items-center gap-4">
       {/* Button to fetch admin profiles */}
       <button
-        onClick={() => dispatch(adminGetProfiles())}
+        onClick={() => dispatch(adminGetProfiles({}))}
         className="px-4 py-2 bg-blue-500 text-white rounded-lg"
       >
         Get Admin Profiles

@@ -9,7 +9,12 @@ import { RxExit } from "react-icons/rx";
 import { BsCart4, BsClockHistory } from "react-icons/bs";
 
 import ProfileContent from "../ProfilePages/ProfileContent/DisplayProfile";
-import AdminProductContent from "./AdminContent/DisplayProductContent"
+import AdminStoreContent from "./AdminContent/AdminDisplayStoreContent";
+import AdminProductContent from "./AdminContent/AdminDisplayProductContent";
+import AdminCategories from "./AdminContent/AdminDisplayCategoryContent";
+import AdminOrders from "./AdminContent/AdminDisplayOrderContent";
+import AdminReviews from "./AdminContent/AdminDisplayReviewsContent";
+import AdminUsers from "./AdminContent/AdminDisplayUser";
 
 const AdminDisplayPage = () => {
   const dispatch = useDispatch();
@@ -20,14 +25,19 @@ const AdminDisplayPage = () => {
     switch (activeTab) {
       case "profile":
         return <ProfileContent />;
-      case "stores":
-        return <AdminProductContent />;
+      case "users":
+        return <AdminUsers />;
       case "products":
-        return <div>Products Content</div>;
-      case "category":
-        return <div>Categpry</div>;
-      case "history":
-        return <div>Order History Content</div>;
+        return <AdminProductContent />;
+      case "stores":
+        return <AdminStoreContent />;
+      case "categories":
+        return <AdminCategories />;
+      case "reviws":
+        return <AdminReviews /> ;
+      case "order":
+        return <AdminOrders />;
+      
       default:
         return null;
     }
@@ -69,10 +79,12 @@ const AdminDisplayPage = () => {
         <div className="flex flex-col w-full gap-3">
           {[
             { tab: "profile", icon: <VscAccount /> },
+            { tab: "users", icon: <VscAccount /> },
             { tab: "stores", icon: <FaBoxes /> },
             { tab: "products", icon: <FaBoxes /> },
             { tab: "categories", icon: <BsCart4 /> },
-            { tab: "history", icon: <BsClockHistory /> },
+            { tab: "reviews", icon: <BsClockHistory /> },
+            { tab: "order", icon: <VscAccount /> }
           ].map(({ tab, icon }) => (
             <button
               key={tab}

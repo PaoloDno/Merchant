@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import landingImg from "../../assets/b.jpg";
 import { getProductByIdAction } from "../../redux/actions/productThunks";
+
 
 const ViewProductPage = () => {
   const { productId } = useParams();

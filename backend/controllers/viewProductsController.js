@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 
-const FIXED_LIMIT = 15; // Set fixed limit for pagination
+const FIXED_LIMIT = 6; // Set fixed limit for pagination
 
 // Helper function to get pagination values
 const getPagination = (req) => {
@@ -54,7 +54,9 @@ exports.getNewProducts = async (req, res, next) => {
   try {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const { page, skip } = getPagination(req);
+    const { page } = getPagination(req);
+    console.log(page)
+    const skip = page - 1;
 
     const newProducts = await Product.find({ createdAt: { $gte: sevenDaysAgo } })
       .sort({ createdAt: -1 })
@@ -63,6 +65,8 @@ exports.getNewProducts = async (req, res, next) => {
 
     const totalProducts = await Product.countDocuments({ createdAt: { $gte: sevenDaysAgo } });
     const totalPages = Math.ceil(totalProducts / FIXED_LIMIT);
+
+    console.log("a:", newProducts);
 
     res.status(200).json({ success: true, products: newProducts, pagination: { page, totalPages, totalProducts } });
   } catch (error) {

@@ -13,7 +13,7 @@ const constructUrl = (endpoint, page) => {
 
 export const getHotProductsActions = createAsyncThunk(
   "product/getHotProductsActions",
-  async ({ page } = {}, thunkAPI) => {
+  async ( page , thunkAPI) => {
     try {
       console.log("Fetching hot products...");
       const token = thunkAPI.getState().auth.token;
@@ -62,15 +62,16 @@ export const getProductsByCategoryActions = createAsyncThunk(
 
 export const getNewProductsActions = createAsyncThunk(
   "product/getNewProductsActions",
-  async ({ page } = {}, thunkAPI) => {
+  async (page , thunkAPI) => {
     try {
-      console.log("Fetching new products...");
+      console.log("Fetching new products...", page);
       const token = thunkAPI.getState().auth.token;
       const response = await api.get(constructUrl("/product/new", page), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(
@@ -86,7 +87,7 @@ export const getNewProductsActions = createAsyncThunk(
 
 export const getRandomProductsActions = createAsyncThunk(
   "product/getRandomProductsActions",
-  async ({ page } = {}, thunkAPI) => {
+  async ( page , thunkAPI) => {
     try {
       console.log("Fetching random products...");
       const token = thunkAPI.getState().auth.token;

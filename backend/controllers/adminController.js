@@ -18,7 +18,7 @@ const getPagination = (page, limit) => {
 exports.getProfiles = async (req, res, next) => {
   try {
     const {
-      limit = 15,
+      limit = 12,
       page = 1,
       firstname,
       lastname,
@@ -35,11 +35,13 @@ exports.getProfiles = async (req, res, next) => {
       limit
     );
 
+    console.log(filter);
+
     const profiles = await Profile.find(filter)
       .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
       .skip(skipDocuments)
       .limit(resultsPerPage);
-
+    console.log(profiles);
     const totalCounts  = await Profile.countDocuments(filter);
     res.json({
       profiles,
@@ -58,7 +60,7 @@ exports.getProfiles = async (req, res, next) => {
 exports.getStores = async (req, res, next) => {
   try {
     const {
-      limit = 15,
+      limit = 12,
       page = 1,
       hot,
       new: isNew,
@@ -107,7 +109,7 @@ exports.getStores = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   try {
     const {
-      limit = 15,
+      limit = 12,
       page = 1,
       hot,
       new: isNew,
@@ -119,18 +121,18 @@ exports.getProducts = async (req, res, next) => {
       sortOrder = "desc",
     } = req.query;
     const filter = {};
-
-    if (hot) filter.isHot = true;
+    
+    //if (hot) filter.isHot = true;
     if (isNew)
       filter.createdAt = {
         $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
       };
-    if (bestSelling) filter.salesCount = { $gte: 100 };
-    if (category) filter.category = category;
-    if (subcategory) filter.subcategory = subcategory;
+    //if (bestSelling) filter.salesCount = { $gte: 100 };
+    if (category) filter["categoryDetails.category"] = category;
+    if (subcategory) filter["categoryDetails.subCategory"] = subcategory;
     if (productName)
       filter["basicInfo.productName"] = { $regex: productName, $options: "i" };
-
+    console.log(filter);
     const { resultsPerPage, currentPage, skipDocuments } = getPagination(
       page,
       limit
@@ -142,6 +144,7 @@ exports.getProducts = async (req, res, next) => {
       .limit(resultsPerPage);
 
     const totalCounts = await Product.countDocuments(filter);
+    console.log(products);
     res.json({
       products,
       pagination: {
@@ -159,7 +162,7 @@ exports.getProducts = async (req, res, next) => {
 exports.getCategories = async (req, res, next) => {
   try {
     const {
-      limit = 15,
+      limit = 12,
       page = 1,
       name,
       sortBy = "createdAt",
@@ -197,12 +200,13 @@ exports.getCategories = async (req, res, next) => {
 exports.getSubCategories = async (req, res, next) => {
   try {
     const {
-      limit = 15,
+      limit = 12,
       page = 1,
       name,
       sortBy = "createdAt",
       sortOrder = "desc",
-    } = req.query;
+     } = req.query;
+    const filter = {};
 
     if (name) filter.name = { $regex: name, $options: "i" };
 
@@ -233,7 +237,7 @@ exports.getSubCategories = async (req, res, next) => {
 // Get all reviews
 exports.getReviews = async (req, res, next) => {
   try {
-    const { limit = 15, page = 1, product } = req.query;
+    const { limit = 12, page = 1, product } = req.query;
     const filter = {};
     if (product) filter.product = product;
 
@@ -263,7 +267,7 @@ exports.getReviews = async (req, res, next) => {
 // Get all orders
 exports.getOrders = async (req, res, next) => {
   try {
-    const { limit = 15, page = 1, user } = req.query;
+    const { limit = 12, page = 1, user } = req.query;
     const filter = {};
     if (user) filter.userId = user;
 

@@ -66,7 +66,7 @@ const authSlice = createSlice({
           state.token = action.payload.token;
           state.profile = action.payload.profile;
           state.address = action.payload.address;
-          state.isAdmin = action.payload.isAdmin;
+          state.isAdmin = action.payload.user.isAdmin;
           state.isLoading = false;
           state.status = "succeeded";
         }

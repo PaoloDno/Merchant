@@ -148,7 +148,8 @@ export const adminGetCategories = createAsyncThunk(
 // Fetch Admin Subcategories
 export const adminGetSubCategories = createAsyncThunk(
   "admin/adminGetSubCategories",
-  async ({ name = "", page = 1, limit = 15 }, thunkAPI) => {
+  async ({ name = "", page = 1, limit = 15 }, thunkAPI
+  ) => {
     const token = thunkAPI.getState().auth.token;
     try {
       const response = await api.get("/admin/subcategories", {
@@ -171,7 +172,8 @@ export const adminGetSubCategories = createAsyncThunk(
 // Fetch Admin Reviews
 export const adminGetReviews = createAsyncThunk(
   "admin/adminGetReviews",
-  async ({ product = "", page = 1, limit = 15 }, thunkAPI) => {
+  async ({ product = "", page = 1, limit = 15 }, thunkAPI
+  ) => {
     const token = thunkAPI.getState().auth.token;
     try {
       const response = await api.get("/admin/reviews", {
@@ -194,7 +196,8 @@ export const adminGetReviews = createAsyncThunk(
 // Fetch Admin Orders
 export const adminGetOrders = createAsyncThunk(
   "admin/adminGetOrders",
-  async ({ user = "", page = 1, limit = 15 }, thunkAPI) => {
+  async ({ user = "", page = 1, limit = 15 }, thunkAPI
+  ) => {
     const token = thunkAPI.getState().auth.token;
     try {
       const response = await api.get("/admin/orders", {

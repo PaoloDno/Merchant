@@ -88,11 +88,22 @@ exports.getRandomProducts = async (req, res, next) => {
 // Search Products with filters, sorting, and pagination
 exports.searchProducts = async (req, res, next) => {
   try {
-    const { query } = req.params;
-    const { categoryId, subCategoryId, minPrice, maxPrice, inStock, sortBy } = req.query;
-    const { page, skip } = getPagination(req);
+    const {
+      productName,
+      category,
+      subcategory,
+      bestSelling,
+      minPrice,
+      maxPrice,
+      inStock,
+      sortBy = "createdAt",
+      sortOrder = "desc",
+      limit = 12,
+      page = 1,
+    } = req.query;
 
-    let filter = {};
+    const { query } = req.params;
+    const filter = {};
 
     // Keyword search (by product name or description)
     if (query) {
@@ -102,11 +113,11 @@ exports.searchProducts = async (req, res, next) => {
       ];
     }
 
-    // Category filter
-    if (categoryId) filter["categoryDetails.categoryId"] = categoryId;
-
-    // Subcategory filter
-    if (subCategoryId) filter["categoryDetails.subCategoryId"] = subCategoryId;
+    // Category and product filters
+    if (category) filter["categoryDetails.category"] = category;
+    if (subcategory) filter["categoryDetails.subCategory"] = subcategory;
+    if (productName)
+      filter["basicInfo.productName"] = { $regex: productName, $options: "i" };
 
     // Price range filter
     if (minPrice || maxPrice) {
@@ -118,22 +129,25 @@ exports.searchProducts = async (req, res, next) => {
     // Stock availability filter
     if (inStock === "true") filter["basicInfo.stock"] = { $gt: 0 };
 
-    // Sorting options
-    let sortOption = { _id: -1 };
-    if (sortBy === "priceLowToHigh") sortOption = { "basicInfo.price": 1 };
-    if (sortBy === "priceHighToLow") sortOption = { "basicInfo.price": -1 };
-    if (sortBy === "rating") sortOption = { "metrics.rating": -1 };
-    if (sortBy === "sales") sortOption = { "metrics.salesCount": -1 };
+    const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
 
-    // Fetch the filtered products with pagination
-    const products = await Product.find(filter).sort(sortOption).skip(skip).limit(FIXED_LIMIT);
+    const products = await Product.find(filter)
+      .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
+      .skip(skipDocuments)
+      .limit(resultsPerPage);
 
-    const totalProducts = await Product.countDocuments(filter);
-    const totalPages = Math.ceil(totalProducts / FIXED_LIMIT);
+    const totalCounts = await Product.countDocuments(filter);
 
-    res.status(200).json({ success: true, products, pagination: { page, totalPages, totalProducts } });
+    res.json({
+      products,
+      pagination: {
+        currentPage,
+        totalPages: Math.ceil(totalCounts / resultsPerPage),
+        totalCounts,
+      },
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error searching products", error });
     next(error);
   }
 };
+

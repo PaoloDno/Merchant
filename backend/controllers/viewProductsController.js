@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 
-const FIXED_LIMIT = 6; // Set fixed limit for pagination
+const FIXED_LIMIT = 12; // Set fixed limit for pagination
 
 // Helper function to get pagination values
 const getPagination = (req) => {
@@ -90,6 +90,7 @@ exports.searchProducts = async (req, res, next) => {
   try {
     const {
       productName,
+      description,
       category,
       subcategory,
       bestSelling,
@@ -97,27 +98,28 @@ exports.searchProducts = async (req, res, next) => {
       maxPrice,
       inStock,
       sortBy = "createdAt",
-      sortOrder = "desc",
-      limit = 12,
-      page = 1,
+      sortOrder = "desc"
     } = req.query;
 
-    const { query } = req.params;
+    const { page, skip } = getPagination(req);
+
     const filter = {};
 
-    // Keyword search (by product name or description)
-    if (query) {
-      filter.$or = [
-        { "basicInfo.productName": { $regex: query, $options: "i" } },
-        { "basicInfo.description": { $regex: query, $options: "i" } },
-      ];
+    // Keyword search
+    if (productName || description) {
+      const searchConditions = [];
+      if (productName) {
+        searchConditions.push({ "basicInfo.productName": { $regex: productName, $options: "i" } });
+      }
+      if (description) {
+        searchConditions.push({ "basicInfo.description": { $regex: description, $options: "i" } });
+      }
+      filter.$or = searchConditions;
     }
 
-    // Category and product filters
-    if (category) filter["categoryDetails.category"] = category;
-    if (subcategory) filter["categoryDetails.subCategory"] = subcategory;
-    if (productName)
-      filter["basicInfo.productName"] = { $regex: productName, $options: "i" };
+    // Category filters
+    if (category) filter["categoryDetails.categoryId"] = category;
+    if (subcategory) filter["categoryDetails.subCategoryId"] = subcategory;
 
     // Price range filter
     if (minPrice || maxPrice) {
@@ -129,25 +131,27 @@ exports.searchProducts = async (req, res, next) => {
     // Stock availability filter
     if (inStock === "true") filter["basicInfo.stock"] = { $gt: 0 };
 
-    const { resultsPerPage, currentPage, skipDocuments } = getPagination(page, limit);
+    // Sorting logic
+    let sortOptions = { [sortBy]: sortOrder === "asc" ? 1 : -1 };
+    if (bestSelling === "true") {
+      sortOptions = { "metrics.salesCount": -1, ...sortOptions };
+    }
 
-    const products = await Product.find(filter)
-      .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
-      .skip(skipDocuments)
-      .limit(resultsPerPage);
+    // Fetch Products
+    const products = await Product.find(filter).sort(sortOptions).skip(skip).limit(FIXED_LIMIT);
 
-    const totalCounts = await Product.countDocuments(filter);
+    // Total Count
+    const totalProducts = await Product.countDocuments(filter);
+    const totalPages = Math.ceil(totalProducts / FIXED_LIMIT);
 
-    res.json({
+    res.status(200).json({
+      success: true,
       products,
-      pagination: {
-        currentPage,
-        totalPages: Math.ceil(totalCounts / resultsPerPage),
-        totalCounts,
-      },
+      pagination: { page, totalPages, totalProducts },
     });
   } catch (error) {
     next(error);
   }
 };
+
 

@@ -163,6 +163,7 @@ exports.adminDeleteStore = async (req, res, next) => {
 // View store details
 exports.viewStore = async (req, res, next) => {
   try {
+    console.log(req.params.id);
     const store = await Seller.findById(req.params.id);
     console.log(store);
 

@@ -8,6 +8,7 @@ const {
   updateProduct,
   deleteProduct,
   getProductById,
+  getProductsByStore
 } = require("../controllers/productController");
 
 const {
@@ -34,7 +35,8 @@ router.get("/hot", getHotProducts); // Get hot products
 router.get("/category/:categoryId", getProductsByCategory); // Get products by category
 router.get("/new", getNewProducts); // Get new products
 router.get("/random", getRandomProducts); // Get random products
-router.get("/search/:query", searchProducts); // Search products
+router.get("/search", authMiddleware, searchProducts); // Search products
+router.get("/store/:storeId", getProductsByStore);
 
 
 router.post("/review", authMiddleware, createReview);

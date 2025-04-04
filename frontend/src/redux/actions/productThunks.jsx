@@ -94,5 +94,21 @@ export const deleteProductByIdAction = createAsyncThunk(
   }
 );
 
-
+export const getProductsByStoreAction = createAsyncThunk(
+  "products/getByStore",
+  async (storeId, { thunkAPI }) => {
+    try {
+      const response = await  api.get(`/product/store/${storeId}`);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        setError({
+          message: error.response?.data?.message || "An error occured",
+          status: error.response?.status,
+        })
+      );
+      return thunkAPI.rejectWithValue(error.response.data.message);
+    }
+  }
+);
 

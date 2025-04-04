@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import landingImg from "../../assets/b.jpg";
 import { getProductByIdAction } from "../../redux/actions/productThunks";
-
+import ProductImage from "../../components/images/productImage";
 
 const ViewProductPage = () => {
   const { productId } = useParams();
@@ -16,13 +16,16 @@ const ViewProductPage = () => {
 
   useEffect(() => {
     let isMounted = true; // Component is mounted
-  
+
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const resultAction = await dispatch(getProductByIdAction(productId || "67e3c9c8ec2feb32eeea79d9" ));
+        const resultAction = await dispatch(
+          getProductByIdAction(productId || "67e3c9c8ec2feb32eeea79d9")
+        );
         console.log(resultAction.payload);
-        if (isMounted) { // Only update state if still mounted
+        if (isMounted) {
+          // Only update state if still mounted
           console.log(resultAction.payload);
           setProduct(resultAction.payload.product);
           setError(resultAction.payload ? "" : "Product not found");
@@ -32,9 +35,9 @@ const ViewProductPage = () => {
       }
       if (isMounted) setLoading(false);
     };
-  
+
     fetchProduct();
-  
+
     return () => {
       isMounted = false; // Cleanup when component unmounts
     };
@@ -50,60 +53,99 @@ const ViewProductPage = () => {
       <div className="absolute inset-0 bg-black bg-opacity-40 pointer-events-none"></div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 md:px-6 py-4 md:py-6">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 md:px-6 py-4 md:py-6 bg-slate-300 text-black">
         {loading ? (
-          <p className="text-white text-xl">Loading...</p>
+          <p className="text-black text-xl">Loading...</p>
         ) : error ? (
           <p className="text-red-500 text-xl">{error}</p>
         ) : (
           <>
             {/* Product Details Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full bg-white bg-opacity-20 rounded-lg shadow-lg p-6">
-              {/* Product Image and Info */}
-              <div className="flex flex-col items-center">
-                <img
-                  src={product?.basicInfo?.image || "IMAGE_URL_HERE"}
-                  alt="Product Image"
-                  className="w-full max-w-xs rounded-lg shadow-lg"
-                />
-                <span className="text-white font-bold text-lg">
-                  {product?.basicInfo?.productName}
-                </span>
-                <p className="text-white">{product?.basicInfo?.description}</p>
-                <p className="text-white font-bold">${product?.basicInfo?.price}</p>
-                <p className="text-white">Stock: {product?.basicInfo?.stock}</p>
+            <div className="w-full bg-white bg-opacity-20 rounded-lg shadow-lg p-6">
+              {/* Product Details Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Product Image and Info */}
+                <div className="flex flex-col items-start bg-skin-fill-1 bg-opacity-90 rounded-lg p-4">
+                  <div className="w-full h-64 flex justify-center items-center bg-gray-300 rounded-lg overflow-hidden">
+                    <ProductImage
+                      subcategory={product?.categoryDetails?.subCategory}
+                    />
+                  </div>
+                  <h2 className="text-skin-primary font-bold text-2xl mt-4">
+                    {product?.basicInfo?.productName}
+                  </h2>
+                  <p className="text-skin-primary text-sm mt-2">
+                    {product?.basicInfo?.description}
+                  </p>
+                  <p className="text-skin-primary font-bold text-lg mt-2">
+                    ${product?.basicInfo?.price}
+                  </p>
+                  <p className="text-skin-primary text-sm">
+                    Stock: {product?.basicInfo?.stock}
+                  </p>
+                </div>
+
+                {/* Category, Features, Metrics, Seller Info */}
+                <div className="flex flex-col bg-white bg-opacity-40 rounded-lg p-4 shadow-md">
+                  <div className="mb-4">
+                    <h3 className="text-gray-800 font-semibold text-lg">
+                      Category
+                    </h3>
+                    <p className="text-gray-600">
+                      {product?.categoryDetails?.category}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <h3 className="text-gray-800 font-semibold text-lg">
+                      Subcategory
+                    </h3>
+                    <p className="text-gray-600">
+                      {product?.categoryDetails?.subCategory?.join(", ")}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <h3 className="text-gray-800 font-semibold text-lg">
+                      Features
+                    </h3>
+                    <p className="text-gray-600">
+                      {product?.categoryDetails?.features}
+                    </p>
+                  </div>
+                  <div className="mb-4">
+                    <h3 className="text-gray-800 font-semibold text-lg">
+                      Metrics
+                    </h3>
+                    <p className="text-gray-600">
+                      Sales: {product?.metrics?.salesCount}
+                    </p>
+                    <p className="text-gray-600">
+                      Views: {product?.metrics?.view}
+                    </p>
+                  </div>
+                  <div>
+                    <h3 className="text-gray-800 font-semibold text-lg">
+                      <button
+                        onClick={() =>  navigate(`/ViewStore/${product?.seller?.sellerId || product?.seller?._id}`)
+                      }
+                        className="text-blue-500 hover:underline"
+                      >
+                        {product?.seller?.storeName}
+                      </button>
+                    </h3>
+                    <p className="text-gray-600">
+                      {product?.seller?.storeName}
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              {/* Category, Features, Metrics, Seller Info */}
-              <div className="flex flex-col text-white">
-                <div>
-                  <h3 className="font-bold">Category</h3>
-                  <p>{product?.categoryDetails?.category}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold">Subcategory</h3>
-                  <p>{product?.categoryDetails?.subCategory?.join(", ")}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold">Features</h3>
-                  <p>{product?.categoryDetails?.features}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold">Metrics</h3>
-                  <p>Sales: {product?.metrics?.salesCount}</p>
-                  <p>Views: {product?.metrics?.view}</p>
-                </div>
-                <div>
-                  <h3 className="font-bold">Seller</h3>
-                  <p>{product?.seller?.storeName}</p>
-                </div>
+              {/* Reviews Section */}
+              <div className="w-full mt-6 bg-white bg-opacity-40 rounded-lg shadow-md p-6">
+                <h3 className="text-gray-800 font-bold text-xl">Reviews</h3>
+                <p className="text-gray-600">
+                  User reviews will be displayed here.
+                </p>
               </div>
-            </div>
-
-            {/* Reviews Section */}
-            <div className="w-full mt-6 bg-white bg-opacity-20 rounded-lg shadow-lg p-6">
-              <h3 className="text-white font-bold">Reviews</h3>
-              <p className="text-white">User reviews will be displayed here.</p>
             </div>
           </>
         )}

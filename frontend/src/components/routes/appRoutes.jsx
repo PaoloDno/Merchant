@@ -23,11 +23,16 @@ import NotAuthorizedPage from "../../pages/NotAuthorizedPage";
 //stores
 import MyStorePage from "../../pages/StoresPages/MyStorePage";
 import AddStoreProductPage from "../../pages/StoresPages/CreateMyProduct";
+import ViewStorePage from "../../pages/StoresPages/ViewStorePage";
 
 //product
 import ViewProductPage from "../../pages/ProductPages/ViewProductPage";
-
+import HomeProductPage from "../../pages/ProductPages/HomeProductPages";
 import ProtectedRoutes from "./protectedRoutes"
+
+//test
+
+import ProductHomeSearchBar from "../search/product/ProductHomeSearchBar";
 
 const AppRoutes = () =>{
 
@@ -41,14 +46,21 @@ const AppRoutes = () =>{
       <Route path="/about" element={<AboutPage />} />
 
       <Route path="/store" element={<AddSellerPage />} />
+
+      <Route path="/test" element={<ProductHomeSearchBar />} />
       
       
       <Route path="/profile" element={<UserProfilePage/>} />
+
+      <Route path="/product" element={<HomeProductPage/>} />
+
 
 
       {/* store */}
       <Route path="/MyStore/:storeId" element={<MyStorePage />} />
       <Route path="/addProduct/:storeId" element={<AddStoreProductPage />} />
+      <Route path="/ViewStore/:storeId" element={<ViewStorePage />} />
+      
 
       {/* product */}
       <Route path="/viewProduct/:productId" element={<ViewProductPage />} />

@@ -11,6 +11,7 @@ import {
   getProductsByCategoryActions,
   getNewProductsActions,
   getRandomProductsActions,
+  searchProductActions
 } from "../actions/getProductThunks";
 
 // Group actions for uniform matching
@@ -22,7 +23,8 @@ const productActions = [
   getHotProductsActions,
   getProductsByCategoryActions,
   getNewProductsActions,
-  getRandomProductsActions
+  getRandomProductsActions,
+  searchProductActions
 ];
 
 const initialState = {
@@ -80,6 +82,12 @@ const productSlice = createSlice({
         if (state.product?._id === action.payload) {
           state.product = null;
         }
+      })
+
+      .addCase(searchProductActions.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.products = action.payload.products;
+        state.pagination = action.payload.pagination || state.pagination;
       })
 
       // FETCH PRODUCT LISTS

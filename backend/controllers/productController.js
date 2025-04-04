@@ -182,10 +182,29 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
+
+// @desc    Get all products for a specific store
+// @route   GET /api/products/store/:storeId
+// @access  Public
+const getProductsByStore = async (req, res, next) => {
+  try {
+    console.log("getProducts INitiated")
+    const { storeId } = req.params;
+    const products = await Product.find({ "seller.sellerId": storeId });
+    console.log("products", products);
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
 // Export all functions
 module.exports = {
   createProduct,
   getProductById,
   updateProduct,
   deleteProduct,
+  getProductsByStore,
 };

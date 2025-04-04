@@ -13,7 +13,7 @@ const constructUrl = (endpoint, page) => {
 
 export const getHotProductsActions = createAsyncThunk(
   "product/getHotProductsActions",
-  async ( page , thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
       console.log("Fetching hot products...");
       const token = thunkAPI.getState().auth.token;
@@ -31,7 +31,9 @@ export const getHotProductsActions = createAsyncThunk(
           status: error.response?.status,
         })
       );
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error fetching hot products");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Error fetching hot products"
+      );
     }
   }
 );
@@ -42,11 +44,14 @@ export const getProductsByCategoryActions = createAsyncThunk(
     try {
       console.log(`Fetching products for category ${categoryId}...`);
       const token = thunkAPI.getState().auth.token;
-      const response = await api.get(constructUrl(`/product/category/${categoryId}`, page), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await api.get(
+        constructUrl(`/product/category/${categoryId}`, page),
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(
@@ -55,14 +60,16 @@ export const getProductsByCategoryActions = createAsyncThunk(
           status: error.response?.status,
         })
       );
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error fetching category products");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Error fetching category products"
+      );
     }
   }
 );
 
 export const getNewProductsActions = createAsyncThunk(
   "product/getNewProductsActions",
-  async (page , thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
       console.log("Fetching new products...", page);
       const token = thunkAPI.getState().auth.token;
@@ -80,14 +87,16 @@ export const getNewProductsActions = createAsyncThunk(
           status: error.response?.status,
         })
       );
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error fetching new products");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Error fetching new products"
+      );
     }
   }
 );
 
 export const getRandomProductsActions = createAsyncThunk(
   "product/getRandomProductsActions",
-  async ( page , thunkAPI) => {
+  async (page, thunkAPI) => {
     try {
       console.log("Fetching random products...");
       const token = thunkAPI.getState().auth.token;
@@ -104,7 +113,63 @@ export const getRandomProductsActions = createAsyncThunk(
           status: error.response?.status,
         })
       );
-      return thunkAPI.rejectWithValue(error.response?.data?.message || "Error fetching random products");
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || "Error fetching random products"
+      );
     }
   }
 );
+
+export const searchProductActions = createAsyncThunk(
+  "product/searchAction",
+  async (
+    {
+      productName,
+      description,
+      category,
+      subcategory,
+      bestSelling,
+      minPrice,
+      maxPrice,
+      inStock,
+      sortBy = "createdAt",
+      sortOrder = "desc",
+      page = 1,
+      limit = 12, // Ensure limit is passed
+    },
+    thunkAPI
+  ) => {
+    const token = thunkAPI.getState().auth.token;
+    try {
+      const response = await api.get("/product/search", {
+        params: {
+          productName,
+          description,
+          category,
+          subcategory,
+          bestSelling,
+          minPrice,
+          maxPrice,
+          inStock,
+          sortBy,
+          sortOrder,
+          page,
+          limit,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        setError({
+          message: error.response?.data?.message || "An error occurred",
+          status: error.response?.status,
+        })
+      );
+      return thunkAPI.rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+

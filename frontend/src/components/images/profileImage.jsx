@@ -1,16 +1,17 @@
 import React from "react";
+import profileA from "./profileImages/icon8.png";
+import profileB from "./profileImages/icon7.png";
 
-const ProfileImage = ({ isAdmin, isVerify }) => {
-  const profileImage = `//folder/${isAdmin}-${isVerify}.jpg`;
+const ProfileImage = ({ profile }) => {
+  const profileSrc = profile === "admin" ? profileB : profileA;
 
   return (
-    <img 
-      src={profileImage} 
-      alt={'profile-avatar-'} 
-      className="w-full h-full sm:rounded-full md:rounded-lg object-cover mx-auto"
+    <img
+      src={profileSrc}
+      alt="profile-avatar"
+      className="w-full h-full sm:rounded-full md:rounded-lg object-cover mx-auto flex justify-center items-center"
     />
   );
 };
 
-
-export default ProductImage;
+export default ProfileImage;

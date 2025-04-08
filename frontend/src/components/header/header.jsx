@@ -51,7 +51,7 @@ const Header = () => {
 
   return (
     <div
-      className="min-w-full h-[3.5rem] p-2 lg:px-2 flex flex-row container z-50
+      className="min-w-full h-[3.5rem] p-2 lg:px-3 flex flex-row container z-50
     align-center justify-center bg-skin-primary text-skin-primary relative 
     text-style3 box-border"
     >

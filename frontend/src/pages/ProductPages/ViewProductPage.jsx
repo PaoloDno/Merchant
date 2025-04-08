@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import landingImg from "../../assets/b.jpg";
 import { getProductByIdAction } from "../../redux/actions/productThunks";
 import ProductImage from "../../components/images/productImage";
+import StoreBanner from "../../components/images/storeBanner";
+import StoreImage from "../../components/images/storeImage";
 
 const ViewProductPage = () => {
   const { productId } = useParams();
@@ -122,19 +124,49 @@ const ViewProductPage = () => {
                       Views: {product?.metrics?.view}
                     </p>
                   </div>
-                  <div>
-                    <h3 className="text-gray-800 font-semibold text-lg">
-                      <button
-                        onClick={() =>  navigate(`/ViewStore/${product?.seller?.sellerId || product?.seller?._id}`)
-                      }
-                        className="text-blue-500 hover:underline"
-                      >
-                        {product?.seller?.storeName}
-                      </button>
-                    </h3>
-                    <p className="text-gray-600">
+                  <h1 className="text-gray-600">Product's Store</h1>
+                  <div className="relative w-full h-[80px] rounded-md overflow-hidden mb-4">
+                    {/* Store Banner */}
+                    <div className="absolute inset-0">
+                      <StoreBanner
+                        storeBanner={
+                          product?.seller?.sellerId?.storeBanner ||
+                          product?.seller?._id
+                        }
+                      />
+                    </div>
+
+                    {/* Right-side Black Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-l from-black/60 via-transparent to-transparent z-10"></div>
+
+                    {/* Store Logo */}
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 h-[48px] w-[48px] rounded-full overflow-hidden z-20 border-2 border-white">
+                      <StoreImage
+                        storeLogo={
+                          product?.seller?.sellerId?.storeLogo ||
+                          product?.seller?._id
+                        }
+                      />
+                    </div>
+
+                    {/* Store Name */}
+                    <h3 className="absolute left-20 bottom-2 text-white font-semibold text-style3a z-20">
                       {product?.seller?.storeName}
-                    </p>
+                    </h3>
+
+                    {/* Visit Button */}
+                    <button
+                      onClick={() =>
+                        navigate(
+                          `/ViewStore/${
+                            product?.seller?.sellerId?._id || product?.seller?._id
+                          }`
+                        )
+                      }
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-black bg-green-300 p-2 rounded-md hover:underline z-20"
+                    >
+                      Visit Store
+                    </button>
                   </div>
                 </div>
               </div>

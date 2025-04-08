@@ -1,16 +1,18 @@
 import React from "react";
-import profileA from "./profileImages/icon8.png";
-import profileB from "./profileImages/icon7.png";
+import profileA from "./profileImages/icon8.png"; // default user
+import profileB from "./profileImages/icon7.png"; // admin user
 
-const ProfileImage = ({ profile }) => {
-  const profileSrc = profile === "admin" ? profileB : profileA;
+const ProfileImage = ({ isAdmin }) => {
+  const profileSrc = isAdmin ? profileB : profileA;
 
   return (
-    <img
-      src={profileSrc}
-      alt="profile-avatar"
-      className="w-full h-full sm:rounded-full md:rounded-lg object-cover mx-auto flex justify-center items-center"
-    />
+    <div className="w-full h-full flex justify-center items-center">
+      <img
+        src={profileSrc}
+        alt="profile-avatar"
+        className="w-full h-full object-cover rounded-full"
+      />
+    </div>
   );
 };
 

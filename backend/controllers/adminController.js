@@ -25,8 +25,8 @@ exports.getProfiles = async (req, res, next) => {
       sortBy = "createdAt",
       sortOrder = "desc",
     } = req.query;
-    const filter = {};
 
+    const filter = {};
     if (firstname) filter.firstname = { $regex: firstname, $options: "i" };
     if (lastname) filter.lastname = { $regex: lastname, $options: "i" };
 
@@ -35,26 +35,30 @@ exports.getProfiles = async (req, res, next) => {
       limit
     );
 
-    console.log(filter);
-
     const profiles = await Profile.find(filter)
+      .populate({
+        path: "userId",
+        select: "username isAdmin isVerified isBanned", // Selecting desired fields
+      })
       .sort({ [sortBy]: sortOrder === "asc" ? 1 : -1 })
       .skip(skipDocuments)
       .limit(resultsPerPage);
+
+    const totalCounts = await Profile.countDocuments(filter);
     console.log(profiles);
-    const totalCounts  = await Profile.countDocuments(filter);
     res.json({
       profiles,
       pagination: {
         currentPage,
-        totalPages: Math.ceil(totalCounts  / resultsPerPage),
-        totalCounts ,
+        totalPages: Math.ceil(totalCounts / resultsPerPage),
+        totalCounts,
       },
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 // Get all stores
 exports.getStores = async (req, res, next) => {

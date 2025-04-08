@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+
 import { createStoreAction } from "../../redux/actions/storeThunks";
+import PreviewCreateStoreImages from "../images/StoreCreateImagePreview";
+
 
 const SellerForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  const [step, setStep] = useState(1);
+
   const [formData, setFormData] = useState({
     storeName: "",
     storeDescription: "",
     contactEmail: "",
     contactPhone: "",
     address: "",
+    storeLogo: "",
+    storeBanner: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,11 +35,15 @@ const SellerForm = () => {
         return /^\d{10,15}$/.test(value) ? "" : "Phone number must be 10-15 digits.";
       case "address":
         return value.trim().length > 5 ? "" : "Address must be at least 5 characters.";
+      case "storeLogo":
+        return value ? "" : "Please select a store logo.";
+      case "storeBanner":
+        return value ? "" : "Please select a store banner.";
       default:
         return "";
     }
   };
-  
+
 
   const validateStep = () => {
     const stepErrors = {};
@@ -48,12 +54,6 @@ const SellerForm = () => {
     setErrors(stepErrors);
     return Object.keys(stepErrors).length === 0;
   };
-
-  const handleNext = () => {
-    if (validateStep()) setStep(prev => prev + 1);
-  };
-
-  const handleBack = () => setStep(prev => Math.max(prev - 1, 1));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,7 +75,7 @@ const SellerForm = () => {
   };
 
   const renderInput = (label, field) => (
-    <div className="mb-4">
+    <div className="mb-4 flex flex-col">
       <label className="block text-white font-semibold">{label}</label>
       <input
         type="text"
@@ -87,33 +87,58 @@ const SellerForm = () => {
     </div>
   );
 
-  return (
-    <div className="p-6 bg-gray-800 text-white max-w-lg mx-auto rounded-lg">
-      <form onSubmit={handleSubmit}>
-        {renderInput("Store Name", "storeName")}
-        {renderInput("Store Description", "storeDescription")}
-        {renderInput("Contact Email", "contactEmail")}
-        {renderInput("Contact Phone", "contactPhone")}
-        {renderInput("Address", "address")}
+  const renderSelect = (label, field, options) => (
+    <div className="mb-4 flex-col">
+      <label className="block text-white font-semibold">{label}</label>
+      <select
+        value={formData[field]}
+        onChange={(e) => handleChange(field, e.target.value)}
+        className={`w-full p-2 border rounded text-black ${errors[field] ? "border-red-500" : "border-gray-300"}`}
+      >
+        <option value="">Select {label.toLowerCase()}</option>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+      {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
+    </div>
+  );
 
-        <div className="flex justify-between mt-6">
-          {step > 1 && (
-            <button type="button" onClick={handleBack} className="px-4 py-2 bg-gray-600 rounded">
-              <FaAngleLeft className="inline mr-2" /> Back
-            </button>
-          )}
-          {step < 2 ? (
-            <button type="button" onClick={handleNext} className="px-4 py-2 bg-blue-500 rounded">
-              Next <FaAngleRight className="inline ml-2" />
-            </button>
-          ) : (
-            <button type="submit" className="px-4 py-2 bg-green-500 rounded">
-              {isLoading ? "Submitting..." : "Submit"}
-            </button>
-          )}
+  return (
+    <div className="p-6 bg-gray-800 text-white w-full mx-auto rounded-lg">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Image Preview Section */}
+      <div className="md:col-span-1">
+        <PreviewCreateStoreImages 
+          storeLogo={formData.storeLogo} 
+          storeBanner={formData.storeBanner} 
+        />
+      </div>
+
+      {/* Form Section */}
+      <form 
+        onSubmit={handleSubmit} 
+        className="md:col-span-2 flex flex-col"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 p-2">
+          {renderInput("Store Name", "storeName")}
+          {renderInput("Store Description", "storeDescription")}
+          {renderInput("Contact Email", "contactEmail")}
+          {renderInput("Contact Phone", "contactPhone")}
+          {renderInput("Address", "address")}
+          {renderSelect("Store Logo", "storeLogo", ["macas", "cafe", "mart"])}
+          {renderSelect("Store Banner", "storeBanner", ["beri", "ikea", "japan", "mart"])}
+        </div>
+        <div className="mt-6 text-right">
+          <button type="submit" className="px-4 py-2 bg-green-500 rounded">
+            {isLoading ? "Submitting..." : "Submit"}
+          </button>
         </div>
       </form>
     </div>
+  </div>
   );
 };
 

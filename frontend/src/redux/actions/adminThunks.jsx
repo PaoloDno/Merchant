@@ -148,12 +148,17 @@ export const adminGetCategories = createAsyncThunk(
 // Fetch Admin Subcategories
 export const adminGetSubCategories = createAsyncThunk(
   "admin/adminGetSubCategories",
-  async ({ name = "", page = 1, limit = 15 }, thunkAPI
+  async ({ 
+    name = "",
+    page = 1,
+    limit = 15,
+    sortBy = "createdAt",
+    sortOrder = "desc", }, thunkAPI
   ) => {
     const token = thunkAPI.getState().auth.token;
     try {
       const response = await api.get("/admin/subcategories", {
-        params: { name, page, limit },
+        params: { name, page, limit, sortBy, sortOrder },
         ...getAuthHeaders(token),
       });
       return response.data;

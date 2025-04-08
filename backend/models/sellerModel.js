@@ -8,8 +8,8 @@ const SellerSchema = new mongoose.Schema({
   },
   storeName: { type: String, required: true, unique: true }, // Unique store name
   storeDescription: { type: String, default: "" },
-  storeLogo: { type: String, default: "default_logo.png" },
-  storeBanner: { type: String, default: "default_banner.png" },
+  storeLogo: { type: String, default: "mart" },
+  storeBanner: { type: String, default: "mart" },
   contactEmail: { type: String, required: true },
   contactPhone: { type: String },
   address: { type: String, required: true },

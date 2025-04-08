@@ -4,6 +4,9 @@ import { useDispatch } from "react-redux";
 import { viewStoreAction } from "../../redux/actions/storeThunks";
 import landingImg from "../../assets/b.jpg";
 
+import StoreBanner from "../../components/images/storeBanner";
+import StoreLogo from "../../components/images/storeImage";
+
 const MyStorePage = () => {
   const { storeId } = useParams();
   const dispatch = useDispatch();
@@ -38,7 +41,7 @@ const MyStorePage = () => {
   }, [dispatch, storeId]);
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen w-full overflow-x-hidden">
+    <div className="relative flex items-center justify-center min-h-screen min-w-screen w-full overflow-x-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 w-full h-full bg-cover bg-center"
@@ -46,7 +49,7 @@ const MyStorePage = () => {
       />
       <div className="absolute inset-0 bg-black bg-opacity-40 pointer-events-none"></div>
 
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-center gap-6 md:gap-8 w-full max-w-6xl px-4 md:px-6 py-4 md:py-6">
+      <div className="relative z-10 flex flex-col items-center justify-center gap-6 md:gap-8 px-4 md:px-6 py-4 md:py-6 w-full">
         {loading ? (
           <p className="text-white text-lg">Loading store details...</p>
         ) : error ? (
@@ -54,10 +57,19 @@ const MyStorePage = () => {
         ) : store ? (
           <>
             {/* Store Profile & Settings */}
-            <div className="flex flex-col w-full max-w-md bg-white bg-opacity-20 rounded-lg shadow-lg p-6">
-              <h2 className="text-lg font-bold text-white">Store Profile</h2>
-              <p className="text-white">{store.storeName}</p>
-              <p className="text-white">{store.storeDescription}</p>
+            <div className="flex w-full h-[140px] md:h-[200px] max-w-6xl bg-white bg-opacity-20 rounded-lg shadow-lg p-1 container relative">
+              
+                <StoreBanner storeBanner={store.storeBanner} />
+                <div className="z-20 absolute bottom-0 left-2 rounded-full w-[75px] h-[75px] md:w-[100px] md:h-[100px] border border-white overflow-hidden">
+                <StoreLogo  storeLogo={store.storeLogo} />                
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/60 to-black pointer-events-none z-1" />
+
+                <h2 className="absolute z-2 bottom-6 left-1/4 md:left-[120px] text-style2 font-bold text-white">
+                  {store.storeName.toUpperCase()}
+                </h2>
+                <p className="absolute z-2 bottom-0 left-1/4 md:left-[120px] text-white">{store.storeDescription}</p>
+              
             </div>
 
             {/* Store Products */}
@@ -66,7 +78,10 @@ const MyStorePage = () => {
               {store.products && store.products.length > 0 ? (
                 <ul className="text-white">
                   {store.products.map((product) => (
-                    <li key={product._id} className="border-b border-gray-300 py-1">
+                    <li
+                      key={product._id}
+                      className="border-b border-gray-300 py-1"
+                    >
                       {product.name} - ${product.price}
                     </li>
                   ))}

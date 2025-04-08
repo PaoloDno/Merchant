@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { adminGetCategories, adminGetSubCategories } from "../../../redux/actions/adminThunks";
 import PaginationComponent from "../../../components/pagination/Pagination";
 
 const AdminDisplayCategory = () => {
   const dispatch = useDispatch();
-  const { categories, subcategories, pagination } = useSelector((state) => state.admin);
-  const totalPages = pagination?.totalPages || 1;
 
   const [filters, setFilters] = useState({
     page: 1,
@@ -15,16 +13,31 @@ const AdminDisplayCategory = () => {
     loading: false,
   });
 
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     setFilters((prev) => ({ ...prev, loading: true }));
-    
+
     const fetchData = async () => {
-      if (filters.mode === "category") {
-        await dispatch(adminGetCategories(filters.page));
-      } else {
-        await dispatch(adminGetSubCategories(filters.page));
+      try {
+        if (filters.mode === "category") {
+          const response = await dispatch(adminGetCategories(filters.page));
+          const payload = response.payload;
+          setCategories(payload.categories || []);
+          setTotalPages(payload.pagination?.totalPages || 1);
+        } else {
+          const response = await dispatch(adminGetSubCategories(filters.page));
+          const payload = response.payload;
+          setSubcategories(payload.subCategories || []);
+          setTotalPages(payload.pagination?.totalPages || 1);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setFilters((prev) => ({ ...prev, loading: false }));
       }
-      setFilters((prev) => ({ ...prev, loading: false }));
     };
 
     fetchData();
@@ -34,12 +47,12 @@ const AdminDisplayCategory = () => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
-      page: key === "mode" ? 1 : prev.page, // Reset page when switching modes
+      page: key === "mode" ? 1 : prev.page, // Reset to page 1 on mode change
     }));
   };
 
   const CategoryCards = ({ name, description }) => (
-    <div className="border rounded-lg p-4 shadow-md w-25 md:w-54 text-skin-primary">
+    <div className="border rounded-lg p-4 shadow-md w-25 md:w-54 h-[120px] text-skin-primary overflow-hidden">
       <h3 className="text-style4a font-bold">{name}</h3>
       <p className="text-style4">{description}</p>
     </div>
@@ -52,12 +65,17 @@ const AdminDisplayCategory = () => {
       {/* Toggle Mode Button */}
       <div className="flex justify-between mb-4">
         <button
-          onClick={() => updateFilter("mode", filters.mode === "category" ? "subcategory" : "category")}
+          onClick={() =>
+            updateFilter("mode", filters.mode === "category" ? "subcategory" : "category")
+          }
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Switch to {filters.mode === "category" ? "Subcategories" : "Categories"}
         </button>
-        <Link to="/cat" className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+        <Link
+          to="/cat"
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+        >
           Create Categories
         </Link>
       </div>
@@ -69,10 +87,16 @@ const AdminDisplayCategory = () => {
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
           {data?.length > 0 ? (
             data.map((datum) => (
-              <CategoryCards key={datum._id} name={datum.name} description={datum.description} />
+              <CategoryCards
+                key={datum._id}
+                name={datum.name}
+                description={datum.description}
+              />
             ))
           ) : (
-            <p className="col-span-full text-center">No {filters.mode === "category" ? "Categories" : "Subcategories"} found</p>
+            <p className="col-span-full text-center">
+              No {filters.mode === "category" ? "Categories" : "Subcategories"} found
+            </p>
           )}
         </div>
       )}

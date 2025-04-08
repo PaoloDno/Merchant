@@ -5,8 +5,9 @@ const Profile = require("../models/profileModel");
 // Create a new store profile
 exports.createStore = async (req, res, next) => {
   try {
-    const { storeName, storeDescription, contactEmail, contactPhone, address } = req.body;
 
+    const { storeName, storeDescription, contactEmail, contactPhone, address, storeLogo, storeBanner } = req.body;
+    console.log(storeName, "creating store");
     const user = await User.findById(req.user.userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -39,6 +40,8 @@ exports.createStore = async (req, res, next) => {
       contactEmail,
       contactPhone,
       address,
+      storeLogo,
+      storeBanner
     });
 
     await store.save();

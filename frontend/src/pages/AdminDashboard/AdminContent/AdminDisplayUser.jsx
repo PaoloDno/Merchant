@@ -19,15 +19,23 @@ const DisplayUserAdmin = () => {
     lastname: "",
   });
 
+  const sanitize = (str) =>
+    str.replace(/\s+/g, " ").trim(); // replaces multiple spaces with one, then trims
+
+
   useEffect(() => {
+    const cleanedFirstname = sanitize(name.firstname);
+    const cleanedLastname = sanitize(name.lastname);
+
     dispatch(
       adminGetProfiles({
-        firstname: name.firstname,
-        lastname: name.lastname,
+        firstname: cleanedFirstname,
+        lastname: cleanedLastname,
         page,
       })
     );
-  }, [dispatch, page, name.firstname]);
+  }, [dispatch, page, name.firstname, name.lastname]);
+
   return (
     <div className="p-4 md:p-8 flex flex-col justify-between h-full w-full">
       {/* Search Bar */}

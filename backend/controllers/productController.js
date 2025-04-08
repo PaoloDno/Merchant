@@ -126,7 +126,11 @@ const getProductById = async (req, res, next) => {
   try {
     console.log(req.params.id);
     console.log("why arent u fetcing?");
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id).populate({
+      path: "seller.sellerId",
+      select: "storeLogo storeBanner", // only fetch these fields from Seller
+    });
+    console.log("viewProduct", product);
     if (!product) {
       return res
         .status(404)

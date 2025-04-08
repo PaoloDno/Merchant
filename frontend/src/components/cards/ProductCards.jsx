@@ -1,34 +1,37 @@
 import React from "react";
 import ProductImage from "../images/productImage";
 import { useNavigate } from "react-router-dom";
+import { FaCartPlus, FaEye } from "react-icons/fa";
 
-const ProductCards = ({ product, onAddToCart, onViewProduct }) => {
+const ProductCards = ({ product, onAddToCart }) => {
   const { basicInfo, categoryDetails, specifications } = product;
   const navigate = useNavigate();
 
   return (
-    <div className="rounded-lg p-4 shadow-md w-25 md:w-54 container items-center bg-white text-black border border-skin-secondary">
-      <div className="w-full h-1/2 border border-skin-primary mb-2">
-      < ProductImage subcategory={categoryDetails.subcategory} />
+    <div className="rounded-lg p-3 shadow-md w-[150px] md:w-[220px] bg-white border hover:shadow-lg transition">
+      <div className="w-full h-[130px] md:h-[180px] border mb-3 flex items-center justify-center">
+        <ProductImage subcategory={categoryDetails.subcategory} />
       </div>
-      <h3 className="text-style4a font-bold">{basicInfo.productName}</h3>
-      <p className="text-style4">{basicInfo.description}</p>
-      <p className="font-semibold">Price: ${basicInfo.price}</p>
-      <p className="text-style4">Category: {categoryDetails.category}</p>
-      {specifications?.color && <p className="text-style4">Color: {specifications.color}</p>}
 
-      <div className="mt-3 flex space-x-2">
-        <button 
-          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600" 
+      <h3 className="font-semibold truncate">{basicInfo.productName}</h3>
+      <p className="text-sm">Price: ${basicInfo.price}</p>
+      <p className="text-sm">Category: {categoryDetails.category}</p>
+      {specifications?.color && <p className="text-sm">Color: {specifications.color}</p>}
+
+      <div className="mt-3 flex gap-2">
+        <button
+          className="bg-gray-700 text-white px-2 py-1 rounded hover:bg-gray-800 flex-1 flex items-center justify-center gap-1"
           onClick={() => onAddToCart(product)}
         >
-          Add to Cart
+          <FaCartPlus />
+          <span className="hidden md:inline">Cart</span>
         </button>
-        <button 
-          className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600" 
+        <button
+          className="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 flex-1 flex items-center justify-center gap-1"
           onClick={() => product._id && navigate(`/viewProduct/${product._id}`)}
         >
-          View Product
+          <FaEye />
+          <span className="hidden md:inline">View</span>
         </button>
       </div>
     </div>
@@ -36,4 +39,3 @@ const ProductCards = ({ product, onAddToCart, onViewProduct }) => {
 };
 
 export default ProductCards;
-

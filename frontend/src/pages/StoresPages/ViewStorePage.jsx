@@ -5,6 +5,9 @@ import landingImg from "../../assets/b.jpg";
 import { viewStoreAction } from "../../redux/actions/storeThunks";
 import { getProductsByStoreAction } from "../../redux/actions/productThunks";
 
+import StoreBanner from '../../components/images/storeBanner';
+import StoreImage from '../../components/images/storeImage';
+
 import ProductGrid from '../ProductPages/ProductGrid';
 
 const ViewStorePage = () => {
@@ -16,14 +19,22 @@ const ViewStorePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch store info and products
+  const [productPage, setProductPage] = useState(1);
+
+  const productsPerPage = 6;
+  const totalPages = Math.ceil(products.length / productsPerPage);
+
+  const currentProducts = products.slice(
+    (productPage - 1) * productsPerPage,
+    productPage * productsPerPage
+  );
+
   useEffect(() => {
     let isMounted = true;
 
     const fetchStoreAndProducts = async () => {
       setLoading(true);
       try {
-        // Fetch store
         const storeResult = await dispatch(viewStoreAction(storeId));
         if (isMounted && storeResult.payload) {
           setStore(storeResult.payload);
@@ -31,11 +42,8 @@ const ViewStorePage = () => {
         } else {
           setError("Store not found.");
         }
-        console.log("store", storeResult);
 
-        // Fetch store's products
         const productsResult = await dispatch(getProductsByStoreAction(storeId));
-        console.log("product", productsResult);
         if (isMounted && getProductsByStoreAction.fulfilled.match(productsResult)) {
           setProducts(productsResult.payload.products);
         }
@@ -70,16 +78,12 @@ const ViewStorePage = () => {
           <>
             {/* Store Header */}
             <div className="flex flex-col items-center text-center mb-6">
-              <img
-                src={`/uploads/${store.storeBanner}`}
-                alt="Banner"
-                className="w-full h-48 object-cover rounded-lg"
-              />
-              <img
-                src={`/uploads/${store.storeLogo}`}
-                alt="Logo"
-                className="w-24 h-24 rounded-full mt-[-3rem] border-4 border-white shadow-lg"
-              />
+              <div className="w-full h-48 object-cover rounded-lg overflow-hidden">
+                <StoreBanner storeBanner={store.storeBanner} />
+              </div>
+              <div className="w-24 h-24 rounded-full overflow-hidden mt-[-3rem] border-4 border-white shadow-lg">
+                <StoreImage storeLogo={store.StoreImage} />
+              </div>
               <h2 className="text-2xl font-bold mt-4">{store.storeName}</h2>
               <p className="text-gray-700">{store.storeDescription}</p>
             </div>
@@ -102,9 +106,33 @@ const ViewStorePage = () => {
             </div>
 
             {/* Products Section */}
-            <div className="bg-white bg-opacity-60 rounded-lg p-4 shadow-md">
-              <h3 className="font-bold text-xl mb-2">Products</h3>
-              <ProductGrid products={products} />
+            <div className="flex flex-col bg-white bg-opacity-60 rounded-lg p-4 shadow-md min-h-screen justify-between">
+              <h3 className="font-bold text-xl mb-4">PRODUCTS</h3>
+
+              <ProductGrid products={currentProducts} />
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex justify-between items-center mt-6">
+                  <button
+                    onClick={() => setProductPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={productPage === 1}
+                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+                  >
+                    ← Previous
+                  </button>
+                  <span>
+                    Page {productPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setProductPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={productPage === totalPages}
+                    className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded disabled:opacity-50"
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
             </div>
           </>
         )}

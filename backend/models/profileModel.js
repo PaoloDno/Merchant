@@ -9,7 +9,7 @@ const UserProfileSchema = new mongoose.Schema({
   firstname: { type: String, default: "" },
   lastname: { type: String, default: "" },
   phoneNumber: { type: String, default: "" },
-  profileImage: { type: String, default: "avatar" },
+  profileImage: { type: String, default: "avatar1" },
   addressId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Address'

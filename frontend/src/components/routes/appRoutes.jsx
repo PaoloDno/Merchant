@@ -16,6 +16,9 @@ import AddCategory from "../../pages/AddCategory";
 //adminpages
 import AdminDashboard from "../../pages/AdminDashboard/DisplayAdmin";
 
+//profiles
+import ViewProfilePage from "../../pages/ProfilePages/ViewProfilePage";
+
 //errorpages
 import ErrorPage from "../../pages/ErrorPage";
 import NotAuthorizedPage from "../../pages/NotAuthorizedPage";
@@ -49,10 +52,11 @@ const AppRoutes = () =>{
 
       <Route path="/test" element={<ProductHomeSearchBar />} />
       
-      
+      {/* profile */}
       <Route path="/profile" element={<UserProfilePage/>} />
+      <Route path="/viewProfile/:profileId" element={<ViewProfilePage/>} />
+      
 
-      <Route path="/product" element={<HomeProductPage/>} />
 
 
 
@@ -63,6 +67,7 @@ const AppRoutes = () =>{
       
 
       {/* product */}
+      <Route path="/product" element={<HomeProductPage/>} />
       <Route path="/viewProduct/:productId" element={<ViewProductPage />} />
 
 

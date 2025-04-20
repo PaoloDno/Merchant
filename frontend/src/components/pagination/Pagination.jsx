@@ -1,6 +1,6 @@
 import React from "react";
 
-const PaginationComponent = ({ currentPage, totalPages, totalCounts, onPageChange }) => {
+const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   const maxPagesToShow = 8; //
   let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
   let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);

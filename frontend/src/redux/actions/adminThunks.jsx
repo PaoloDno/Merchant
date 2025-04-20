@@ -76,6 +76,8 @@ export const adminGetStores = createAsyncThunk(
   }
 );
 
+
+
 // Fetch Admin Products
 export const adminGetProducts = createAsyncThunk(
   "admin/adminGetProducts",
@@ -88,7 +90,7 @@ export const adminGetProducts = createAsyncThunk(
       isNew = false,
       bestSelling = false,
       page = 1,
-      limit = 15,
+      limit = 8,
       sortBy = "createdAt",
       sortOrder = "desc",
     },

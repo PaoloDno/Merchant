@@ -14,7 +14,7 @@ const DisplayUserAdmin = () => {
   };
 
   const [page, setPage] = useState(1);
-  const [name, setName] = useState({
+  const [filter, setfilter] = useState({
     firstname: "",
     lastname: "",
   });
@@ -24,25 +24,26 @@ const DisplayUserAdmin = () => {
 
 
   useEffect(() => {
-    const cleanedFirstname = sanitize(name.firstname);
-    const cleanedLastname = sanitize(name.lastname);
+    const cleanedfirstname = sanitize(filter.firstname);
+    const cleanedlastname = sanitize(filter.lastname);
 
     dispatch(
       adminGetProfiles({
-        firstname: cleanedFirstname,
-        lastname: cleanedLastname,
+        firstname: cleanedfirstname,
+        lastname: cleanedlastname,
         page,
       })
     );
-  }, [dispatch, page, name.firstname, name.lastname]);
+  }, [dispatch, page, filter.firstname, filter.lastname]);
 
   return (
-    <div className="p-4 md:p-8 flex flex-col justify-between h-full w-full">
+    <div className="p-2 md:p-8 flex flex-col justify-between h-full w-full">
       {/* Search Bar */}
-      <AdminSearchBarUser onSearchChange={(value) => setName(value)} />
-
+      <div className="flex mb-2 w-full p-1 md:py-2 bg-gray-400 rounded-xl">
+      <AdminSearchBarUser onSearchChange={(value) => setfilter(value)} />
+      </div>
       {/* Grid layout for profiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {profiles && profiles.length > 0 ? (
           profiles.map((profile) => (
             <UserCards
@@ -57,7 +58,7 @@ const DisplayUserAdmin = () => {
       </div>
 
       {/* Pagination Component */}
-      <div className="mt-4 flex justify-center w-full items-center">
+      <div className="mt-5 flex justify-center w-full items-center">
         <PaginationComponent
           currentPage={page}
           totalPages={totalPages}

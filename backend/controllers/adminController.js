@@ -95,6 +95,8 @@ exports.getStores = async (req, res, next) => {
       .skip(skipDocuments)
       .limit(resultsPerPage);
 
+    console.log(stores, "stores");
+
     const totalCounts = await Store.countDocuments(filter);
     res.json({
       stores,

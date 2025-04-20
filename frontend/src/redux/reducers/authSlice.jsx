@@ -6,6 +6,7 @@ import {
   updateAddressAction,
   updateProfileAction,
   displayUserAction,
+  getUserByIdAction
 } from "../actions/authThunks";
 
 const authSlice = createSlice({
@@ -47,7 +48,8 @@ const authSlice = createSlice({
           registerAction.pending,
           updateProfileAction.pending,
           updateAddressAction.pending,
-          displayUserAction.pending
+          displayUserAction.pending,
+          getUserByIdAction.pending
         ),
         (state) => {
           state.isLoading = true;
@@ -75,7 +77,8 @@ const authSlice = createSlice({
         isAnyOf(
           updateProfileAction.fulfilled,
           updateAddressAction.fulfilled,
-          displayUserAction.fulfilled
+          displayUserAction.fulfilled,
+          getUserByIdAction.fulfilled
         ),
         (state, action) => {
           state.profile = action.payload.profile || state.profile;
@@ -90,7 +93,8 @@ const authSlice = createSlice({
           registerAction.rejected,
           updateProfileAction.rejected,
           updateAddressAction.rejected,
-          displayUserAction.rejected
+          displayUserAction.rejected,
+          getUserByIdAction.rejected
         ),
         (state, action) => {
           state.isLoading = false;

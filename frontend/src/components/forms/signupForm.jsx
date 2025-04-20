@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,7 @@ const SignUpForm2 = () => {
       firstName: "",
       lastName: "",
       phoneNumber: "",
+      profileImage: ""
     },
     address: {
       street: "",
@@ -47,7 +48,7 @@ const SignUpForm2 = () => {
     address: {},
   });
 
-  const { isLoading } = useSelector((state) => state.auth);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Handle Input Change for the "form data"
   const handleChange = (section, field, value) => {
@@ -141,10 +142,18 @@ const SignUpForm2 = () => {
 
   //checks the inputs in the current data
   const handleNext = () => {
+    setIsLoading(true);
     if (validateStep()) {
       setStep((prev) => prev + 1);
     }
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      const timer = setTimeout(() => setIsLoading(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading]);
 
   const handleBack = () => setStep((prev) => Math.max(prev - 1, 1));
 
@@ -211,6 +220,43 @@ const SignUpForm2 = () => {
     
   };
 
+
+  const renderDropdown = (label, section, field, options) => {
+    const value = formData[section][field];
+    const error = errors[section]?.[field];
+
+    return (
+      <div className="relative flex flex-1 group flex-col text-white font-medium text-style4a 
+      md:text-style3 p-1 md:p-4 bg-skin-primary rounded-lg 
+      bg-opacity-10 md:mb-3 space-y-4 w-full mb-4">
+         <label className="inline-block text-left font-semibold text-style4b md:text-style4b p-1">
+          {label}
+        </label>
+        <select
+          value={value}
+          onChange={(e) => handleChange(section, field, e.target.value)}
+          className={`w-full p-2 md:p-4 border rounded text-gray-900 bg-gray-100 bg-opacity-80
+            ${error ? "border-red-500" : "border-gray-300 focus:ring-blue-500"}
+          `}
+        >
+          <option value="">{`Select ${label}`}</option>
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+        {error && (
+          <p className="text-slate-300 md:text-gray-200 bg-red-600 bg-opacity-40 md:bg-opacity-20 mt-1 px-2 text-style4 md:text-style3">
+            {error}
+          </p>
+        )}
+      </div>
+    );
+  };
+
+
+
   const renderStep = () => {
     const { user, profile, address } = formData;
 
@@ -232,6 +278,8 @@ const SignUpForm2 = () => {
             {renderInput("First Name", "profile", "firstName")}
             {renderInput("Last Name", "profile", "lastName")}
             {renderInput("Phone Number", "profile", "phoneNumber")}
+            {renderDropdown("Profile Image", "profile", "profileImage",
+               ["avatar1", "avatar2", "avatar3", "avatar4", "avatar5", "avatar6"])}
           </div>
         )}
 

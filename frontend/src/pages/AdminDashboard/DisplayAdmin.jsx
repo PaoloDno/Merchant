@@ -50,10 +50,11 @@ const AdminDisplayPage = () => {
   console.log(user);
 
   useEffect(() => {
+    let isMounted = true;
     const fetchUser = async () => {
       try {
         const userProfile = await dispatch(displayUserAction());
-        if (userProfile) {
+        if (userProfile && isMounted) {
           console.log("yes");
         }
       } catch (error) {
@@ -62,7 +63,8 @@ const AdminDisplayPage = () => {
     };
 
     fetchUser(); // Call the async function
-  }, [dispatch]);
+    return(() => isMounted = false);
+  }, []);
 
   return (
     <div
@@ -72,12 +74,13 @@ const AdminDisplayPage = () => {
       <div className="flex flex-row space-x-2 container min-w-full bg-gray-600 bg-opacity-50 justify-around p-3 rounded-2xl">
         {/* Sidebar */}
         <div
-          className="flex flex-col w-1/10 md:w-1/5 min-h-[85vh] p-2 md:p-5 bg-slate-200
+          className="flex flex-col w-1/6 md:w-1/5 min-h-[85vh] p-1 md:p-5 bg-slate-200
         md:rounded-l-3xl shadow-xl bg-opacity-90 items-center relative"
         >
-          <span className="flex flex-col md:flex-row items-center md:items-start w-full p-4 bg-white shadow-sm border rounded-md space-y-4 md:space-y-0 md:space-x-4 mb-3">
+          <span className="flex flex-col md:flex-row items-center md:items-start w-full p-4 bg-white shadow-sm border 
+          rounded-md space-y-4 md:space-y-0 md:space-x-4 mb-3 overflow-hidden">
             {/* Profile Picture */}
-            <div className="w-[4rem] h-[4rem] md:w-[6rem] md:h-[6rem] rounded-full overflow-hidden border-2
+            <div className="w-[50px] h-[50px] md:w-[6rem] md:h-[6rem] rounded-full overflow-hidden border-2
              bg-gray-200 flex items-center justify-center border-skin-secondary">
               <ProfileImage isAdmin={user?.isAdmin} />
             </div>
@@ -133,7 +136,7 @@ const AdminDisplayPage = () => {
 
         {/* Main Content */}
         <div
-          className="flex flex-col w-3/4 min-h-[85vh] h-[85vh] bg-gray-200 bg-opacity-70 
+          className="flex flex-col w-5/6 min-h-[85vh] h-[85vh] bg-gray-200 bg-opacity-70 
        rounded-l-2xl shadow-xl overflow-x-hidden overflow-y-scroll"
         >
           {renderContent()}

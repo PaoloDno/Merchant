@@ -108,3 +108,25 @@ export const displayUserAction = createAsyncThunk('auth/displayUserAction', asyn
     return thunkAPI.rejectWithValue(error.response.data.message)
   }
 });
+
+
+export const getUserByIdAction = createAsyncThunk(
+  "auth/getUserByIdAction", async (profileId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.token;
+      const response = await api.get(`/user/${profileId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(setError({
+        message: error.response?.data?.message || 'An error occured',
+        status: error.response?.status,
+      }))
+      return thunkAPI.rejectWithValue(error.response.data.message)
+    }
+  }
+);

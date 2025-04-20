@@ -71,21 +71,20 @@ const loginUser = [
           username: user.username,
           userId: user.userId, //fake user ID
           email: user.email,
-          isAdmin: user.isAdmin
+          isAdmin: user.isAdmin,
         },
         profile: {
           firstname: profile.firstname,
           lastname: profile.lastname,
-          phoneNumber: profile.phoneNumber
+          phoneNumber: profile.phoneNumber,
         },
         address: {
           street: address.street,
           city: address.city,
           zipCode: address.zipCode,
           landmark: address.landmark,
-          country: address.country
+          country: address.country,
         },
-
       });
     } catch (error) {
       console.log("fail login", error.message);
@@ -130,11 +129,11 @@ const registerUser = [
 
       if (existingUser) {
         console.log("Registration failed: User already exists.");
-        return res
-          .status(400)
-          .json({ success: false, message: "Username or Email already in use" });
+        return res.status(400).json({
+          success: false,
+          message: "Username or Email already in use",
+        });
       }
-
 
       const hashedPassword = await bcrypt.hash(user.password, 10);
 
@@ -154,27 +153,24 @@ const registerUser = [
       });
       await savedAddress.save();
 
-      
       const savedCart = new Cart({
         userId: savedUser._id,
         items: [],
       });
       await savedCart.save();
 
-      
       const savedOrderHistory = new OrderHistory({
         userId: savedUser._id,
         orders: [],
       });
       await savedOrderHistory.save();
 
-      
       const savedProfile = new Profile({
         userId: savedUser._id,
         firstname: profile.firstName,
         lastname: profile.lastName,
-        addressId: savedAddress._id, 
-        cartId: savedCart._id, 
+        addressId: savedAddress._id,
+        cartId: savedCart._id,
         orderHistoryId: savedOrderHistory._id,
         ...profile,
       });
@@ -194,19 +190,19 @@ const registerUser = [
           username: savedUser.username,
           userId: savedUser._id, // Corrected fake userId
           email: savedUser.email,
-          isAdmin: savedUser.isAdmin
+          isAdmin: savedUser.isAdmin,
         },
         profile: {
           firstname: savedProfile.firstname,
           lastname: savedProfile.lastname,
-          phoneNumber: savedProfile.phoneNumber
+          phoneNumber: savedProfile.phoneNumber,
         },
         address: {
           street: savedAddress.street,
           city: savedAddress.city,
           zipCode: savedAddress.zipCode,
           landmark: savedAddress.landmark,
-          country: savedAddress.country
+          country: savedAddress.country,
         },
       });
     } catch (error) {
@@ -296,14 +292,16 @@ const DisplayUser = async (req, res, next) => {
 
     // Find the user's profile and populate related data
     let profile = await Profile.findOne({ userId: userId })
-      .populate('addressId')
-      .populate('cartId')
-      .populate('stores')
-      .populate('orderHistoryId')
-      .populate('userReviews');
+      .populate("addressId")
+      .populate("cartId")
+      .populate("stores")
+      .populate("orderHistoryId")
+      .populate("userReviews");
 
     if (!profile) {
-      return res.status(404).json({ success: false, message: "Profile not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Profile not found" });
     }
 
     // Extract the related data from the populated profile
@@ -313,18 +311,57 @@ const DisplayUser = async (req, res, next) => {
     const orderHistory = profile.orderHistoryId || null;
     const userReviews = profile.userReviews || [];
 
-    console.log({ success: true, profile, address, cart, stores, orderHistory, userReviews });
-    res.status(200).json({ 
-      success: true, 
-      profile, 
-      address, 
-      cart, 
+    console.log({
+      success: true,
+      profile,
+      address,
+      cart,
       stores,
       orderHistory,
-      userReviews
+      userReviews,
+    });
+    res.status(200).json({
+      success: true,
+      profile,
+      address,
+      cart,
+      stores,
+      orderHistory,
+      userReviews,
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server error", error: error.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+    next(error);
+  }
+};
+
+const getUserById = async (req, res, next) => {
+  try {
+    console.log("userId", req.params.id);
+    const profile = await Profile.findById(req.params.id)
+      .populate("userId")
+      .populate("addressId")
+      .populate("cartId")
+      .populate("stores")
+      .populate("orderHistoryId")
+      .populate("userReviews");
+    
+    console.log({
+      success: true,
+      profile
+    });
+    console.log(profile);
+
+    res.status(200).json({
+      success: true,
+      profile
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
     next(error);
   }
 };
@@ -335,4 +372,5 @@ module.exports = {
   updateProfile,
   updateAddress,
   DisplayUser,
+  getUserById,
 };

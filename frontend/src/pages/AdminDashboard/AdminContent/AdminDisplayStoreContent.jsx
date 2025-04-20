@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { adminGetStores } from "../../../redux/actions/adminThunks";
 import StoreCards from "../../../components/cards/StoreCards";
 import PaginationComponent from "../../../components/pagination/Pagination";
-import SearchBar from "../../../components/search/admin/AdminSearchBar";
+import AdminSearchBar from "../../../components/search/admin/AdminSearchBar";
 
 const DisplayStoreAdmin = () => {
   const dispatch = useDispatch();
-  const { stores, pagination } = useSelector((state) => state.admin);
-  const totalPages = pagination?.totalPages || 1;
 
+  const [stores, setStores] = useState([]);
+  const [pagination, setPagination] = useState({ totalPages: 1 });
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
     page: 1,
     limit: 12,
@@ -22,74 +23,62 @@ const DisplayStoreAdmin = () => {
     sortOrder: "desc",
   });
 
-  const [loading, setLoading] = useState(false);
+  // Shared fetch logic
+  const fetchStores = async (customFilters) => {
+    try {
+      setLoading(true);
+      const result = await dispatch(adminGetStores(customFilters));
+      if (result?.payload) {
+        setStores(result.payload.stores || []);
+        setPagination(result.payload.pagination || { totalPages: 1 });
+      }
+    } catch (error) {
+      console.error("Failed to fetch stores:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Initial fetch
   useEffect(() => {
-    setLoading(true);
-    dispatch(adminGetStores(filters))
-      .finally(() => setLoading(false)); // Stop loading when request completes
-  }, [dispatch, filters]);
+    fetchStores(filters);
+  }, []);
 
-  const updateFilter = (key, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [key]: value,
-      page: key === "storeName" ? 1 : prev.page, // Reset page when searching
-    }));
+  const handleSearch = (value) => {
+    const newFilters = {
+      ...filters,
+      storeName: value,
+      page: 1,
+    };
+    setFilters(newFilters);
+    fetchStores(newFilters);
+  };
+
+  const handlePageChange = (newPage) => {
+    const updatedFilters = {
+      ...filters,
+      page: newPage,
+    };
+    setFilters(updatedFilters);
+    fetchStores(updatedFilters);
   };
 
   return (
     <div className="p-4 md:p-8 flex flex-col justify-between h-full w-full">
       {/* Search Bar & Filters */}
-      <div className="flex flex-col w-full p-4 md:p-6">
-        <SearchBar onSearchChange={(value) => updateFilter("storeName", value)} />
-        
-        {/* Filtering Options */}
-        <div className="flex flex-row space-x-3 mt-2">
-          <label className="flex items-center">
-            <input 
-              type="checkbox" 
-              checked={filters.hot} 
-              onChange={() => updateFilter("hot", !filters.hot)} 
-            />
-            <span className="ml-2">Hot</span>
-          </label>
-
-          <label className="flex items-center">
-            <input 
-              type="checkbox"  
-              checked={filters.isNew} 
-              onChange={() => updateFilter("isNew", !filters.isNew)} 
-            />
-            <span className="ml-2">New</span>
-          </label>
-
-          <label className="flex items-center">
-            <input 
-              type="checkbox" 
-              checked={filters.isVerified} 
-              onChange={() => updateFilter("isVerified", !filters.isVerified)} 
-            />
-            <span className="ml-2">Verified</span>
-          </label>
-
-          {/* Sort Options */}
-          <select 
-            value={filters.sortOrder} 
-            onChange={(e) => updateFilter("sortOrder", e.target.value)}
-          >
-            <option value="desc">Newest</option>
-            <option value="asc">Oldest</option>
-          </select>
-        </div>
+      <div className="flex flex-col w-full p-1 md:py-2 bg-gray-400 rounded-xl">
+        <AdminSearchBar
+          placeholdText="Search For Store Name"
+          onSearchChange={handleSearch}
+        />
       </div>
 
-      {/* Stores Grid */}
+      {/* Stores */}
       {loading ? (
         <p className="text-center py-4">Loading stores...</p>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
-          {stores && stores.length > 0 ? (
+          {stores?.length > 0 ? (
             stores.map((store) => (
               <StoreCards key={store._id} store={store} onViewstore={() => {}} />
             ))
@@ -99,12 +88,11 @@ const DisplayStoreAdmin = () => {
         </div>
       )}
 
-      {/* Pagination Component */}
       <div className="mt-4 flex justify-center w-full items-center">
-        <PaginationComponent 
-          currentPage={filters.page} 
-          totalPages={totalPages} 
-          onPageChange={(newPage) => updateFilter("page", newPage)} 
+        <PaginationComponent
+          currentPage={filters.page}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
         />
       </div>
     </div>

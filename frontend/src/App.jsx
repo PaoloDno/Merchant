@@ -15,7 +15,7 @@ function App() {
     <Router>
       <ThemeWrapper>
       <div className="flex flex-col min-h-screen min-w-screen
-      justify-center overflow-hidden" >
+      justify-center overflow-x-hidden" >
         
         <header className="w-full" >
           <Headerbar />

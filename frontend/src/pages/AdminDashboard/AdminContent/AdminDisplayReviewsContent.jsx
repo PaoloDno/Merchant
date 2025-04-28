@@ -6,9 +6,11 @@ import PaginationComponent from "../../../components/pagination/Pagination";
 
 const DisplayreviewAdmin = () => {
   const dispatch = useDispatch();
+
   const { reviews, pagination } = useSelector((state) => state.admin);
   const { currentPage, totalPages } = pagination;
-  const [page, setPage] = useState(1);
+  const [ loading, setLoading ] = useState(false);
+  const [ page, setPage ] = useState(1);
 
   useEffect(() => {
     dispatch(adminGetReviews({page}));

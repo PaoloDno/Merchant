@@ -37,7 +37,13 @@ const createProduct = [
 
       let { basicInfo, categoryDetails, specifications } = req.body;
 
-      console.log("Received Data:", basicInfo, categoryDetails, specifications, storeId);
+      console.log(
+        "Received Data:",
+        basicInfo,
+        categoryDetails,
+        specifications,
+        storeId
+      );
 
       // Convert `subCategory` to an array if it's a string
       if (!Array.isArray(categoryDetails.subCategory)) {
@@ -60,17 +66,15 @@ const createProduct = [
       const subCategoryIds = [];
       for (const subCategoryName of categoryDetails.subCategory) {
         const subCategory = await SubCategory.findOne({
-          name: subCategoryName // Ensure the subcategory belongs to the correct category
+          name: subCategoryName, // Ensure the subcategory belongs to the correct category
         });
 
         if (!subCategory) {
           console.log("Subcategory Error:", subCategoryName);
-          return res
-            .status(403)
-            .json({
-              success: false,
-              message: `Subcategory ${subCategoryName} Doesn't Exist`,
-            });
+          return res.status(403).json({
+            success: false,
+            message: `Subcategory ${subCategoryName} Doesn't Exist`,
+          });
         }
 
         subCategory.products += 1;
@@ -186,13 +190,12 @@ const deleteProduct = async (req, res, next) => {
   }
 };
 
-
 // @desc    Get all products for a specific store
 // @route   GET /api/products/store/:storeId
 // @access  Public
 const getProductsByStore = async (req, res, next) => {
   try {
-    console.log("getProducts INitiated")
+    console.log("getProducts INitiated");
     const { storeId } = req.params;
     const products = await Product.find({ "seller.sellerId": storeId });
     console.log("products", products);
@@ -201,8 +204,6 @@ const getProductsByStore = async (req, res, next) => {
     next(error);
   }
 };
-
-
 
 // Export all functions
 module.exports = {

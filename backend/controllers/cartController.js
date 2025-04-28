@@ -5,11 +5,12 @@ const Product = require("../models/productModel");
 exports.getCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ userId: req.user.id })
-      .populate("items.productId", "basicInfo.productName basicInfo.price");
+      .populate("items.productId");
 
     if (!cart) {
       return res.status(200).json({ message: "Cart is empty", items: [], totalPrice: 0 });
     }
+    console.log(cart);
 
     res.status(200).json({
       success: true,
@@ -25,6 +26,8 @@ exports.getCart = async (req, res, next) => {
 exports.addToCart = async (req, res, next) => {
   try {
     const { productId, quantity } = req.body;
+
+
     if (!productId || quantity <= 0) {
       return res.status(400).json({ message: "Invalid product or quantity" });
     }
@@ -59,6 +62,7 @@ exports.addToCart = async (req, res, next) => {
       cart
     });
   } catch (error) {
+    res.status(500).json({ message: "Error fetching cart", error: error.message });
     next(error);
   }
 };
@@ -89,6 +93,7 @@ exports.updateCartItem = async (req, res, next) => {
       cart
     });
   } catch (error) {
+    res.status(500).json({ message: "Error fetching cart", error: error.message });
     next(error);
   }
 };
@@ -112,6 +117,7 @@ exports.removeFromCart = async (req, res, next) => {
       cart
     });
   } catch (error) {
+    res.status(500).json({ message: "Error fetching cart", error: error.message });
     next(error);
   }
 };

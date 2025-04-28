@@ -32,10 +32,12 @@ import ViewStorePage from "../../pages/StoresPages/ViewStorePage";
 import ViewProductPage from "../../pages/ProductPages/ViewProductPage";
 import HomeProductPage from "../../pages/ProductPages/HomeProductPages";
 import ProtectedRoutes from "./protectedRoutes"
+import ProductHomeSearchBar from "../search/product/ProductHomeSearchBar";
+
+//cart
 
 //test
 
-import ProductHomeSearchBar from "../search/product/ProductHomeSearchBar";
 
 const AppRoutes = () =>{
 

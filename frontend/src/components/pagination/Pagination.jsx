@@ -13,6 +13,7 @@ const PaginationComponent = ({ currentPage, totalPages, onPageChange }) => {
   for (let i = startPage; i <= endPage; i++) {
     pageNumbers.push(i);
   }
+  
 
   return (
     <div className="flex flex-row items-center space-x-2 w-full justify-center text-skin-primary">

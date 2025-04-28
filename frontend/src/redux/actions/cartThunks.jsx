@@ -2,19 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../features/api";
 import { setError } from "../reducers/errorSlice";
 
-export const getCartAction = createAsyncThunk("cart/getCartAction", async( thunkAPI ) => {
+export const getCartAction = createAsyncThunk("cart/getCartAction", async ( thunkAPI ) => {
   try {
-    console.log("get cart");
     const token = thunkAPI.getState().auth.token;
     const response = await api.get('cart/', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("cart:", response.data);
     return response.data;
   } catch (error) {
-    thunkAPI.dispatch(setError({
+    thunkAPI.dispatch( setError({
       message: error.response?.data?.message || 'An error occured',
       status: error.response?.status,
     }))
@@ -25,7 +23,6 @@ export const getCartAction = createAsyncThunk("cart/getCartAction", async( thunk
 export const addToCartAction = createAsyncThunk("cart/addToCartAction", async ( cartData, thunkAPI) => {
   //cartData: {productId, quantity}
   try {
-    console.log("add to cart");
     const token = thunkAPI.getState().auth.token;
     const response = await api.put('cart/add', cartData, {
       headers: {
@@ -45,7 +42,6 @@ export const addToCartAction = createAsyncThunk("cart/addToCartAction", async ( 
 export const updateCartAction = createAsyncThunk("cart/updateCartAction", async ( cartData, thunkAPI) => {
   //cartData: {productId, quantity}
   try {
-    console.log("update cart");
     const token = thunkAPI.getState().auth.token;
     const response = await api.put('cart/updt', cartData, {
       headers: {

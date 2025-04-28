@@ -8,8 +8,11 @@ const ProductCards = ({ product, onAddToCart }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col rounded-lg p-1 md:p-3 shadow-md w-[110px] md:w-[220px] h-[260px] md:h-[330px] items-start justify-center bg-white bg-opacity-80 text-black border hover:shadow-lg transition">
-      <div className="w-full h-[130px] md:h-[180px] border-skin-primary mb-1 md:mb-3 flex items-center justify-center border-2 ">
+    <div className="flex flex-col rounded-lg p-1 md:p-3 shadow-md w-[110px] md:w-[220px] h-[260px] 
+    md:h-[330px] items-start justify-center bg-white bg-opacity-80 text-black border hover:shadow-lg 
+    transition mx-auto">
+      <div className="w-full h-[130px] md:h-[180px] border-skin-primary mb-1
+       md:mb-3 flex items-center justify-center border-2">
         <ProductImage subcategory={categoryDetails.subcategory} />
       </div>
 

@@ -34,7 +34,7 @@ const HomeProductPage = () => {
           setSearchProducts(result.payload.products);
           setPage((prev) => ({
             ...prev,
-            totalPages: result.payload.pagination.totalPages,
+            totalPages: result.payload.pagination.totalPages || 1 ,
           }));
           setContent("search");
         }
@@ -104,6 +104,7 @@ const HomeProductPage = () => {
                 onPageChange={handlePageChange}
               />
             </div>
+
             <ProductRow
               title="Maybe this is a product for you"
               fetchAction={getRandomProductsActions}
@@ -137,7 +138,7 @@ const HomeProductPage = () => {
         </div>
       </div>
 
-      <div className="relative items-center justify-center z-10 w-full overflow-x-hidden min-h-screen pt-4 px-4 md:px-6 max-w-6xl mx-auto pb-10 space-y-12">
+      <div className="relative items-center justify-center z-10 w-full overflow-x-hidden min-h-screen pt-4 px-4 md:px-6 mx-auto pb-10 space-y-12">
         {renderContent()}
       </div>
     </div>

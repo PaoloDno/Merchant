@@ -37,30 +37,46 @@ const ProductForm = ({storeId}) => {
 
   const categories = {
     Food: [
-      { value: "fastfood", label: "Fsatfood" },
+      { value: "fastfood", label: "Fastfood" },
       { value: "vegetables", label: "Vegetables" },
       { value: "pasta", label: "Pasta" },
+      { value: "cheese", label: "Cheese" },
+      { value: "fruits", label: "Fruits" },
+      { value: "bread", label: "Breads" },
     ],
     Drinks: [
-      { value: "softdrinks", label: "Softdrinks" },
+      { value: "coke", label: "Softdrinks" },
       { value: "alcohol", label: "Alcohol" },
       { value: "coffee", label: "Coffee and Tea" },
     ],
     Electronics: [
+      { value: "laptop", label: "Laptop" },
       { value: "cellphone", label: "Cellphone" },
+      { value: "smartwatch", label: "Smart Watch" },
       { value: "console", label: "Console Game" },
-      { value: "gadgets", label: "Gadgets" },
+      { value: "headphone", label: "Headphones" },
     ],
     Fashion: [
-      { value: "clothing", label: "Clothing" },
-      { value: "footwear", label: "Footwear" },
-      { value: "accessories", label: "Accessories" },
+      { value: "maleclothes", label: "Male Clothing" },
+      { value: "femaleclothes", label: "Female Clothing" },
+      { value: "shoe", label: "Footwear" },
+      { value: "bag", label: "Bag" },
     ],
     Furniture: [
-      { value: "tables", label: "Tables" },
-      { value: "chairs", label: "Chairs" },
-      { value: "beds", label: "Beds" },
+      { value: "furniture", label: "Furniture" },
+      { value: "wall decor", label: "Wall Decor" },
+      { value: "kitchen", label: "Kitchen" },
     ],
+    "Sports and Outdoor Activities": [
+      { value: "bicycle", label: "Bike"},
+      { value: "gym", label: "Gym"},
+      { value: "camping", label: "Camping"},
+    ],
+    "Beauty Products": [
+      { value: "makeup", label: "Make-up"},
+      { value: "perfume", label: "Perfume"},
+    ]
+
   };
 
   const [errors, setErrors] = useState({
@@ -134,7 +150,7 @@ const ProductForm = ({storeId}) => {
 
   useEffect(() => {
     if (isLoading) {
-      const timer = setTimeout(() => setIsLoading(false), 2000);
+      const timer = setTimeout(() => setIsLoading(false), 1000);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);

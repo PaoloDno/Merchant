@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 
-const FIXED_LIMIT = 12; // Set fixed limit for pagination
+const FIXED_LIMIT = 6; // Set fixed limit for pagination
 
 // Helper function to get pagination values
 const getPagination = (req) => {

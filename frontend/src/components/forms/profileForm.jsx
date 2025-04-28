@@ -70,7 +70,7 @@ const SellerForm = () => {
         onChange={(e) => handleChange(field, e.target.value)}
         className={`w-full p-2 border rounded ${errors[field] ? "border-red-500" : "border-gray-300"}`}
       />
-      {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
+      {errors[field] && <p className="text-red-500 text-sm"> < IoMdInformationCircleOutline />{errors[field]}</p>}
     </div>
   );
 

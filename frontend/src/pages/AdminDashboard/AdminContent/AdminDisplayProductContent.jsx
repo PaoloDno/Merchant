@@ -52,10 +52,12 @@ const DisplayProductAdmin = () => {
   const fetchProducts = async (customFilters) => {
     try {
       setLoading(true);
-      const result = await dispatch(adminGetProducts(customFilters));
-      if (result?.payload) {
-        setProducts(result.payload.products || []);
-        setPagination(result.payload.pagination || { totalPages: 1 });
+      if(isMounted) {
+        const result = await dispatch(adminGetProducts(customFilters));
+        if (result?.payload) {
+          setProducts(result.payload.products || []);
+          setPagination(result.payload.pagination || { totalPages: 1 });
+        }
       }
     } catch (error) {
       console.error("Fetch failed:", error);
@@ -65,10 +67,8 @@ const DisplayProductAdmin = () => {
   };
 
   useEffect(() => {
-    let isMounted = true;
-    if(isMounted) fetchProducts(filters);
-    return () => isMounted = false;
-  }, [filters]); // ✅ now refetches when filters (including page) changes
+    fetchProducts(filters);
+  }, [filters]); // now refetches when filters (including page) changes
 
   useEffect(() => {
     let isMounted = true;

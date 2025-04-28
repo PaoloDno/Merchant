@@ -53,8 +53,8 @@ const AdminDisplayCategory = () => {
 
   const CategoryCards = ({ name, description }) => (
     <div className="border rounded-lg p-4 shadow-md w-25 md:w-54 h-[120px] text-skin-primary bg-skin-fill-1 overflow-hidden">
-      <h3 className="text-style4a font-bold text-skin-primary">{name}</h3>
-      <p className="text-style4 text-skin-primary">{description}</p>
+      <h3 className="text-style4a font-bold text-skin-primary truncate">{name}</h3>
+      <p className="text-style4 text-skin-primary flex flex-wrap">{description}</p>
     </div>
   );
 

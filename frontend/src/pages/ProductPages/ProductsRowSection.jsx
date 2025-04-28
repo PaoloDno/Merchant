@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductCards from "../../components/cards/ProductCards";
 import { useDispatch } from "react-redux";
+import { getRandomProductsActions } from "../../redux/actions/getProductThunks";
 
 const ProductRow = ({ title, fetchAction, rowKey }) => {
   const dispatch = useDispatch();
@@ -9,40 +10,45 @@ const ProductRow = ({ title, fetchAction, rowKey }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [fade, setFade] = useState(false); // for opacity transition
+  const [fade, setFade] = useState(false);
 
-  const fetchProducts = async (currentPage) => {
-    setFade(true); // start fade out
-    setTimeout(async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const result = await dispatch(fetchAction(currentPage));
-        if (result?.payload?.products) {
-          setProducts(result.payload.products);
-        } else {
-          setProducts([]);
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchProducts = async () => {
+      setFade(true);
+      setTimeout(async () => {
+        if (!isMounted) return;
+        setLoading(true);
+        setError("");
+
+        try {
+          const result = await dispatch(fetchAction(page));
+          const data = result?.payload?.products;
+
+          if (Array.isArray(data) && data.length > 0) {
+            setProducts(data);
+          } else {
+            const fallback = await dispatch(getRandomProductsActions(page));
+            setProducts(fallback?.payload?.products || []);
+          }
+        } catch (err) {
+          if (isMounted) setError(`Failed to fetch ${title}`);
+        } finally {
+          if (isMounted) {
+            setLoading(false);
+            setFade(false);
+          }
         }
-      } catch (err) {
-        setError(`Failed to fetch ${title}`);
-      } finally {
-        setLoading(false);
-        setFade(false); // fade back in
-      }
-    }, 750); // 0.75 second delay for opacity transition
-  };
+      }, 750);
+    };
 
-  useEffect(() => {
-    let isMounted = true;
-    if(isMounted) fetchProducts(page);
-    return () => isMounted = false; 
-  }, [page]);
+    fetchProducts();
 
-  useEffect(() => {
-    let isMounted = true;
-    if(isMounted) fetchProducts(page);
-    return () => isMounted = false; 
-  }, []);
+    return () => {
+      isMounted = false;
+    };
+  }, [page, dispatch, fetchAction, title]);
 
   const handlePageChange = (direction) => {
     if (!loading) {

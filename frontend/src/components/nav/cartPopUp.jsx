@@ -1,17 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { VscTrash } from "react-icons/vsc";
 import { FiShoppingCart } from "react-icons/fi";
 import { FaRegEye } from "react-icons/fa";
 
 const CartPopUp = () => {
-  const defaultItems = [
-    { id: 1, name: "Laptop", price: 999.99, quantity: 1 },
-    { id: 2, name: "Headphones", price: 199.99, quantity: 2 },
-    { id: 3, name: "Smartphone", price: 799.99, quantity: 1 },
-  ];
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.cart?.items || []);
+  let defaultItems = [];
+  useEffect(() =>  {
+  let isMounted = true;
+  if (isMounted) {
+    defaultItems = items || [
+      { id: 1, name: "Laptop", price: 999.99, quantity: 1 },
+      { id: 2, name: "Headphones", price: 199.99, quantity: 2 },
+      { id: 3, name: "Smartphone", price: 799.99, quantity: 1 },
+    ];
+  }}, []);
 
-  const [cartItems, setCartItems] = useState([]);
-  const [cartDet, setCartDet] = useState(false);
+  // cart items
+  const [ cartItems, setCartItems ] = useState(defaultItems);
+  const [ cartDet, setCartDet ] = useState(false);
 
   // useEffect to set default cart items
   useEffect(() => {
@@ -26,10 +35,9 @@ const CartPopUp = () => {
   };
 
   // Calculate total price and total items
-  const total = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0 );
+
+  // 
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   // Summarize cart items for numeric breakdown

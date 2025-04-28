@@ -6,7 +6,6 @@ const User = require("../models/userModels");
 exports.createReview = async (req, res, next) => {
   try {
     const { productId, rating, comment } = req.body;
-
     const { isVerified, isBanned } = req.user;
     if (!isVerified || isBanned) {
       return res
@@ -161,4 +160,78 @@ exports.getReviewUser = async (req, res) => {
   }
 };
 
+
+exports.putReviewUser = async (req, res, next) => {
+  try {
+    const { reviewId, comment, rating } = req.body;
+    const { isVerified, isBanned } = req.user;
+    if (!isVerified || isBanned) {
+      return res
+        .status(404)
+        .json({ message: "User is not qualified for a review" });
+    };
+
+    const review = await ProductReview.findById(reviewId);
+
+    if (!review){
+      return res.status(404).json({ message: "review could be found"});
+    // Check if the logged-in user is the owner of the review
+    }
+    if (review.userId.toString() !== req.user.id ) {
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this review" });
+    }
+
+    //update
+    review.comment = comment;
+    
+    
+
+    const product = await Product.findById(review.productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Decrease rating count
+    product.metrics.rating[`${review.rating}star`] -= 1;
+
+    //increase rating count
+    product.metrics.rating[`${rating}star`] += 1;
+
+    review.rating = rating;
+
+    // Remove review from product
+    product.reviews.pull(reviewId);
+    await review.deleteOne();
+
+    // Recalculate average rating
+    const ratingMetrics = product.metrics.rating;
+    const totalRatings =
+      ratingMetrics["1star"] +
+      ratingMetrics["2star"] +
+      ratingMetrics["3star"] +
+      ratingMetrics["4star"] +
+      ratingMetrics["5star"];
+
+    let avgRating = 0;
+    if (totalRatings > 0) {
+      const totalScore =
+        1 * ratingMetrics["1star"] +
+        2 * ratingMetrics["2star"] +
+        3 * ratingMetrics["3star"] +
+        4 * ratingMetrics["4star"] +
+        5 * ratingMetrics["5star"];
+
+      avgRating = (totalScore / totalRatings).toFixed(1);
+    }
+
+    product.metrics.AverageRating = avgRating;
+    await product.save();
+
+    res.status(200).json({ message: "Review deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 

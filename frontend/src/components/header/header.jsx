@@ -6,6 +6,7 @@ import { FaXmark } from "react-icons/fa6";
 import { RiPaintFill } from "react-icons/ri";
 import SearchBarPopUp from "../nav/searchBar";
 import CartPopUp from "../nav/cartPopUp";
+import CartPop from "../nav/cartPOP";
 import ThemePopUp from "../nav/themePopUp";
 import UserPopUp from "../nav/userPopUp";
 
@@ -39,7 +40,7 @@ const Header = () => {
       case "search":
       return <SearchBarPopUp closePopups={closePopups} />;
     case "cart":
-      return <CartPopUp closePopups={closePopups} />;
+      return <CartPop closePopups={closePopups} />;
     case "theme":
       return <ThemePopUp closePopups={closePopups} />;
     case "user":

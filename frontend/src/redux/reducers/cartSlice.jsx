@@ -13,7 +13,7 @@ import {
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
-    cart: null,
+    cart: {},
     isLoading: false,
     error: null,
   },

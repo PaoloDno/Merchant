@@ -160,6 +160,7 @@ export const searchProductActions = createAsyncThunk(
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       thunkAPI.dispatch(

@@ -4,6 +4,7 @@ import {
   deleteReviewAction,
   getReviewProductAction,
   getReviewUserAction,
+  putReviewUserAction
 } from "../actions/reviewThunks";
 
 const reviewSlice = createSlice({
@@ -30,6 +31,10 @@ const reviewSlice = createSlice({
         state.reviews = action.payload.reviews;
       })
       .addCase(getReviewUserAction.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.reviews = action.payload.reviews;
+      })
+      .addCase(putReviewUserAction.fulfilled, (state, action) => {
         state.isLoading = false;
         state.reviews = action.payload.reviews;
       })

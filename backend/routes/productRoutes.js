@@ -24,6 +24,7 @@ const {
   deleteReview,
   getReviewProduct,
   getReviewUser,
+  putReviewUser
 } = require('../controllers/reviewController');
 
 const router = express.Router();
@@ -43,6 +44,7 @@ router.post("/review", authMiddleware, createReview);
 router.delete("/review", authMiddleware, deleteReview);
 router.get("/review/user", authMiddleware, getReviewUser);
 router.get("/review/product/:id", authMiddleware, getReviewProduct);
+router.put("/review", authMiddleware, putReviewUser);
 
 router.get("/:id", getProductById); // Get a single product by ID
 

@@ -9,7 +9,7 @@ export const createProductAction = createAsyncThunk(
     // thunkAPI can be destructured
     console.log(formData, storeId);
     const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
     try {
       const response = await api.post(`/product/${storeId}`, formData, {
         headers: {
@@ -53,7 +53,7 @@ export const updateProductByIdAction = createAsyncThunk(
   async ( {productId, productData}, { thunkAPI }) => {
     // thunkAPI can be destructured
     const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
     try {
       const response = await api.put(`/product/${productId}`, productData, {
         headers: {
@@ -78,7 +78,7 @@ export const deleteProductByIdAction = createAsyncThunk(
   async ( productId, { thunkAPI }) => {
     // thunkAPI can be destructured
     const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
     try {
       const response = await api.delete(`/product/${productId}`, {
         headers: {

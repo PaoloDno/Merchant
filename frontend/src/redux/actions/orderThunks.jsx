@@ -8,7 +8,7 @@ export const processOrderAction = createAsyncThunk(
     try {
       console.log(orderData);
       const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
       const response = await api.post("/check/checkout", categoryData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,7 +33,7 @@ export const getOrderHistoryUserAction = createAsyncThunk(
     try {
       console.log(categoryData);
       const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
       const response = await api.get("/check/", categoryData, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +57,7 @@ export const getOrderByIdAction = createAsyncThunk(
     try {
       console.log(categoryData);
       const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
       const response = await api.get(`/check/${orderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -81,7 +81,7 @@ export const getAllOrderAction = createAsyncThunk(
     try {
       console.log(categoryData);
       const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
       const response = await api.get(`/check/all`, {
         headers: {
           Authorization: `Bearer ${token}`,

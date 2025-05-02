@@ -17,7 +17,7 @@ export const getHotProductsActions = createAsyncThunk(
     try {
       console.log("Fetching hot products...");
       const token = thunkAPI.getState().auth.token;
-      const api = useAxios();
+       
       const response = await api.get(constructUrl("/product/hot", page), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ export const getProductsByCategoryActions = createAsyncThunk(
     try {
       console.log(`Fetching products for category ${categoryId}...`);
       const token = thunkAPI.getState().auth.token;
-      const api = useAxios();
+       
       const response = await api.get(
         constructUrl(`/product/category/${categoryId}`, page),
         {
@@ -75,7 +75,7 @@ export const getNewProductsActions = createAsyncThunk(
     try {
       console.log("Fetching new products...", page);
       const token = thunkAPI.getState().auth.token;
-      const api = useAxios();
+       
       const response = await api.get(constructUrl("/product/new", page), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -103,7 +103,7 @@ export const getRandomProductsActions = createAsyncThunk(
     try {
       console.log("Fetching random products...");
       const token = thunkAPI.getState().auth.token;
-      const api = useAxios();
+       
       const response = await api.get(constructUrl("/product/random", page), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -144,7 +144,7 @@ export const searchProductActions = createAsyncThunk(
     thunkAPI
   ) => {
     const token = thunkAPI.getState().auth.token;
-    const api = useAxios();
+     
     try {
       const response = await api.get("/product/search", {
         params: {

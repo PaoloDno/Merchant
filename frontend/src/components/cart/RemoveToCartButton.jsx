@@ -2,7 +2,7 @@ import React from "react"
 import { removeFromCartAction } from "../../redux/actions/cartThunks"
 import { useDispatch } from "react-redux";
 
-export const AddToCartButton = ({productId}) => {
+export const RemoveToCartButton = ({productId}) => {
 
   const dispatch = useDispatch();
 
@@ -20,4 +20,4 @@ export const AddToCartButton = ({productId}) => {
   )
 };
 
-export default AddToCartButton;
+export default RemoveToCartButton;

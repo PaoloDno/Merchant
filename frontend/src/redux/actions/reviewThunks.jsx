@@ -1,13 +1,12 @@
-//product
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../features/api";
 import { setError } from "../reducers/errorSlice";
-
+import api from "../features/api";
 
 export const createReviewAction = createAsyncThunk(
   "review/createReviewAction",
   async (reviewData, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
+
     try {
       const response = await api.post(`/product/review`, reviewData, {
         headers: {
@@ -20,15 +19,18 @@ export const createReviewAction = createAsyncThunk(
         setError({
           message: error.response?.data?.message || "Error in making review",
           status: error.response?.status,
-      }));
+        })
+      );
       return thunkAPI.rejectWithValue(error.response?.data);
     }
-});
+  }
+);
 
 export const deleteReviewAction = createAsyncThunk(
   "review/deleteReviewAction",
-  async ( _ , thunkAPI) => {
+  async (_, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
+
     try {
       const response = await api.delete(`/product/review`, productData, {
         headers: {
@@ -41,15 +43,18 @@ export const deleteReviewAction = createAsyncThunk(
         setError({
           message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-      }));
+        })
+      );
       return thunkAPI.rejectWithValue(error.response?.data);
-    }  
-});
+    }
+  }
+);
 
 export const getReviewProductAction = createAsyncThunk(
   "review/getReviewProductAction",
-  async ( productId , thunkAPI) => {
+  async (productId, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
+
     try {
       const response = await api.get(`/product/review/${productId}`, {
         headers: {
@@ -62,15 +67,18 @@ export const getReviewProductAction = createAsyncThunk(
         setError({
           message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-      }));
+        })
+      );
       return thunkAPI.rejectWithValue(error.response?.data);
     }
-});
+  }
+);
 
 export const getReviewUserAction = createAsyncThunk(
   "review/getReviewProduct",
-  async ( _ , thunkAPI) => {
+  async (_, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
+
     try {
       const response = await api.get(`/product/review/user`, {
         headers: {
@@ -83,28 +91,33 @@ export const getReviewUserAction = createAsyncThunk(
         setError({
           message: error.response?.data?.message || "Failed to create products",
           status: error.response?.status,
-      }));
+        })
+      );
       return thunkAPI.rejectWithValue(error.response?.data);
     }
-});
+  }
+);
 
 export const putReviewUserAction = createAsyncThunk(
   "review/putReviewProduct",
-  async ( reviewData , thunkAPI) => {
+  async (reviewData, thunkAPI) => {
     const token = thunkAPI.getState().auth.token;
+
     try {
-      const response = await api.put('/product/review', reviewData, {
+      const response = await api.put("/product/review", reviewData, {
         headers: {
           Authorization: `Bearer ${token}`,
-    }});
-    return response.data;
+        },
+      });
+      return response.data;
     } catch (error) {
       thunkAPI.dispatch(
         setError({
           message: error.response?.data?.message || "Error in making review",
           status: error.response?.status,
-      }));
+        })
+      );
       return thunkAPI.rejectWithValue(error.response?.data);
     }
-  });
-      
+  }
+);

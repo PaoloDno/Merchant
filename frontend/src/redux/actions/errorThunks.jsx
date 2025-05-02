@@ -1,11 +1,14 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import api from '../features/api'
-import { setError } from '../reducers/errorSlice';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { setError } from "../reducers/errorSlice";
+import api from "../features/api";
+
+
 
 export const fetchData = createAsyncThunk(
     'data/fetch',
     async (_, { dispatch, rejectWithValue }) => {
         try {
+             
             const response = await api.get('/api/data');
             return response.data;
         } catch (error) {

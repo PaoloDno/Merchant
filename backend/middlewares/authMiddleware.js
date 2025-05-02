@@ -38,16 +38,16 @@ const authMiddleware = async (req, res, next) => {
     console.error(" Token verification error:", error.message);
 
     if (error instanceof jwt.TokenExpiredError) {
-      error.statusCode = 401;
+      error.statusCodeCode = 401;
       error.message = "Token expired. Please log in again.";
     } else if (error instanceof jwt.JsonWebTokenError) {
-      error.statusCode = 403;
+      error.statusCodeCode = 401;
       error.message = "Invalid token. Access denied.";
     } else {
       error.statusCode = error.statusCode || 500;
       error.message = error.message || "Internal server error.";
     }
-
+    console.log(error)
     next(error); // Pass error to global error handler middleware
   }
 };

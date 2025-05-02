@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../features/api";
 import { setError } from "../reducers/errorSlice";
+import api from "../features/api";
 
-//name: store
 
 export const createStoreAction = createAsyncThunk(
   "store/createStoreAction",
   async ( formData , thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
       console.log(formData);
       const response = await api.post(`/store/`, formData, {
         headers: {
@@ -38,6 +38,7 @@ export const getMyStoresAction = createAsyncThunk(
   async ( _, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get("/store/", {
         headers: {
@@ -66,6 +67,7 @@ export const updateMyStoreAction = createAsyncThunk(
   async ( formData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get("/store/", formData, {
         headers: {
@@ -94,6 +96,7 @@ export const deleteMyStoreAction = createAsyncThunk(
   async ( storeId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get(`/store/${storeId}`, {
         headers: {
@@ -122,6 +125,7 @@ export const viewStoreAction = createAsyncThunk(
   async ( storeId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get(`/store/${storeId}`, {
         headers: {
@@ -150,6 +154,7 @@ export const adminVerifySellerAction = createAsyncThunk(
   async ( storeId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get(`/store/${storeId}`, {
         headers: {
@@ -178,6 +183,7 @@ export const adminDeleteSellerAction = createAsyncThunk(
   async ( storeId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.token;
+     
     
       const response = await api.get(`/store/${storeId}`, {
         headers: {

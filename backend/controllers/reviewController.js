@@ -1,6 +1,5 @@
 const ProductReview = require("../models/productReviewSchema");
 const Product = require("../models/productModel");
-const User = require("../models/userModels");
 
 // Create a Review and Update Product Rating
 exports.createReview = async (req, res, next) => {
@@ -131,7 +130,7 @@ exports.deleteReview = async (req, res, next) => {
 };
 
 // Get All Reviews for a Product
-exports.getReviewProduct = async (req, res) => {
+exports.getReviewProduct = async (req, res, next) => {
   try {
     const { productId } = req.params;
 
@@ -142,12 +141,12 @@ exports.getReviewProduct = async (req, res) => {
     console.log(reviews);
     res.status(200).json(reviews);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching product reviews", error });
+    next(error);
   }
 };
 
 // Get All Reviews by a User
-exports.getReviewUser = async (req, res) => {
+exports.getReviewUser = async (req, res, next) => {
   try {
     const reviews = await ProductReview.find({ userId: req.user.id }).populate(
       "productId",
@@ -156,7 +155,7 @@ exports.getReviewUser = async (req, res) => {
     console.log(review);
     res.status(200).json(reviews);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching user reviews", error });
+    next(error);
   }
 };
 

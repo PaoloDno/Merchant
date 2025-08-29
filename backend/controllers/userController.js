@@ -33,16 +33,16 @@ const loginUser = [
       const user = await User.findOne({ username });
 
       if (!user) {
-        return res
-          .status(404)
-          .json({ success: false, message: "User not found" });
+        const error = new Error("User Not Found!");
+        error.statusCode = 404;
+        throw error;
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res
-          .status(401)
-          .json({ success: false, message: "Invalid password" });
+        const error = new Error("Invalid Password")
+        error.statusCode = 401;
+        throw error;
       }
 
       console.log(user);
@@ -52,9 +52,9 @@ const loginUser = [
 
       const profile = await Profile.findOne({ userId: user._id });
       if (!profile) {
-        return res
-          .status(404)
-          .json({ success: false, message: "Profile not found" });
+        const error = new Error("Profile not found");
+        error.statusCode = 404;
+        throw error;
       }
 
       // Retrieve Address using the addressId from the Profile
@@ -72,11 +72,13 @@ const loginUser = [
           userId: user.userId, //fake user ID
           email: user.email,
           isAdmin: user.isAdmin,
+          profileImage: profile.profileImage,
         },
         profile: {
           firstname: profile.firstname,
           lastname: profile.lastname,
           phoneNumber: profile.phoneNumber,
+          profileImage: profile.profileImage,
         },
         address: {
           street: address.street,
@@ -191,6 +193,7 @@ const registerUser = [
           userId: savedUser._id, // Corrected fake userId
           email: savedUser.email,
           isAdmin: savedUser.isAdmin,
+          profileImage: profile.profileImage,
         },
         profile: {
           firstname: savedProfile.firstname,
@@ -299,9 +302,17 @@ const DisplayUser = async (req, res, next) => {
       .populate("userReviews");
 
     if (!profile) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Profile not found" });
+      const error = new Error("Profile not found!");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    let user = await User.findById(userId);
+
+    if(!user) {
+      const error = new Error("Error user Not Found");
+      error.statusCode = 401;
+      throw error;
     }
 
     // Extract the related data from the populated profile
@@ -319,9 +330,12 @@ const DisplayUser = async (req, res, next) => {
       stores,
       orderHistory,
       userReviews,
+      user,
     });
+    console.log("hiii")
     res.status(200).json({
       success: true,
+      user,
       profile,
       address,
       cart,
@@ -330,9 +344,6 @@ const DisplayUser = async (req, res, next) => {
       userReviews,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ success: false, message: "Server error", error: error.message });
     next(error);
   }
 };

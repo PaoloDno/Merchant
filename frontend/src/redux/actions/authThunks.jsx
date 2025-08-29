@@ -6,7 +6,6 @@ export const loginAction = createAsyncThunk(
   "auth/loginAction",
   async (credentials, thunkAPI) => {
      
-
     try {
       console.log(credentials);
       const response = await api.post("/user/login", credentials);
@@ -116,7 +115,7 @@ export const updateAddressAction = createAsyncThunk(
 
 export const displayUserAction = createAsyncThunk(
   "auth/displayUserAction",
-  async (thunkAPI) => {
+  async ( _ , thunkAPI) => {
      
     try {
       const token = thunkAPI.getState().auth.token;
@@ -128,6 +127,7 @@ export const displayUserAction = createAsyncThunk(
       console.log(response.data);
       return response.data;
     } catch (error) {
+      console.log(error);
       thunkAPI.dispatch(
         setError({
           message: error.response?.data?.message || "An error occured",

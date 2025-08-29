@@ -27,6 +27,7 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.token = action.payload.token;
       state.user = action.payload.user;
+      state.profile = action.payload.user;
     },
     clearError(state) {
       state.error = null;
@@ -60,7 +61,8 @@ const authSlice = createSlice({
       .addMatcher(
         isAnyOf(
           loginAction.fulfilled,
-          registerAction.fulfilled
+          registerAction.fulfilled,
+          displayUserAction.fulfilled
         ),
         (state, action) => {
           state.isAuthenticated = true;
@@ -68,7 +70,7 @@ const authSlice = createSlice({
           state.token = action.payload.token;
           state.profile = action.payload.profile;
           state.address = action.payload.address;
-          state.isAdmin = action.payload.user.isAdmin;
+          state.isAdmin = action.payload?.user.isAdmin;
           state.isLoading = false;
           state.status = "succeeded";
         }

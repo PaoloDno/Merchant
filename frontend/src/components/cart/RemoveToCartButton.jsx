@@ -15,7 +15,7 @@ export const RemoveToCartButton = ({productId}) => {
       onClick={handleAdd}
       className=""
     >
-      Add to Cart
+      Remove to Cart
     </button>
   )
 };

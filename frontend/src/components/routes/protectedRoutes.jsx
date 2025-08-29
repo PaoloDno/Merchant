@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { logoutAction } from '../../redux/actions/authThunks';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -11,22 +11,27 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const verifyToken = () => {
-            console.log(adminOnly, isAdmin);
+        const verifyToken = async () => {
             if (!token) {
-                dispatch(logoutAction());
-                navigate("/login");
-            } else if (!adminOnly) {
-              navigate("/not-authorized");
+                try {
+                    await dispatch(logoutAction());
+                } catch (error) {
+                    console.log(error);
+                } finally {
+                    navigate("/login");
+                    return;
+                }
+            } else if (adminOnly && !isAdmin) {
+                navigate("/not-authorized");
+                return;
             }
+
             setLoading(false);
         };
 
-        // Simulate token expiration check (Optional)
-        const timeout = setTimeout(verifyToken, 500); // Short delay for a smoother transition
+        const timeout = setTimeout(verifyToken, 300);
         return () => clearTimeout(timeout);
-
-    }, [token, dispatch, navigate, adminOnly]);
+    }, [token, dispatch, navigate, adminOnly, isAdmin]);
 
     if (loading) return <div>Verifying...</div>;
 

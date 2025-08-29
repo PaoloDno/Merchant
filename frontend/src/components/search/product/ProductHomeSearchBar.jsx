@@ -7,15 +7,15 @@ const ProductHomeSearchBar = ({ onSearchChange }) => {
   const [query, setQuery] = useState({
     productName: "",
     description: "",
-    minPrice: null,
-    maxPrice: null,
+    minPrice: 0,
+    maxPrice: 100000,
     inStock: true,
     sort: "desc",
     category: "",
     subcategory: "",
   });
 
-  const [toggle, setToggle] = useState(true);
+  const [toggle, setToggle] = useState(false);
 
   const categories = {
     Food: [
@@ -32,6 +32,7 @@ const ProductHomeSearchBar = ({ onSearchChange }) => {
       { value: "cellphone", label: "Cellphone" },
       { value: "console", label: "Console Game" },
       { value: "gadgets", label: "Gadgets" },
+      { value: "laptop", label: "Lappy" },
     ],
     Fashion: [
       { value: "clothing", label: "Clothing" },

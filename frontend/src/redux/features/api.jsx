@@ -7,20 +7,30 @@ const api = axios.create({
   },
 });
 
-
-
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 500 && error.response.message === 'Token expired. Please log in again.') {
+    const status = error?.response?.status;
+    const message = error?.response?.data?.message;
+
+    if (status === 500 && message === 'Token expired. Please log in again.') {
       localStorage.removeItem('token');
-      window.location.href = '/login'; // Redirect landing page
-    } else if (error.response.status === 403) {
-      window.location.href = '/'; // Not really expired just redirecting to login or landing page
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    } else if (status === 401 && message === 'Invalid token. Access denied.') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    } else if (status === 401 && message === 'Token expired. Please log in again.') {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/';
+    } else if (status === 403 && message === 'Token expired. Please log in again.') {
+      window.location.href = '/';
     }
+
     return Promise.reject(error);
   }
 );
-
 
 export default api;

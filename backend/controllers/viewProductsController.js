@@ -118,8 +118,8 @@ exports.searchProducts = async (req, res, next) => {
     }
 
     // Category filters
-    if (category) filter["categoryDetails.categoryId"] = category;
-    if (subcategory) filter["categoryDetails.subCategoryId"] = subcategory;
+    if (category) filter["categoryDetails.category"] = category;
+    if (subcategory) filter["categoryDetails.subCategory"] = subcategory;
 
     // Price range filter
     if (minPrice || maxPrice) {

@@ -37,6 +37,7 @@ const ProfileDisplayPage = () => {
     const fetchUser = async () => {
       try {
         const userProfile = await dispatch(displayUserAction());
+        console.log(userProfile);
         if (userProfile) {
           console.log("yes");
         }
